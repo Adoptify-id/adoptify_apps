@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/btnKandang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_kandang"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtKandang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#303030"
+            android:text="@string/kandang"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            app:layout_constraintStart_toStartOf="@id/btnKandang"
+            app:layout_constraintEnd_toEndOf="@id/btnKandang"
+            app:layout_constraintTop_toBottomOf="@id/btnKandang"/>
+
+        <ImageView
+            android:id="@+id/btnMakanan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_makanan"
+            android:layout_marginStart="30dp"
+            app:layout_constraintStart_toEndOf="@id/btnKandang"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtMakanan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#303030"
+            android:text="@string/makanan"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            app:layout_constraintStart_toStartOf="@id/btnMakanan"
+            app:layout_constraintEnd_toEndOf="@id/btnMakanan"
+            app:layout_constraintTop_toBottomOf="@id/btnMakanan"/>
+
+        <ImageView
+            android:id="@+id/btnPetKit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pet_kit"
+            android:layout_marginStart="30dp"
+            app:layout_constraintStart_toEndOf="@id/btnMakanan"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtPetKit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#303030"
+            android:text="@string/pet_kit"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            app:layout_constraintStart_toStartOf="@id/btnPetKit"
+            app:layout_constraintEnd_toEndOf="@id/btnPetKit"
+            app:layout_constraintTop_toBottomOf="@id/btnPetKit"/>
+
+        <ImageView
+            android:id="@+id/btnPasir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pasir"
+            android:layout_marginStart="30dp"
+            app:layout_constraintStart_toEndOf="@id/btnPetKit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtPasir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#303030"
+            android:text="@string/pasir"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            app:layout_constraintStart_toStartOf="@id/btnPasir"
+            app:layout_constraintEnd_toEndOf="@id/btnPasir"
+            app:layout_constraintTop_toBottomOf="@id/btnPasir"/>
+
+        <ImageView
+            android:id="@+id/btnRumahKucing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_rumah_kucing"
+            android:layout_marginStart="30dp"
+            app:layout_constraintStart_toEndOf="@id/btnPasir"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtRumahKucing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#303030"
+            android:text="@string/rumah_kucing"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            app:layout_constraintStart_toStartOf="@id/btnRumahKucing"
+            app:layout_constraintEnd_toEndOf="@id/btnRumahKucing"
+            app:layout_constraintTop_toBottomOf="@id/btnRumahKucing"/>
+
+        <ImageView
+            android:id="@+id/btnSekop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_sekop"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintStart_toEndOf="@id/btnRumahKucing"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtSekop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#303030"
+            android:text="@string/sekop_pasir"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            app:layout_constraintStart_toStartOf="@id/btnSekop"
+            app:layout_constraintEnd_toEndOf="@id/btnSekop"
+            app:layout_constraintTop_toBottomOf="@id/btnSekop"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

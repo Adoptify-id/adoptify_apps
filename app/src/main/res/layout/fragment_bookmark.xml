@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="100dp"
+    android:background="@color/backgroundScreen"
+    tools:context=".ui.bookmark.BookmarkFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="60dp">
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/adopt_pet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#303030"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="30dp"
+            android:text="@string/adopt_pet"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header"/>
+
+        <include
+            android:id="@+id/list_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/list_card_adopt"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/adopt_pet"/>
+
+        <include
+            android:id="@+id/list_card_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/list_card_adopt"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/list_card"/>
+
+        <TextView
+            android:id="@+id/txtRewards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rewards"
+            android:layout_marginTop="35dp"
+            android:textSize="18sp"
+            android:textColor="#303030"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            app:layout_constraintTop_toBottomOf="@id/list_card_1"
+            app:layout_constraintStart_toStartOf="@id/list_card_1"/>
+
+        <ImageView
+            android:id="@+id/ic_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:src="@drawable/ic_sort_black"
+            app:layout_constraintTop_toTopOf="@id/txtRewards"
+            app:layout_constraintBottom_toBottomOf="@id/txtRewards"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <HorizontalScrollView
+            android:id="@+id/scroll_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="35dp"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtRewards">
+
+            <LinearLayout
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginEnd="20dp">
+
+                <RadioGroup
+                    android:id="@+id/radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_primary"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:paddingHorizontal="32dp"
+                        android:paddingVertical="8dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="@string/primary"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_tambahan"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:paddingHorizontal="22dp"
+                        android:paddingVertical="8dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="@string/tambahan"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_kesehatan"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="8dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="@string/kesehatan"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_mainan"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="8dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="@string/mainan"/>
+
+                </RadioGroup>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/card_rewards"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scroll_radio" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>

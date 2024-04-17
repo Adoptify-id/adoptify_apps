@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.virtual.main.VirtualPetFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="45dp">
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/header_virtual_pet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/txtVirtualPet"
+            android:layout_width="247dp"
+            android:layout_height="wrap_content"
+            android:textSize="48sp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:letterSpacing="-0.03"
+            android:textColor="@color/black"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="45dp"
+            android:text="@string/virtual_pet_wellbeings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header"/>
+        
+        <ImageView
+            android:id="@+id/ic_cat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/ic_circle_cat"
+            android:elevation="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtVirtualPet"/>
+
+        <ImageView
+            android:id="@+id/ic_dog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-8dp"
+            android:elevation="1dp"
+            android:src="@drawable/ic_circle_dog"
+            app:layout_constraintStart_toEndOf="@id/ic_cat"
+           app:layout_constraintTop_toTopOf="@id/ic_cat"/>
+
+        <ImageView
+            android:id="@+id/ic_dog2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-8dp"
+            android:elevation="0dp"
+            android:src="@drawable/ic_circle_dog2"
+            app:layout_constraintStart_toEndOf="@id/ic_dog"
+            app:layout_constraintTop_toTopOf="@id/ic_dog"/>
+
+        <TextView
+            android:id="@+id/txtCountPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="12sp"
+            android:textColor="#ABABAB"
+            android:text="@string/dummy_count_pet"
+            app:layout_constraintTop_toTopOf="@id/ic_dog2"
+            app:layout_constraintBottom_toBottomOf="@id/ic_dog2"
+            app:layout_constraintStart_toEndOf="@id/ic_dog2"/>
+        
+        <ImageButton
+            android:id="@+id/btnAdd"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="45dp"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/ic_add_orange"
+            android:background="@drawable/background_add_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtVirtualPet"/>
+
+        <include
+            android:id="@+id/virtual_pet"
+            layout="@layout/card_virtual_pet"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnAdd" />
+
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:dotsColor="@color/dotNotSelected"
+            app:dotsCornerRadius="18dp"
+            app:dotsSize="9dp"
+            app:dotsSpacing="5dp"
+            app:dotsWidthFactor="2.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/virtual_pet"
+            app:progressMode="true"
+            app:selectedDotColor="@color/primaryColor" />
+
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/background_button_next_grey"
+            android:src="@drawable/ic_next_grey"
+            app:layout_constraintBottom_toBottomOf="@id/dots_indicator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/dots_indicator" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

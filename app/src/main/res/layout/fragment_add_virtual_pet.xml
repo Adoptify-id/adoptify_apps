@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundScreen"
+    tools:context=".ui.virtual.add.AddVirtualPetFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="40dp">
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/txtCategoryPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textSize="18sp"
+            android:textColor="#303030"
+            android:text="@string/category_pet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header"/>
+
+        <TextView
+            android:id="@+id/txtAddPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textColor="#ABABAB"
+            android:layout_marginTop="5dp"
+            android:text="@string/add_pet"
+            app:layout_constraintTop_toBottomOf="@id/txtCategoryPet"
+            app:layout_constraintStart_toStartOf="@id/txtCategoryPet"/>
+        
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="@id/txtAddPet"
+            app:layout_constraintTop_toBottomOf="@id/txtAddPet">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/radio_cat"
+                    android:layout_width="0dp"
+                    android:layout_height="152dp"
+                    android:button="@android:color/transparent"
+                    android:drawableLeft="@drawable/card_cat"
+                    android:text="@string/cat"
+                    android:fontFamily="@font/plus_jakarta_sans_bold"
+                    android:textColor="@color/blackText"
+                    android:gravity="center"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/radio_dog"
+                    android:background="@drawable/radio_pet_selector" />
+
+                <RadioButton
+                    android:id="@+id/radio_dog"
+                    android:layout_width="0dp"
+                    android:layout_height="152dp"
+                    android:button="@android:color/transparent"
+                    android:drawableLeft="@drawable/card_dog"
+                    android:text="@string/dog"
+                    android:fontFamily="@font/plus_jakarta_sans_bold"
+                    android:textColor="@color/blackText"
+                    android:gravity="center"
+                    android:layout_marginEnd="35dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/radio_cat"
+                    android:background="@drawable/radio_pet_selector"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/txtRas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textSize="16sp"
+            android:textColor="#303030"
+            android:text="@string/ras_atau_jenis"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_group"/>
+
+        <HorizontalScrollView
+            android:id="@+id/scroll_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="15dp"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtRas">
+
+            <LinearLayout
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginEnd="20dp">
+
+                <RadioGroup
+                    android:id="@+id/radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_primary"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:paddingHorizontal="40dp"
+                        android:paddingVertical="16dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="Angoora"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_tambahan"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:paddingHorizontal="35dp"
+                        android:paddingVertical="16dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="Domestik"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_kesehatan"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:paddingHorizontal="40dp"
+                        android:paddingVertical="16dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="Ragdoll"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_mainan"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:paddingHorizontal="40dp"
+                        android:paddingVertical="16dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="Persia"/>
+
+                </RadioGroup>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/txtNamePet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textSize="16sp"
+            android:textColor="#303030"
+            android:text="@string/your_name_pet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scroll_radio"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtNamePet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Nama"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/txtGenderPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textSize="16sp"
+            android:textColor="#303030"
+            android:text="@string/your_gender_pet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameEditTextLayout"/>
+
+        <RadioGroup
+            android:id="@+id/radio_group_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="@id/txtGenderPet"
+            app:layout_constraintTop_toBottomOf="@id/txtGenderPet">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/radio_male"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:paddingHorizontal="40dp"
+                    android:paddingVertical="16dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/radio_selector"
+                    android:textColor="@drawable/text_selector"
+                    android:textAlignment="center"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="30dp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:text="Jantan"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/radio_female"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <RadioButton
+                    android:id="@+id/radio_female"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:paddingHorizontal="40dp"
+                    android:paddingVertical="16dp"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/radio_selector"
+                    android:textColor="@drawable/text_selector"
+                    android:textAlignment="center"
+                    android:layout_marginEnd="30dp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:text="Betina"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/radio_male" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/txtAgePet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textSize="16sp"
+            android:textColor="#303030"
+            android:text="@string/your_age_pet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_group_gender"/>
+
+        <TextView
+            android:id="@+id/txtPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textSize="16sp"
+            android:textColor="#303030"
+            android:text="@string/your_pet_photo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtAgePet"/>
+        
+        <ImageView
+            android:id="@+id/previewImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_preview_image"
+            app:layout_constraintTop_toBottomOf="@id/txtPhoto"
+            app:layout_constraintStart_toStartOf="@id/txtPhoto"/>
+
+        <ImageView
+            android:id="@+id/btn_add"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/btn_add_image"
+            app:layout_constraintTop_toTopOf="@id/previewImage"
+            app:layout_constraintStart_toEndOf="@id/previewImage"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/add"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="45dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            app:layout_constraintTop_toBottomOf="@id/previewImage"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

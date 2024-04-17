@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.reward.RewardActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_grey"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="65dp"
+            android:padding="12dp"
+            android:background="@drawable/background_back_button_register"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_profile"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/background_profile"
+            android:padding="10dp"
+            android:src="@drawable/dummy_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/btnBack"
+            app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+        <ImageView
+            android:id="@+id/ic_diamond"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/diamond"
+            app:layout_constraintTop_toTopOf="@id/btnBack"
+            app:layout_constraintStart_toEndOf="@id/btnBack"/>
+
+        <TextView
+            android:id="@+id/pointUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_point_reward"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textSize="18sp"
+            android:textColor="#303030"
+            android:layout_marginStart="10dp"
+            app:layout_constraintTop_toTopOf="@id/ic_diamond"
+            app:layout_constraintBottom_toBottomOf="@id/ic_diamond"
+            app:layout_constraintStart_toEndOf="@id/ic_diamond"/>
+
+        <TextView
+            android:id="@+id/descPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rewards_title"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="10sp"
+            android:textColor="#A5A5A5"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/ic_diamond"
+            app:layout_constraintTop_toBottomOf="@id/ic_diamond"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/searchEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/background_back_button_register"
+            android:backgroundTint="@color/white"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:endIconDrawable="@drawable/ic_search"
+            app:endIconMode="custom"
+            app:endIconTint="@color/primaryColor"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@id/img_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_back_button_register"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="@string/search"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <include
+            android:id="@+id/card_header"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            app:layout_constraintTop_toBottomOf="@id/searchEditTextLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
+            android:layout_marginHorizontal="30dp"
+            layout="@layout/card_header_rewards" />
+
+        <TextView
+            android:id="@+id/primary_needs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textSize="18sp"
+            android:textColor="#303030"
+            android:text="@string/primary_needs"
+            app:layout_constraintStart_toStartOf="@id/card_header"
+            app:layout_constraintTop_toBottomOf="@id/card_header"/>
+
+        <TextView
+            android:id="@+id/descNeeds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rewards_title"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="12sp"
+            android:textColor="#A5A5A5"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@id/primary_needs"
+            app:layout_constraintTop_toBottomOf="@id/primary_needs"/>
+
+        <ImageView
+            android:id="@+id/bg_needs"
+            android:layout_width="150dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="25dp"
+            android:elevation="0dp"
+            android:src="@drawable/bg_reward_pet"
+            app:layout_constraintStart_toStartOf="@id/descNeeds"
+            app:layout_constraintTop_toBottomOf="@id/descNeeds"/>
+
+        <TextView
+            android:id="@+id/rewards_pet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reward\nyang\nSesuai"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="#303030"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toTopOf="@id/bg_needs"
+            app:layout_constraintBottom_toBottomOf="@id/bg_needs"
+            app:layout_constraintStart_toStartOf="@id/bg_needs"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Untukmu!"
+            android:fontFamily="@font/plus_jakarta_sans_extra"
+            android:textSize="16sp"
+            android:textColor="#303030"
+            android:layout_marginTop="-5dp"
+            app:layout_constraintTop_toBottomOf="@id/rewards_pet"
+            app:layout_constraintStart_toStartOf="@id/rewards_pet"/>
+
+        <HorizontalScrollView
+            android:id="@+id/scroll_rewards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:scrollbars="none"
+            android:elevation="1dp"
+            android:layout_marginStart="-40dp"
+            app:layout_constraintTop_toTopOf="@id/bg_needs"
+            app:layout_constraintBottom_toBottomOf="@id/bg_needs"
+            app:layout_constraintStart_toEndOf="@id/bg_needs">
+            
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginEnd="20dp">
+
+                <include
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    layout="@layout/card_scroll_reward"/>
+
+                <include
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    layout="@layout/card_scroll_reward"
+                    android:layout_marginStart="15dp"/>
+
+                <include
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    layout="@layout/card_scroll_reward"/>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/rewards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textSize="18sp"
+            android:textColor="#303030"
+            android:text="@string/rewards"
+            app:layout_constraintStart_toStartOf="@id/bg_needs"
+            app:layout_constraintTop_toBottomOf="@id/bg_needs"/>
+
+        <TextView
+            android:id="@+id/descRewards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rewards_title"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="12sp"
+            android:textColor="#A5A5A5"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@id/rewards"
+            app:layout_constraintTop_toBottomOf="@id/rewards"/>
+
+        <ImageView
+            android:id="@+id/ic_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:src="@drawable/ic_sort_black"
+            app:layout_constraintTop_toTopOf="@id/rewards"
+            app:layout_constraintBottom_toBottomOf="@id/rewards"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <HorizontalScrollView
+            android:id="@+id/scroll_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="35dp"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descRewards">
+
+            <LinearLayout
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginEnd="20dp">
+
+                <RadioGroup
+                    android:id="@+id/radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_primary"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:paddingHorizontal="32dp"
+                        android:paddingVertical="8dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="@string/primary"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_tambahan"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:paddingHorizontal="22dp"
+                        android:paddingVertical="8dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="@string/tambahan"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_kesehatan"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="8dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="@string/kesehatan"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_mainan"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="8dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_selector"
+                        android:textColor="@drawable/text_selector"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:text="@string/mainan"/>
+
+                </RadioGroup>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/card_rewards"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scroll_radio" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.medical.record.RecordFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="45dp">
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/txtDataUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:layout_marginStart="55dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="@string/data_user"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usernameEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtDataUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/usernameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Nama lengkap"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/telephoneEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/usernameEditTextLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/telephoneEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Nomor telepon"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailEditTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/telephoneEditTextLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="E-mail"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/txtFillAuto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:layout_marginStart="55dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textSize="18sp"
+            android:textColor="#303030"
+            android:text="@string/fill_auto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout"/>
+
+        <TextView
+            android:id="@+id/txtDescFillAuto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="12sp"
+            android:textColor="#A5A5A5"
+            android:text="@string/desc_fill_auto"
+            app:layout_constraintStart_toStartOf="@id/txtFillAuto"
+            app:layout_constraintTop_toBottomOf="@+id/txtFillAuto"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:checked="false"
+            android:layout_marginEnd="55dp"
+            app:trackDecorationTint="@android:color/transparent"
+            app:thumbTint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtFillAuto"
+            app:layout_constraintBottom_toBottomOf="@id/txtDescFillAuto"/>
+
+        <TextView
+            android:id="@+id/txtDataPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:layout_marginStart="55dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="@string/data_pet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDescFillAuto"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/namePetEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtDataPet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/namePetEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Nama peliharaan"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/conditionEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/namePetEditTextLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/conditionPetEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Kondisi kesehatan"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descPetEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/conditionEditTextLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descPetEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Deskripsi riwayat kesehatan"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/weightPetEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/descPetEditTextLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/txtKg">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/weightPetEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Berat peliharaan"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+        
+        <TextView
+            android:id="@+id/txtKg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="55dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="#FF6D6D"
+            android:padding="12dp"
+            android:text="@string/kg"
+            android:textAlignment="center"
+            android:background="@drawable/background_button_medical"
+            app:layout_constraintTop_toTopOf="@id/weightPetEditTextLayout"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addInfoEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtKg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addInfoEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Informasi tambahan"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/txtDataClinic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:layout_marginStart="55dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="@string/data_clinic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addInfoEditTextLayout"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameClinicEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtDataClinic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameClinicEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Nama Klinik"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameDoctorEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/nameClinicEditTextLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameDoctorEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Nama dokter atau perawat"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressClinicEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/nameDoctorEditTextLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/txtKg">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addressClinicEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Alamat klinik"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/ic_location"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="55dp"
+            android:padding="15dp"
+            android:src="@drawable/ic_location_pink"
+            android:background="@drawable/background_button_medical"
+            app:layout_constraintTop_toTopOf="@id/addressClinicEditTextLayout"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/btnDate"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="55dp"
+            android:text="@string/date"
+            android:background="@drawable/background_button_medical"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="#FF6D6D"
+            android:drawableLeft="@drawable/ic_date_pink"
+            app:backgroundTint="#FFECEC"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnXray"
+            app:layout_constraintTop_toBottomOf="@id/addressClinicEditTextLayout" />
+
+        <Button
+            android:id="@+id/btnXray"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="@string/x_ray"
+            android:layout_marginEnd="55dp"
+            android:layout_marginStart="14dp"
+            android:background="@drawable/background_button_medical"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="#FF6D6D"
+            android:drawableLeft="@drawable/ic_xray_pink"
+            app:backgroundTint="#FFECEC"
+            app:layout_constraintStart_toEndOf="@id/btnDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnDate"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/medicalEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/btnDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/medicalEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Catatan medis"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/save"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="45dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:backgroundTint="#FF6D6D"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            app:layout_constraintTop_toBottomOf="@id/medicalEditTextLayout"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

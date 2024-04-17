@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/grey"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="28dp"
+        android:paddingVertical="15dp">
+        
+        <ImageView
+            android:id="@+id/ic_product"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_product"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="11sp"
+            android:textColor="@color/primaryColor"
+            android:text="@string/product"
+            app:layout_constraintTop_toTopOf="@id/ic_product"
+            app:layout_constraintBottom_toBottomOf="@id/ic_product"
+            app:layout_constraintStart_toEndOf="@id/ic_product"/>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="18dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/primaryColor"
+            app:layout_constraintStart_toEndOf="@id/txtProduct"
+            app:layout_constraintTop_toTopOf="@id/ic_product"
+            app:layout_constraintBottom_toBottomOf="@id/ic_product"/>
+
+        <ImageView
+            android:id="@+id/ic_confirmation"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_confirmation"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/line"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtConfirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="11sp"
+            android:textColor="@color/primaryColor"
+            android:text="@string/confirmation"
+            app:layout_constraintTop_toTopOf="@id/ic_confirmation"
+            app:layout_constraintBottom_toBottomOf="@id/ic_confirmation"
+            app:layout_constraintStart_toEndOf="@id/ic_confirmation"/>
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="18dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="10dp"
+            android:background="#CDCDCD"
+            app:layout_constraintStart_toEndOf="@id/txtConfirmation"
+            app:layout_constraintTop_toTopOf="@id/ic_confirmation"
+            app:layout_constraintBottom_toBottomOf="@id/ic_confirmation"/>
+
+        <ImageView
+            android:id="@+id/ic_status"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_status"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/line1"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="11sp"
+            android:textColor="#CDCDCD"
+            android:text="@string/status"
+            app:layout_constraintTop_toTopOf="@id/ic_status"
+            app:layout_constraintBottom_toBottomOf="@id/ic_status"
+            app:layout_constraintStart_toEndOf="@id/ic_status"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

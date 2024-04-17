@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="370dp"
+    android:layout_height="115dp"
+    android:background="@drawable/background_history_card"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/history_cat_visual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/history_cat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/title_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/plus_jakarta_sans_bold"
+        android:textSize="16sp"
+        android:textColor="#303030"
+        android:text="@string/vaksinasi"
+        app:layout_constraintTop_toTopOf="@id/history_cat_visual"
+        app:layout_constraintStart_toEndOf="@id/history_cat_visual"/>
+
+    <TextView
+        android:id="@+id/time_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:textSize="12sp"
+        android:textColor="#B2303030"
+        android:text="@string/dummy_time_activity"
+        app:layout_constraintTop_toBottomOf="@id/title_activity"
+        app:layout_constraintStart_toStartOf="@id/title_activity"/>
+
+    <TextView
+        android:id="@+id/point_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_bold"
+        android:textSize="12sp"
+        android:textColor="@color/primaryColor"
+        android:text="@string/dummy_klinik"
+        app:layout_constraintTop_toBottomOf="@id/time_activity"
+        app:layout_constraintStart_toStartOf="@id/time_activity"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
