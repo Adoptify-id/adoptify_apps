@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.foster.add.AddPetFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/header_foster"
+            layout="@layout/header_foster"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtCategoryPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="@string/category_pet"
+            android:textColor="#303030"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_foster" />
+
+        <TextView
+            android:id="@+id/txtAddPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="@string/add_pet"
+            android:textColor="#ABABAB"
+            app:layout_constraintStart_toStartOf="@id/txtCategoryPet"
+            app:layout_constraintTop_toBottomOf="@id/txtCategoryPet" />
+
+        <TextView
+            android:id="@+id/txtAge"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="32dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:padding="12dp"
+            android:text="Bln"
+            android:textAlignment="center"
+            android:background="@drawable/radio_foster_selected"
+            app:layout_constraintTop_toTopOf="@id/ageEditTextLayout"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <RadioGroup
+            android:id="@+id/radio_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginHorizontal="32dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtAddPet">
+
+            <RadioButton
+                android:id="@+id/radio_cat_edit"
+                android:layout_width="160dp"
+                android:layout_height="152dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/radio_foster_pet_selector"
+                android:button="@android:color/transparent"
+                android:drawableLeft="@drawable/card_cat"
+                android:fontFamily="@font/plus_jakarta_sans_bold"
+                android:gravity="center"
+                android:text="@string/cat"
+                android:textColor="@color/blackText"
+                app:layout_constraintEnd_toStartOf="@id/radio_dog"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioButton
+                android:id="@+id/radio_dog_edit"
+                android:layout_width="160dp"
+                android:layout_height="152dp"
+                android:background="@drawable/radio_foster_pet_selector"
+                android:button="@android:color/transparent"
+                android:drawableLeft="@drawable/card_dog"
+                android:fontFamily="@font/plus_jakarta_sans_bold"
+                android:gravity="center"
+                android:text="@string/dog"
+                android:textColor="@color/blackText" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/txtRas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="@string/ras_atau_jenis"
+            android:textColor="#303030"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_category" />
+
+        <HorizontalScrollView
+            android:id="@+id/scroll_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtRas">
+
+            <LinearLayout
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/radio_ras"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_ras_pet_1"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/radio_foster_selector"
+                        android:button="@android:color/transparent"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:paddingHorizontal="40dp"
+                        android:paddingVertical="16dp"
+                        android:text="Angoora"
+                        android:textAlignment="center"
+                        android:textColor="@drawable/text_selector"
+                        android:textSize="11sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_ras_pet_2"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/radio_foster_selector"
+                        android:button="@android:color/transparent"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:paddingHorizontal="35dp"
+                        android:paddingVertical="16dp"
+                        android:text="Domestik"
+                        android:textAlignment="center"
+                        android:textColor="@drawable/text_selector"
+                        android:textSize="11sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_ras_pet_3"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/radio_foster_selector"
+                        android:button="@android:color/transparent"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:paddingHorizontal="40dp"
+                        android:paddingVertical="16dp"
+                        android:text="Ragdoll"
+                        android:textAlignment="center"
+                        android:textColor="@drawable/text_selector"
+                        android:textSize="11sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_ras_pet_4"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/radio_foster_selector"
+                        android:button="@android:color/transparent"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:paddingHorizontal="40dp"
+                        android:paddingVertical="16dp"
+                        android:text="Persia"
+                        android:textAlignment="center"
+                        android:textColor="@drawable/text_selector"
+                        android:textSize="11sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_ras_pet_5"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/radio_foster_selector"
+                        android:button="@android:color/transparent"
+                        android:fontFamily="@font/plus_jakarta_sans_medium"
+                        android:paddingHorizontal="30dp"
+                        android:paddingVertical="16dp"
+                        android:text="Persia"
+                        android:textAlignment="center"
+                        android:textColor="@drawable/text_selector"
+                        android:textSize="11sp" />
+                </RadioGroup>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/txtNamePet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="@string/your_name_pet"
+            android:textColor="#303030"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/scroll_radio" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtNamePet">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Nama"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/txtGenderPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="@string/your_gender_pet"
+            android:textColor="#303030"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameEditTextLayout" />
+
+        <RadioGroup
+            android:id="@+id/radio_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="30dp"
+            app:layout_constraintTop_toBottomOf="@id/txtGenderPet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <RadioButton
+                android:id="@+id/radio_male_edit"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/radio_foster_selector"
+                android:button="@android:color/transparent"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:paddingHorizontal="40dp"
+                android:paddingVertical="16dp"
+                android:text="Jantan"
+                android:textAlignment="center"
+                android:textColor="@drawable/text_selector"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/radio_female_edit"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:background="@drawable/radio_foster_selector"
+                android:button="@android:color/transparent"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:paddingHorizontal="40dp"
+                android:paddingVertical="16dp"
+                android:text="Betina"
+                android:textAlignment="center"
+                android:textColor="@drawable/text_selector"
+                android:textSize="12sp" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/txtAgePet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="@string/your_age_pet"
+            android:textColor="#303030"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_gender" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ageEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toStartOf="@id/txtAge"
+            app:layout_constraintStart_toStartOf="@id/txtAgePet"
+            app:layout_constraintTop_toBottomOf="@+id/txtAgePet">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ageEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Umur"
+                android:inputType="number"
+                android:padding="12dp"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/txtPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="@string/your_pet_photo"
+            android:textColor="#303030"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ageEditTextLayout" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/previewImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="15dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_preview_image"
+            app:shapeAppearanceOverlay="@style/AddedImageVirtualPet"
+            app:layout_constraintStart_toStartOf="@id/txtPhoto"
+            app:layout_constraintTop_toBottomOf="@id/txtPhoto" />
+
+        <TextView
+            android:id="@+id/txtDescPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Deskripsi Hewan"
+            android:textColor="#303030"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/previewImage" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDescPet">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descEditText"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Deskripsi"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/btn_add"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/btn_add_image"
+            app:layout_constraintStart_toEndOf="@id/previewImage"
+            app:layout_constraintTop_toTopOf="@id/previewImage" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="55dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Edi"
+            app:backgroundTint="@color/primary_color_foster"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descEditTextLayout" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="#25BDA1"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -40,29 +40,34 @@
        app:layout_constraintStart_toStartOf="@id/txtAdopt"/>
 
     <ImageView
-        android:id="@+id/ic_sort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_sort"
+        android:id="@+id/ic_adopt"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_ajuan_adopt"
         android:layout_marginEnd="32dp"
         android:layout_marginTop="65dp"
-        android:padding="12dp"
+        android:padding="10dp"
         android:background="@drawable/background_back_button_register"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="30dp"
-        app:tabMode="scrollable"
+        app:tabMode="fixed"
         app:tabContentStart="20dp"
         app:tabPaddingStart="52dp"
         app:tabPaddingTop="10dp"
         app:tabPaddingBottom="15dp"
         app:tabPaddingEnd="52dp"
         app:tabGravity="center"
+        android:background="@android:color/transparent"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabUnboundedRipple="false"
+        app:tabBackground="@android:color/transparent"
         app:tabTextColor="#80D0D0D0"
         app:tabSelectedTextColor="@color/primaryColor"
         app:tabTextAppearance="@style/TextAppearance.App.LabelLarge"
@@ -71,17 +76,15 @@
         app:layout_constraintTop_toBottomOf="@id/txtDescAdopt">
 
         <com.google.android.material.tabs.TabItem
-            android:layout_width="155dp"
+            android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:text="@string/dog" />
 
         <com.google.android.material.tabs.TabItem
-            android:layout_width="155dp"
+            android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:text="@string/cat" />
 
-
     </com.google.android.material.tabs.TabLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

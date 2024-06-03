@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/background_history_card"
+    android:paddingTop="15dp"
+    android:onClick="expand"
+    android:animateLayoutChanges="true"
+    android:paddingBottom="20dp">
+
+    <ImageView
+        android:id="@+id/history_cat_visual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:src="@drawable/history_cat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/plus_jakarta_sans_bold"
+        android:text="@string/vaksinasi"
+        android:textColor="#303030"
+        android:textSize="16sp"
+        android:maxLength="20"
+        app:layout_constraintStart_toEndOf="@id/history_cat_visual"
+        app:layout_constraintTop_toTopOf="@id/history_cat_visual" />
+
+    <TextView
+        android:id="@+id/time_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="@string/dummy_time_activity"
+        android:textColor="#B2303030"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/title_activity"
+        app:layout_constraintTop_toBottomOf="@id/title_activity" />
+
+    <TextView
+        android:id="@+id/clinicName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_bold"
+        android:text="@string/dummy_klinik"
+        android:textColor="@color/primaryColor"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/time_activity"
+        app:layout_constraintTop_toBottomOf="@id/time_activity" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detail_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/background_radio_vaksin"
+        android:orientation="vertical"
+        android:paddingVertical="25dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clinicName">
+
+        <TextView
+            android:id="@+id/titleDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Detail Pemeriksaan"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="25dp"
+            android:background="#BBBBBB"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleDetail" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Nama"
+            android:textColor="#3D303030"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line" />
+
+        <TextView
+            android:id="@+id/petName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Angela"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/name"
+            app:layout_constraintStart_toEndOf="@id/name"
+            app:layout_constraintTop_toTopOf="@id/name" />
+
+        <TextView
+            android:id="@+id/weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Berat"
+            android:textColor="#3D303030"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/name" />
+
+        <TextView
+            android:id="@+id/petWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="3 Kg"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/weight"
+            app:layout_constraintStart_toEndOf="@id/weight"
+            app:layout_constraintTop_toTopOf="@id/weight" />
+
+        <TextView
+            android:id="@+id/condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Kondisi"
+            android:textColor="#3D303030"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/weight" />
+
+        <TextView
+            android:id="@+id/petCondition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Sehat"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/condition"
+            app:layout_constraintStart_toEndOf="@id/condition"
+            app:layout_constraintTop_toTopOf="@id/condition" />
+
+        <TextView
+            android:id="@+id/clinic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Klinik"
+            android:textColor="#3D303030"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/condition" />
+
+        <TextView
+            android:id="@+id/petClinic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Klinik Sayang Hewan Indonesia"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/clinic"
+            app:layout_constraintStart_toEndOf="@id/clinic"
+            app:layout_constraintTop_toTopOf="@id/clinic" />
+
+        <TextView
+            android:id="@+id/addressClinic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/plus_jakarta_sans_regular"
+            android:maxLines="36"
+            android:text="Jl. Diponegoro No. 120, Kota Malang,\nJawa Timur, Indonesia"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/petClinic"
+            app:layout_constraintTop_toBottomOf="@id/petClinic" />
+
+        <TextView
+            android:id="@+id/doctor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Dokter"
+            android:textColor="#3D303030"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/addressClinic" />
+
+        <TextView
+            android:id="@+id/doctorClinic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Dr. Andy Susilo"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/doctor"
+            app:layout_constraintStart_toEndOf="@id/doctor"
+            app:layout_constraintTop_toTopOf="@id/doctor" />
+
+        <TextView
+            android:id="@+id/notes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Catatan"
+            android:textColor="#3D303030"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/doctor" />
+
+        <TextView
+            android:id="@+id/notesClinic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="-"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/notes"
+            app:layout_constraintStart_toEndOf="@id/notes"
+            app:layout_constraintTop_toTopOf="@id/notes" />
+
+        <TextView
+            android:id="@+id/xRay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="X-Ray"
+            android:textColor="#3D303030"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/notes" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageXray"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+            android:layout_marginStart="25dp"
+            android:src="@drawable/ic_preview_image"
+            app:layout_constraintBottom_toBottomOf="@id/xRay"
+            app:layout_constraintStart_toEndOf="@id/xRay"
+            app:layout_constraintTop_toTopOf="@id/xRay"
+            app:shapeAppearanceOverlay="@style/AddedImageVirtualPet" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

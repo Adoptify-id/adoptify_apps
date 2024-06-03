@@ -19,6 +19,7 @@ class WelcomeActivity : AppCompatActivity() {
         val adapter = IndicatorAdapter(this)
         val viewPager: ViewPager2 = binding.welcomeViewPager
         viewPager.adapter = adapter
+        viewPager.isUserInputEnabled = false
         indicator.attachTo(viewPager)
     }
 }

@@ -119,7 +119,7 @@
                 android:fontFamily="@font/plus_jakarta_sans_medium"
                 android:hint="Nama Pengguna"
                 android:textColorHint="@color/textColorHint"
-                android:inputType="textEmailAddress"
+                android:inputType="textPersonName"
                 android:padding="12dp"
                 android:textSize="14sp"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -177,7 +177,7 @@
                 android:fontFamily="@font/plus_jakarta_sans_medium"
                 android:hint="No. Whatsapp"
                 android:textColorHint="@color/textColorHint"
-                android:inputType="textEmailAddress"
+                android:inputType="phone"
                 android:padding="12dp"
                 android:textSize="14sp"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -207,7 +207,7 @@
                 android:fontFamily="@font/plus_jakarta_sans_medium"
                 android:hint="Kata sandi"
                 android:textColorHint="@color/textColorHint"
-                android:inputType="textEmailAddress"
+                android:inputType="textPassword"
                 android:padding="12dp"
                 android:textSize="14sp"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -237,7 +237,7 @@
                 android:fontFamily="@font/plus_jakarta_sans_medium"
                 android:hint="Ulangi kata sandi"
                 android:textColorHint="@color/textColorHint"
-                android:inputType="textEmailAddress"
+                android:inputType="textPassword"
                 android:padding="12dp"
                 android:textSize="14sp"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -245,5 +245,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/primaryColor"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

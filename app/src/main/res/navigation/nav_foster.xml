@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_foster"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/addPetFragment"
+        android:name="com.example.adoptify_core.ui.foster.add.AddPetFragment"
+        android:label="fragment_add_pet"
+        tools:layout="@layout/fragment_add_pet" />
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.adoptify_core.ui.foster.dashboard.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+</navigation>

@@ -42,7 +42,6 @@
        app:itemIconSize="50dp"
        app:itemBackground="@android:color/transparent"
        app:itemActiveIndicatorStyle="@color/white"
-       app:menu="@menu/menu_bottom_navigation"
-       />
+       app:menu="@menu/menu_bottom_navigation" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

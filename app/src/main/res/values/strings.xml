@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Adoptify</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="welcome_text">Selamat datang</string>
     <string name="welcome_text_2">di Adoptify!</string>
@@ -24,6 +23,7 @@
     <string name="dummy_points">1.500</string>
     <string name="points">Points</string>
     <string name="virtual_pet_wellbeings">Virtual Pet Wellbeings</string>
+    <string name="virtual_pet">Virtual Pet</string>
     <string name="desc_title_virtual">Tingkatkan kepedulian dengan peliharaanmu</string>
     <string name="dummy_reminder">Pengingat Kepedulian - Vinc</string>
     <string name="dummy_reminder_quest">Memberikan Makan</string>
@@ -133,4 +133,33 @@
     <string name="expedition">Ekspedisi Pengiriman</string>
     <string name="fill_valid">Semua data yang dimasukkan adalah informasi\nyang benar dan sesuai dengan ketentuan</string>
     <string name="back">Kembali</string>
+    <string name="anggora">Anggora</string>
+    <string name="domestik">Domestik</string>
+    <string name="ragdoll">Ragdoll</string>
+    <string name="persia">Persia</string>
+    <string name="maine_coon">Maine Coon</string>
+    <string name="beagie">Beagie</string>
+    <string name="bulldog">Bulldog</string>
+    <string name="poodie">Poodie</string>
+    <string name="maltese">Maltese</string>
+    <string name="bitchon_frise">Bitchon Frise</string>
+    <string name="terms__and_condition">Persyaratan\ndan Ketentuan</string>
+    <string name="updated_at">Diperbarui 07/05/2024</string>
+    <string name="terms_adopter"><![CDATA[SYARAT & KETENTUAN UNTUK PARA ADOPTER]]></string>
+    <string name="rules_1">1. PELIHARA HEWAN ADALAH\nKOMITMEN SEUMUR HIDUP</string>
+    <string name="desc_rules_1">Peliharan hewan adalah sebuah komitmen seumur hidup yang melibatkan tanggung jawab dan perhatian yang besar terhadap makhluk hidup yang kamu adopsi sebagai hewan peliharaan. Ini adalah kontrak emosional yang kita buat dengan hewan tersebut, di mana kita berjanji untuk memberikan perawatan dan cinta yang tak terbatas selama mereka hidup.</string>
+    <string name="desc_rules2_1">Sebelum Kamu benar-benar yakin untuk mengadopsi hewan, Kamu juga harus mempertimbangkan kemungkinan adanya perubahan dalam gaya hidup Kamu yang bisa mempengaruhi bahkan mengancam kesejahteraan hewan yang akan diadopsi seperti:</string>
+    <string name="agree_adoptify"><![CDATA[Saya memahami S&K Adoptify]]></string>
+    <string name="personal_data">Data Diri</string>
+    <string name="data_calon_adapter">Data Calon Adapter</string>
+    <string name="card_identity">Kartu Identitas</string>
+    <string name="desc_identity_card">Dapat berupa KTP/SIM yang berlaku. Kami akan menjaga\nkerahasiaan data, hak privasi dari calon adopter hewan.</string>
+    <string name="submission">Pengajuan</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="new_text">Baru</string>
+    <string name="your_weight_pet">Berat Peliharaanmu</string>
+    <string name="jenis_vaksinasi">Jenis Vaksinasi</string>
+    <string name="vaksin_anjing">Vaksin Anjing</string>
+    <string name="vaksin_kucing">Vaksin Kucing</string>
+    <string name="transaction">Transaksi</string>
 </resources>

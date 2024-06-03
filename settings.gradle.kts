@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "adoptify_core"
 include(":app")
- 
+include(":core")

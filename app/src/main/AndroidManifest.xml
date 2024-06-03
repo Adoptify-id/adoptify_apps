@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,7 +14,47 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Adoptify_core"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.foster.profile.EditProfileFosterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.foster.profile.DetailProfileFosterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.foster.edit.EditFosterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.foster.detail.DetailFosterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profile.DetailProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profile.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.medical.vaksinasi.VaksinasiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.medical.record.RecordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.foster.FosterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.adopt.process.ProcessAdoptActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.adopt.detail.DetailAdoptActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.virtual.add.AddVirtualPetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.virtual.main.VirtualPetActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.reward.ConfirmationRewardActivity"
             android:exported="false" />

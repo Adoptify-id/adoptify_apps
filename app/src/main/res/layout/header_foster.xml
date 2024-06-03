@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_header"
+    android:paddingBottom="30dp">
+
+    <TextView
+        android:id="@+id/txtHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:textColor="@color/blackText"
+        android:fontFamily="@font/plus_jakarta_sans_extra"
+        android:text="Pet Baru"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnPengajuan"
+        app:layout_constraintBottom_toBottomOf="@id/btnPengajuan"/>
+
+    <ImageView
+        android:id="@+id/btnPengajuan"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_ajuan_adopt"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="55dp"
+        android:padding="12dp"
+        android:background="@drawable/background_back_button_register"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

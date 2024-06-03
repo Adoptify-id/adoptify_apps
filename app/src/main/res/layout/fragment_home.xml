@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="100dp"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:layout_marginBottom="70dp"
     android:background="@color/backgroundScreen">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,15 +106,32 @@
             app:layout_constraintStart_toStartOf="@id/txtVirtualPet"
             app:layout_constraintTop_toBottomOf="@id/txtVirtualPet" />
 
-        <include
-            android:id="@+id/virtual_pet"
-            layout="@layout/card_virtual_pet"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/virtual_pet_pager"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:layout_marginTop="44dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="35dp"
+            android:orientation="horizontal"
+            android:layout_marginVertical="12dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtDescTitle" />
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="40dp"
+            android:visibility="gone"
+            android:background="@drawable/button_virtual_pet_hover"
+            android:src="@drawable/icon_back_button_hover"
+            app:layout_constraintBottom_toBottomOf="@id/dots_indicator"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible"
+            app:layout_constraintTop_toTopOf="@id/dots_indicator" />
 
         <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
             android:id="@+id/dots_indicator"
@@ -126,7 +145,7 @@
             app:dotsWidthFactor="2.0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/virtual_pet"
+            app:layout_constraintTop_toBottomOf="@id/virtual_pet_pager"
             app:progressMode="true"
             app:selectedDotColor="@color/primaryColor" />
 
@@ -135,8 +154,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginEnd="40dp"
-            android:background="@drawable/background_button_next_grey"
-            android:src="@drawable/ic_next_grey"
+            android:background="@drawable/button_virtual_pet_hover"
+            android:src="@drawable/icon_next_button_hover"
             app:layout_constraintBottom_toBottomOf="@id/dots_indicator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/dots_indicator" />
@@ -152,58 +171,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnNext" />
 
-        <TextView
-            android:id="@+id/txtReminder"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/plus_jakarta_sans_bold"
-            android:text="@string/dummy_reminder"
-            android:textColor="#303030"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_medical_record" />
-
-        <include
-            android:id="@+id/card_reminder1"
-            layout="@layout/card_reminder_pet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtReminder" />
-
-        <include
-            android:id="@+id/card_reminder2"
-            layout="@layout/card_reminder_pet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_reminder1" />
-
-        <include
-            android:id="@+id/card_reminder3"
-            layout="@layout/card_reminder_pet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_reminder2" />
-
-        <include
-            android:id="@+id/card_reminder4"
-            layout="@layout/card_reminder_pet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_reminder3" />
 
         <View
             android:id="@+id/line"
@@ -215,7 +182,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_reminder4" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_medical_record" />
 
         <ImageView
             android:id="@+id/btnVirtualPet"
@@ -311,21 +278,41 @@
         <include
             android:id="@+id/card_cat"
             layout="@layout/card_adopt_cat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="152dp"
             android:layout_marginStart="35dp"
             android:layout_marginTop="25dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginEnd="15dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtDescAdopt" />
+            app:layout_constraintEnd_toStartOf="@id/card_dog"
+            app:layout_constraintTop_toBottomOf="@id/txtDescAdopt"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <include
             android:id="@+id/card_dog"
             layout="@layout/card_adopt_dog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="152dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginEnd="35dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/card_cat"
-            app:layout_constraintTop_toTopOf="@id/card_cat" />
+            app:layout_constraintTop_toTopOf="@id/card_cat"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/primaryColor"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

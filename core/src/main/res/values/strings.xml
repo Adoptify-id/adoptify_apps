@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cat">Kucing</string>
+    <string name="dummy_name_pet">VINC</string>
+    <string name="age">Umur</string>
+    <string name="dummy_age">6 Bulan</string>
+    <string name="weight">Berat</string>
+    <string name="dummy_weight">2,5 Kg</string>
+    <string name="gender">Kelamin</string>
+    <string name="dummy_gender">Betina</string>
+    <string name="ras">Ras</string>
+    <string name="dummy_ras">Persia</string>
+    <string name="vaksinasi">Vaksinasi</string>
+    <string name="dummy_time_activity">Sabtu, 4 Maret 2024 · 12.43 PM</string>
+    <string name="dummy_klinik">Klinik Sayang Hewan Indonesia</string>
+    <string name="yesterday">Kemarin</string>
+    <string name="dummy_adopt_name">Anjing Beagle Australia</string>
+</resources>

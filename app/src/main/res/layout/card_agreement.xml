@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_agreement"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="3dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ic_megaphone"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="45dp"
+                android:src="@drawable/ic_megaphone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtCondition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="50dp"
+                android:fontFamily="@font/plus_jakarta_sans_bold"
+                android:letterSpacing="-0.003"
+                android:text="@string/terms__and_condition"
+                android:textColor="@color/blackText"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@id/ic_megaphone"
+                app:layout_constraintTop_toTopOf="@id/ic_megaphone" />
+
+            <TextView
+                android:id="@+id/txtUpdated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:text="@string/updated_at"
+                android:textColor="@color/halfBlackText"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="@id/txtCondition"
+                app:layout_constraintTop_toBottomOf="@id/txtCondition" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="52dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="35dp"
+                android:background="#4D000000"
+                app:layout_constraintBottom_toBottomOf="@id/logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/logo" />
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="135dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/adoptify_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ic_megaphone" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="52dp"
+                android:layout_height="1dp"
+                android:layout_marginEnd="35dp"
+                android:background="#4D000000"
+                app:layout_constraintBottom_toBottomOf="@id/logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/logo" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="vertical"
+                android:paddingTop="5dp"
+                android:scaleType="matrix"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/terms"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logo" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.cardview.widget.CardView>

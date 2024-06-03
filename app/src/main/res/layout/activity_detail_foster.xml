@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_pet"
+            android:layout_width="match_parent"
+            android:layout_height="330dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/detail_pet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/DetailPetImageView" />
+
+        <ImageView
+            android:id="@+id/ic_arrow_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="65dp"
+            android:background="@drawable/background_back_button_register"
+            android:padding="12dp"
+            android:src="@drawable/ic_back_grey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ic_foster"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/background_image_foster"
+            android:src="@drawable/ic_foster"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_pet" />
+
+        <ImageView
+            android:id="@+id/ic_verif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_verif"
+            app:layout_constraintBottom_toBottomOf="@id/ic_foster"
+            app:layout_constraintEnd_toEndOf="@id/ic_foster"
+            app:layout_constraintStart_toStartOf="@id/ic_foster"
+            app:layout_constraintTop_toBottomOf="@id/ic_foster" />
+
+        <TextView
+            android:id="@+id/txtFoster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/plus_jakarta_sans_semibold"
+            android:text="@string/foster"
+            android:textColor="#A5A5A5"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/ic_foster"
+            app:layout_constraintTop_toTopOf="@id/ic_foster" />
+
+        <TextView
+            android:id="@+id/txtFosterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/plus_jakarta_sans_regular"
+            android:text="@string/dummy_name_foster"
+            android:textColor="@color/blackText"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/txtFoster"
+            app:layout_constraintTop_toBottomOf="@id/txtFoster" />
+
+        <TextView
+            android:id="@+id/txtId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/plus_jakarta_sans_semibold"
+            android:text="ID"
+            android:textColor="#A5A5A5"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/txtFosterName"
+            app:layout_constraintTop_toTopOf="@id/ic_foster" />
+
+        <TextView
+            android:id="@+id/txtIdPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/plus_jakarta_sans_regular"
+            android:text="#1234"
+            android:textColor="@color/blackText"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/txtId"
+            app:layout_constraintTop_toBottomOf="@id/txtId" />
+
+        <TextView
+            android:id="@+id/txtOwner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/plus_jakarta_sans_semibold"
+            android:text="@string/owner"
+            android:textColor="#A5A5A5"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@id/txtFosterName"
+            app:layout_constraintTop_toBottomOf="@id/txtFosterName" />
+
+        <TextView
+            android:id="@+id/txtOwnerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/plus_jakarta_sans_regular"
+            android:text="@string/dummy_name_owner"
+            android:textColor="@color/blackText"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/txtOwner"
+            app:layout_constraintTop_toBottomOf="@id/txtOwner" />
+
+
+        <TextView
+            android:id="@+id/name_pet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/dummy_detail_name_pet"
+            android:fontFamily="@font/plus_jakarta_sans_extra"
+            android:textColor="@color/blackText"
+            android:textSize="28sp"
+            app:layout_constraintStart_toStartOf="@id/ic_foster"
+            app:layout_constraintTop_toBottomOf="@id/ic_foster"/>
+
+        <ImageView
+            android:id="@+id/ic_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_location"
+            app:layout_constraintStart_toStartOf="@+id/name_pet"
+            app:layout_constraintTop_toBottomOf="@+id/name_pet" />
+
+        <TextView
+            android:id="@+id/txtLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_semibold"
+            android:text="@string/dummy_location_user"
+            android:textColor="#7F7F7F"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/ic_location"
+            app:layout_constraintStart_toEndOf="@id/ic_location"
+            app:layout_constraintTop_toTopOf="@id/ic_location" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="28dp"
+            android:background="#F2F2F2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ic_location" />
+
+        <TextView
+            android:id="@+id/detail_pet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/detail_pet"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/ic_foster"
+            app:layout_constraintTop_toBottomOf="@id/line"/>
+
+        <ImageView
+            android:id="@+id/ic_gender"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/background_type_adopt"
+            android:padding="5dp"
+            android:src="@drawable/ic_gender"
+            app:layout_constraintStart_toStartOf="@id/detail_pet"
+            app:layout_constraintTop_toBottomOf="@id/detail_pet" />
+
+        <TextView
+            android:id="@+id/gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_semibold"
+            android:text="@string/gender"
+            android:textColor="@color/halfBlackText"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/ic_gender"
+            app:layout_constraintTop_toTopOf="@id/ic_gender" />
+
+        <TextView
+            android:id="@+id/genderPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="@string/dummy_gender"
+            android:textColor="@color/blackText"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/gender"
+            app:layout_constraintTop_toBottomOf="@id/gender" />
+
+        <ImageView
+            android:id="@+id/ic_age"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="35dp"
+            android:background="@drawable/background_type_adopt"
+            android:padding="5dp"
+            android:src="@drawable/ic_age"
+            app:layout_constraintStart_toEndOf="@+id/genderPet"
+            app:layout_constraintTop_toBottomOf="@id/detail_pet" />
+
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_semibold"
+            android:text="@string/age"
+            android:textColor="@color/halfBlackText"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/ic_age"
+            app:layout_constraintTop_toTopOf="@id/ic_age" />
+
+        <TextView
+            android:id="@+id/agePet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="@string/dummy_age"
+            android:textColor="@color/blackText"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/age"
+            app:layout_constraintTop_toBottomOf="@id/age" />
+
+        <ImageView
+            android:id="@+id/ic_ras"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/background_type_adopt"
+            android:padding="5dp"
+            android:src="@drawable/ic_ras"
+            app:layout_constraintStart_toEndOf="@+id/agePet"
+            app:layout_constraintTop_toBottomOf="@id/detail_pet" />
+
+        <TextView
+            android:id="@+id/ras"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_semibold"
+            android:text="@string/ras"
+            android:textColor="@color/halfBlackText"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/ic_ras"
+            app:layout_constraintTop_toTopOf="@id/ic_ras" />
+
+        <TextView
+            android:id="@+id/rasPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="@string/dummy_ras"
+            android:textColor="@color/blackText"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/ras"
+            app:layout_constraintTop_toBottomOf="@id/ras" />
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="25dp"
+            android:background="#F2F2F2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ic_gender" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/description"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/ic_foster"
+            app:layout_constraintTop_toBottomOf="@id/line2"/>
+
+        <TextView
+            android:id="@+id/txtDescPet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="40dp"
+            android:textAlignment="viewStart"
+            android:text="@string/dummy_desc_pet"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textColor="#A5A5A5"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description"/>
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="15dp"
+            android:background="#F2F2F2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtDescPet" />
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="Edit"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/blackText"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/background_back_button_adopt"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            app:backgroundTint="@color/primary_color_foster"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line3"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/primary_color_foster"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

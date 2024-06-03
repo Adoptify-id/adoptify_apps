@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    android:layout_marginHorizontal="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/ic_agreement"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_agreement"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    
+    <View
+        android:id="@+id/line"
+        android:layout_width="32dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="12dp"
+        android:background="#C7C7C7"
+        app:layout_constraintTop_toTopOf="@id/ic_agreement"
+        app:layout_constraintBottom_toBottomOf="@id/ic_agreement"
+        app:layout_constraintStart_toEndOf="@id/ic_agreement"/>
+
+    <ImageView
+        android:id="@+id/ic_personal_data"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_personal_data_disable"
+        android:layout_marginStart="12dp"
+       app:layout_constraintStart_toEndOf="@id/line"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="32dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="12dp"
+        android:background="#C7C7C7"
+        app:layout_constraintTop_toTopOf="@id/ic_personal_data"
+        app:layout_constraintBottom_toBottomOf="@id/ic_personal_data"
+        app:layout_constraintStart_toEndOf="@id/ic_personal_data"/>
+
+    <ImageView
+        android:id="@+id/ic_submission"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_submission_disable"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/line2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="32dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="12dp"
+        android:background="#C7C7C7"
+        app:layout_constraintTop_toTopOf="@id/ic_submission"
+        app:layout_constraintBottom_toBottomOf="@id/ic_submission"
+        app:layout_constraintStart_toEndOf="@id/ic_submission"/>
+
+    <ImageView
+        android:id="@+id/ic_status"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_status_adopt_disable"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/line3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
