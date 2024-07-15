@@ -18,27 +18,25 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityEditProfileBinding
+import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.auth.login.LoginViewModel
 import com.example.adoptify_core.ui.main.MainViewModel
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.DataUser
+import com.example.core.utils.ForceLogout
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.properties.Delegates
-import kotlin.reflect.typeOf
 
 @RequiresApi(Build.VERSION_CODES.Q)
 class EditProfileActivity : AppCompatActivity() {
@@ -49,6 +47,7 @@ class EditProfileActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModel()
 
     private var currentUriImage: Uri? = null
+    private var logoutDialog: Dialog? = null
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         currentUriImage = it
@@ -75,6 +74,7 @@ class EditProfileActivity : AppCompatActivity() {
         initData()
         getToken()
         getUserId()
+        forceLogout()
         updateResult()
     }
 
@@ -92,6 +92,38 @@ class EditProfileActivity : AppCompatActivity() {
             telpEditText.isEnabled = false
             emailEditText.isEnabled = false
         }
+    }
+
+    private fun forceLogout() {
+        ForceLogout.logoutLiveData.observe(this) {
+            showLogoutDialog()
+        }
+    }
+
+    private fun showLogoutDialog() {
+        logoutDialog = Dialog(this).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.modal_session_expired)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            //set width height card
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+
+            val btnLogin = findViewById<Button>(R.id.btnReload)
+            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@EditProfileActivity, R.color.primary_color_foster)
+
+            btnLogin.setOnClickListener { navigateToLogin() }
+            show()
+        }
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     private fun getToken() {
@@ -212,11 +244,11 @@ class EditProfileActivity : AppCompatActivity() {
                 is Resource.Success -> {
                     showLoading(false)
                     Log.d("UpdateProfile", "result: ${it.data}")
-                    popUpDialog("Yeiy!", "Proses edit profil berhasil", R.drawable.alert_success)
+                    popUpDialog("Yeiy!", "Pengeditan profil berhasil", "Selamat! Profil Anda telah berhasil diperbarui. Perubahan yang Anda lakukan telah disimpan dengan sukses",R.drawable.alert_success)
                 }
                 is Resource.Error -> {
                     showLoading(false)
-                    popUpDialog("Yah!", "Proses edit profil gagal", R.drawable.alert_failed)
+                    popUpDialog("Yah!", "Pengeditan profil gagal", it.message,R.drawable.alert_failed)
                     Log.d("UpdateProfile", "error: ${it.message}")
                 }
             }
@@ -243,7 +275,7 @@ class EditProfileActivity : AppCompatActivity() {
         dialogDatePicker.show()
     }
 
-    private fun popUpDialog(title: String, desc: String, image: Int) {
+    private fun popUpDialog(title: String, desc: String, subDesc: String ,image: Int) {
         val dialog = Dialog(this)
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -260,11 +292,13 @@ class EditProfileActivity : AppCompatActivity() {
             val imageView = dialog.findViewById<ImageView>(R.id.img_alert)
             val titleText = dialog.findViewById<TextView>(R.id.title_alert)
             val descText = dialog.findViewById<TextView>(R.id.desc_alert)
+            val subDescText = dialog.findViewById<TextView>(R.id.sub_desc_alert)
             val btnClose = dialog.findViewById<Button>(R.id.btnClose)
 
             imageView.setImageDrawable(ContextCompat.getDrawable(this@EditProfileActivity, image))
             titleText.text = title
             descText.text = desc
+            subDescText.text = subDesc
             btnClose.setOnClickListener {
                 setResult(RESULT_OK)
                 dismiss()
@@ -272,5 +306,15 @@ class EditProfileActivity : AppCompatActivity() {
             }
             show()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        logoutDialog?.dismiss()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        logoutDialog?.dismiss()
     }
 }

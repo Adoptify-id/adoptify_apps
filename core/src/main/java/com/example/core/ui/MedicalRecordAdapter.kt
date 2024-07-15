@@ -1,8 +1,5 @@
 package com.example.core.ui
 
-import android.animation.LayoutTransition
-import android.transition.AutoTransition
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +12,7 @@ import com.example.core.domain.model.ListMedicalItem
 import com.example.core.domain.model.MedicalItem
 import com.example.core.domain.model.VaksinasiData
 import com.example.core.utils.formatDateString
+
 class MedicalRecordAdapter(private val items: List<ListMedicalItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -34,19 +32,17 @@ class MedicalRecordAdapter(private val items: List<ListMedicalItem>) : RecyclerV
 
         fun bind(data: VaksinasiData) {
             binding.apply {
-                titleActivity.text = "Vaksin ${data.jenisVaksin.split(" ").joinToString { it.capitalize() }}"
+                titleActivity.text = "Vaksin ${data.jenisVaksin.split(" ").joinToString(separator = " ") { it.capitalize() }}"
                 historyCatVisual.setImageResource(if (data.kategoriPet == "Kucing") R.drawable.history_cat else R.drawable.history_dog)
                 timeActivity.text = formatDateString(data.created_at.toString())
-                clinicName.text = data.klinikName.split(" ").joinToString { it.capitalize() }
-                petName.text = data.name.split(" ").joinToString { it.capitalize() }
+                clinicName.text = data.klinikName.split(" ").joinToString(separator = " ") { it.capitalize() }
+                petName.text = data.name.split(" ").joinToString(separator = " ") { it.capitalize() }
                 petWeight.text = "${data.beratPet} Kg"
                 petCondition.text = data.kesehatan
                 petClinic.text = data.klinikName
                 addressClinic.text = data.alamat
-                doctorClinic.text = data.dokterName.split(" ").joinToString { it.capitalize() }
+                doctorClinic.text = data.dokterName.split(" ").joinToString(separator = " ") { it.capitalize() }
                 notesClinic.text = data.catatan
-
-                layout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
                 layout.setOnClickListener { expand() }
             }
@@ -55,7 +51,7 @@ class MedicalRecordAdapter(private val items: List<ListMedicalItem>) : RecyclerV
         private fun expand() {
             val isVisible = binding.detailData.visibility == View.VISIBLE
             val newVisible = if (isVisible) View.GONE else View.VISIBLE
-            TransitionManager.beginDelayedTransition(binding.layout, AutoTransition())
+//            TransitionManager.beginDelayedTransition(binding.layout, AutoTransition())
             binding.detailData.visibility = newVisible
         }
     }
@@ -67,13 +63,13 @@ class MedicalRecordAdapter(private val items: List<ListMedicalItem>) : RecyclerV
                titleActivity.text = "Medical Record"
                historyCatVisual.setImageResource(if (data.kategoriPet == "Kucing") R.drawable.history_cat else R.drawable.history_dog)
                timeActivity.text = formatDateString(data.createdAt.toString())
-               clinicName.text = data.klinikName?.split(" ")?.joinToString { it.capitalize() }
-               petName.text = data.namePet?.split(" ")?.joinToString { it.capitalize() }
+               clinicName.text = data.klinikName?.split(" ")?.joinToString(separator = " ") { it.capitalize() }
+               petName.text = data.namePet?.split(" ")?.joinToString(separator = " ") { it.capitalize() }
                petWeight.text = "${data.beratPet} Kg"
                petCondition.text = data.kesehatan
                petClinic.text = data.klinikName
                addressClinic.text = data.alamat
-               doctorClinic.text = data.dokterName?.split(" ")?.joinToString { it.capitalize() }
+               doctorClinic.text = data.dokterName?.split(" ")?.joinToString(separator = " ") { it.capitalize() }
                notesClinic.text = data.catatan
 
                val imageUrl = if (data.xRay == null) {
@@ -87,7 +83,7 @@ class MedicalRecordAdapter(private val items: List<ListMedicalItem>) : RecyclerV
                    .placeholder(R.drawable.ic_preview_image)
                    .into(imageXray)
 
-               layout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+//               layout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
                layout.setOnClickListener { expand() }
            }
@@ -96,7 +92,7 @@ class MedicalRecordAdapter(private val items: List<ListMedicalItem>) : RecyclerV
         private fun expand() {
             val isVisible = binding.detailData.visibility == View.VISIBLE
             val newVisible = if (isVisible) View.GONE else View.VISIBLE
-            TransitionManager.beginDelayedTransition(binding.layout, AutoTransition())
+//            TransitionManager.beginDelayedTransition(binding.layout, AutoTransition())
             binding.detailData.visibility = newVisible
         }
     }

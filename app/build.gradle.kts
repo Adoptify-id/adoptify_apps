@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 apply(from = "../shared_dependencies.gradle")
@@ -13,11 +14,11 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.adoptify_core"
+        applicationId = "com.adoptify_core.android"
         minSdk = 21
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        targetSdk = 34
+        versionCode = 3
+        versionName = "3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -61,4 +62,7 @@ dependencies {
     //firebase
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics")
+
+    //swipe refresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }

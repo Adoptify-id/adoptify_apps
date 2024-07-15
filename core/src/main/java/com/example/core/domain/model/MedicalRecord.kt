@@ -1,7 +1,5 @@
 package com.example.core.domain.model
 
-import java.io.File
-
 data class MedicalRecord(
 	val msg: String? = null,
 	val data: List<MedicalItem?>? = null,

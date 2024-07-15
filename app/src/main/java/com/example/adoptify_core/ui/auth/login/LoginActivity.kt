@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,16 +14,14 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityLoginBinding
-import com.example.adoptify_core.databinding.AlertDialogBinding
 import com.example.adoptify_core.ui.auth.register.RegisterActivity
 import com.example.adoptify_core.ui.foster.FosterActivity
 import com.example.adoptify_core.ui.main.MainActivity
 import com.example.core.data.Resource
-import com.example.core.data.source.remote.network.ApiResponse
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
@@ -106,9 +103,16 @@ class LoginActivity : AppCompatActivity() {
 
                 is Resource.Error -> {
                     showLoading(false)
-                    popUpDialog("Yah!", "Proses login gagal", R.drawable.alert_failed)
+                    popUpDialog(
+                        "Yah!",
+                        "login gagal. Coba lagi nanti",
+                        it.message,
+                        R.drawable.alert_failed
+                    )
                     Log.e("LoginActivity", "error: ${it.message}")
                 }
+
+                else -> {}
             }
         }
     }
@@ -116,30 +120,38 @@ class LoginActivity : AppCompatActivity() {
     //get and save token for login
     private fun getSessionUser(token: String, username: String, userId: Int, roleId: Int) {
         loginViewModel.saveSession(token, username, userId, roleId)
+        navigateToMain(roleId)
+    }
 
-        if (roleId == 1) {
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-            finish()
+    private fun navigateToMain(roleId: Int) {
+        val intent = if (roleId == 1) {
+            Intent(this@LoginActivity, MainActivity::class.java)
         } else {
-            startActivity(Intent(this@LoginActivity, FosterActivity::class.java))
-            finish()
+            Intent(this@LoginActivity, FosterActivity::class.java)
         }
-
+        startActivity(intent)
+        finish()
     }
 
     private fun getRole() {
         loginViewModel.roleId.observe(this) {
-            when(it) {
-                is Resource.Loading -> { showLoading(true) }
+            when (it) {
+                is Resource.Loading -> {
+                    showLoading(true)
+                }
+
                 is Resource.Success -> {
                     showLoading(false)
                     roleId = it.data
                     Log.d("LoginActivity", "role id: $roleId")
                 }
+
                 is Resource.Error -> {
                     showLoading(false)
                     Log.d("LoginActivity", "error : ${it.message}")
                 }
+
+                else -> {}
             }
         }
     }
@@ -168,7 +180,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun popUpDialog(title: String, desc: String, image: Int) {
+    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {
         val dialog = Dialog(this)
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -185,11 +197,13 @@ class LoginActivity : AppCompatActivity() {
             val imageView = dialog.findViewById<ImageView>(R.id.img_alert)
             val titleText = dialog.findViewById<TextView>(R.id.title_alert)
             val descText = dialog.findViewById<TextView>(R.id.desc_alert)
+            val subDescText = dialog.findViewById<TextView>(R.id.sub_desc_alert)
             val btnClose = dialog.findViewById<Button>(R.id.btnClose)
 
             imageView.setImageDrawable(ContextCompat.getDrawable(this@LoginActivity, image))
             titleText.text = title
             descText.text = desc
+            subDescText.text = subDesc
             btnClose.setOnClickListener { dismiss() }
             show()
         }

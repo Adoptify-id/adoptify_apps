@@ -15,22 +15,20 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityEditFosterBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
+import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.foster.FosterActivity
 import com.example.adoptify_core.ui.foster.FosterViewModel
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.PetAdoptItem
-import com.example.core.domain.model.DataAdopt
+import com.example.core.utils.ForceLogout
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -59,6 +57,8 @@ class EditFosterActivity : AppCompatActivity() {
         }
     }
 
+    private var logoutDialog: Dialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditFosterBinding.inflate(layoutInflater)
@@ -68,6 +68,7 @@ class EditFosterActivity : AppCompatActivity() {
         setupView()
         initData()
         getDetail()
+        forceLogout()
         updateResult()
     }
 
@@ -103,6 +104,37 @@ class EditFosterActivity : AppCompatActivity() {
 
             btnSave.setOnClickListener { updateHandler() }
         }
+    }
+
+    private fun forceLogout() {
+        ForceLogout.logoutLiveData.observe(this) {
+            showLogoutDialog()
+        }
+    }
+
+    private fun showLogoutDialog() {
+        logoutDialog = Dialog(this).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.modal_session_expired)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            //set width height card
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+
+            val btnLogin = findViewById<Button>(R.id.btnReload)
+            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@EditFosterActivity, R.color.primary_color_foster)
+            btnLogin.setOnClickListener { navigateToLogin() }
+            show()
+        }
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     private fun updateRadioButtonsForCategory(category: String) {
@@ -202,10 +234,15 @@ class EditFosterActivity : AppCompatActivity() {
             val name = nameEditText.text.toString()
             val age = ageEditText.text.toString()
             val desc = descEditText.text.toString()
-            val image = currentUriImage?.let { uriToFile(it, this@EditFosterActivity).reduceImageFile() }
+            val image = currentUriImage?.let {
+                uriToFile(
+                    it,
+                    this@EditFosterActivity
+                ).reduceImageFile()
+            }?.path
 
             val data = PetAdoptItem(
-                fotoPet = image.toString(),
+                fotoPet = image,
                 umur = age.toInt(),
                 gender = gender,
                 ras = rasPet,
@@ -222,23 +259,37 @@ class EditFosterActivity : AppCompatActivity() {
 
     private fun updateResult() {
         fosterViewModel.detail.observe(this) {
-            when(it) {
-                is Resource.Loading -> { showLoading(true) }
+            when (it) {
+                is Resource.Loading -> {
+                    showLoading(true)
+                }
+
                 is Resource.Success -> {
                     showLoading(false)
-                    popUpDialog("Yeiy!", "Proses edit pet berhasil", R.drawable.alert_success)
+                    popUpDialog(
+                        "Yeiy!",
+                        "Pengeditan data berhasil",
+                        "Selamat! Data Anda telah berhasil diperbarui. Perubahan yang Anda lakukan telah disimpan dengan sukses.\n",
+                        R.drawable.alert_success
+                    )
                     Log.d("UpdatePet", "updateResult: ${it.data}")
                 }
+
                 is Resource.Error -> {
                     showLoading(false)
-                    popUpDialog("Yah!", "Proses edit pet gagal", R.drawable.alert_failed)
+                    popUpDialog(
+                        "Yah!",
+                        "Pengeditan data gagal",
+                        it.message,
+                        R.drawable.alert_failed
+                    )
                     Log.d("UpdatePet", "error: ${it.message}")
                 }
             }
         }
     }
 
-    private fun popUpDialog(title: String, desc: String, image: Int) {
+    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {
         val dialog = Dialog(this)
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -255,11 +306,13 @@ class EditFosterActivity : AppCompatActivity() {
             val imageView = dialog.findViewById<ImageView>(R.id.img_alert)
             val titleText = dialog.findViewById<TextView>(R.id.title_alert)
             val descText = dialog.findViewById<TextView>(R.id.desc_alert)
+            val subDescText = dialog.findViewById<TextView>(R.id.sub_desc_alert)
             val btnClose = dialog.findViewById<Button>(R.id.btnClose)
 
             imageView.setImageDrawable(ContextCompat.getDrawable(this@EditFosterActivity, image))
             titleText.text = title
             descText.text = desc
+            subDescText.text = subDesc
             btnClose.setOnClickListener {
                 dismiss()
                 startActivity(Intent(this@EditFosterActivity, FosterActivity::class.java))
@@ -271,5 +324,15 @@ class EditFosterActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        logoutDialog?.dismiss()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        logoutDialog?.dismiss()
     }
 }

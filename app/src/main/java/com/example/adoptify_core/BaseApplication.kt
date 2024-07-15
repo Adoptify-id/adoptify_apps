@@ -3,6 +3,7 @@ package com.example.adoptify_core
 import android.app.Application
 import com.example.adoptify_core.di.useCaseModule
 import com.example.adoptify_core.di.viewModelModule
+import com.example.core.di.databaseModule
 import com.example.core.di.networkModule
 import com.example.core.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
@@ -19,6 +20,7 @@ class BaseApplication : Application() {
             modules(
                 listOf(
                     networkModule,
+                    databaseModule,
                     repositoryModule,
                     useCaseModule,
                     viewModelModule,

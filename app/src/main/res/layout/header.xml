@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_header"
+    android:elevation="3dp"
     android:paddingBottom="30dp">
 
     <ImageView
@@ -14,6 +15,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="65dp"
         android:padding="12dp"
+        android:contentDescription="@string/button_back"
         android:background="@drawable/background_back_button_register"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

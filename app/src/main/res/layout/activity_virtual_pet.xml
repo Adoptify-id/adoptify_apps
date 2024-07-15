@@ -24,12 +24,13 @@
             android:id="@+id/txtVirtualPet"
             android:layout_width="247dp"
             android:layout_height="wrap_content"
-            android:textSize="48sp"
+            android:textSize="40sp"
             android:fontFamily="@font/plus_jakarta_sans_bold"
             android:letterSpacing="-0.03"
             android:textColor="@color/black"
             android:layout_marginTop="30dp"
             android:layout_marginStart="45dp"
+            android:layout_marginEnd="45dp"
             android:text="@string/virtual_pet_wellbeings"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header"/>
@@ -84,6 +85,7 @@
             android:layout_height="40dp"
             android:layout_marginEnd="45dp"
             android:layout_marginTop="80dp"
+            android:contentDescription="@string/button_add"
             android:src="@drawable/ic_add_orange"
             android:background="@drawable/background_add_btn"
             app:layout_constraintEnd_toEndOf="parent"
@@ -155,6 +157,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
+
+        <include
+            android:id="@+id/contentNull"
+            layout="@layout/empty_list_virtual_pet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/btnAdd"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

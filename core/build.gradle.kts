@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 apply(from = "../shared_dependencies.gradle")
@@ -49,6 +50,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.6")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.6")
     api("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+
+    //viewmodel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
 
     //data store
     implementation("androidx.datastore:datastore-preferences:1.0.0")

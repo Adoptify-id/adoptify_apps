@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "205778539738",
+    "project_id": "adoptify-417904",
+    "storage_bucket": "adoptify-417904.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205778539738:android:df9736a29ab6ee24f781e3",
+        "android_client_info": {
+          "package_name": "com.adoptify_core.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOSuIR-5-cMEvSDUpWW2mW8VZ8sgO1MLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

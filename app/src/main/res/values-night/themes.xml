@@ -2,6 +2,40 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Adoptify_core" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/primaryColor</item>
+    </style>
+
+    <style name="Theme.Adoptify_core" parent="Base.Theme.Adoptify_core" />
+
+    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontFamily">@font/plus_jakarta_sans_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DetailPetImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomLeft">20dp</item>
+        <item name="cornerSizeBottomRight">20dp</item>
+    </style>
+
+    <style name="AddedImageVirtualPet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15dp</item>
+    </style>
+
+    <style name="TabFont" parent="TextAppearance.Design.Tab">
+        <item name="android:fontFamily">@font/plus_jakarta_sans_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="AddedImagePickup" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50dp</item>
+    </style>
+
+    <style name="PreviewImagePickup" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">35dp</item>
     </style>
 </resources>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundScreen"
+    tools:context=".ui.adopt.submission.SubmissionAdoptActivity">
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/header" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_bold"
+        android:textColor="@color/blackText"
+        android:textSize="18sp"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="30dp"
+        android:text="Daftar Pengajuan Adopsi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"/>
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="12sp"
+        android:textColor="#A5A5A5"
+        android:text="Ajuan adopsi hewan peliharaan oleh pengguna"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
+
+    <HorizontalScrollView
+        android:id="@+id/scroll_radio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="30dp"
+        android:scrollbars="none"
+        app:layout_constraintStart_toStartOf="@id/desc"
+        app:layout_constraintTop_toBottomOf="@id/desc">
+
+        <LinearLayout
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/radio_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_semua"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="10dp"
+                    android:text="Semua"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="11sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_disetujui"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:paddingHorizontal="25dp"
+                    android:paddingVertical="10dp"
+                    android:text="Disetujui"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="11sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_belum_bayar"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:paddingHorizontal="25dp"
+                    android:paddingVertical="10dp"
+                    android:text="Belum Bayar"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="11sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_sudah_bayar"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:paddingHorizontal="25dp"
+                    android:paddingVertical="10dp"
+                    android:text="Sudah Bayar"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="11sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_pickup"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:paddingHorizontal="25dp"
+                    android:paddingVertical="10dp"
+                    android:text="Pickup"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="11sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_ditolak"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:paddingHorizontal="25dp"
+                    android:paddingVertical="10dp"
+                    android:text="Ditolak"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="11sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_selesai"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="10dp"
+                    android:text="Selesai"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="11sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_cancel"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="10dp"
+                    android:text="Cancel"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="11sp" />
+
+            </RadioGroup>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_submission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scroll_radio"
+        tools:listitem="@layout/list_submission_adopt"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/primaryColor"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <include
+        android:id="@+id/contentNull"
+        layout="@layout/empty_list_virtual_pet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scroll_radio" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

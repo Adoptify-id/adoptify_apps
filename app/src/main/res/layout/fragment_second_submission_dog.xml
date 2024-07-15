@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white"
+    tools:context=".ui.adopt.process.dog.SecondSubmissionDogFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="5dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/txtPersonalData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/plus_jakarta_sans_extra"
+                android:text="Formulir Pengajuan"
+                android:textColor="@color/blackText"
+                android:textSize="28sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/status_adopt"
+                layout="@layout/status_bar_adopt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtPersonalData" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtFood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Jenis makanan apa yang akan kamu\nberikan?"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/foodEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtFood">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/foodEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="25dp"
+            android:background="#E0E0E0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/foodEditTextLayout" />
+
+        <TextView
+            android:id="@+id/txtMerk"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Apakah ada merk tertentu jika makanan anjing yang diberikan adalah makanan instant?"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/merkEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMerk">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/merkEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="25dp"
+            android:background="#E0E0E0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/merkEditTextLayout" />
+
+        <TextView
+            android:id="@+id/txtDrink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Bersediakah kamu memberikan kebutuhan\npakan dengan tepat waktu pada anjing?"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/drinkEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDrink">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/drinkEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="25dp"
+            android:background="#E0E0E0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/drinkEditTextLayout" />
+
+        <TextView
+            android:id="@+id/txtCage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Apakah kamu berencana untuk mema-\nsukkan anjing ke dalam kandang?"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line2" />
+
+        <LinearLayout
+            android:id="@+id/radio_cage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtCage">
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:orientation="vertical"
+                tools:ignore="HardcodedText">
+
+                <RadioButton
+                    android:id="@+id/radio_all_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:layout_marginBottom="@dimen/radio_button_margin_bottom"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:text="Ya, sepanjang hari."
+                    android:textColor="@color/blackText" />
+
+                <RadioButton
+                    android:id="@+id/radio_sometimes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/radio_button_margin_bottom"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:text="Ya, hanya pada waktu-waktu tertentu saja."
+                    android:textColor="@color/blackText" />
+
+                <RadioButton
+                    android:id="@+id/radio_no_activity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/radio_button_margin_bottom"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:text="Tidak, anjing bebas bergerak atau beraktivitas di dalam rumah sepanjang hari."
+                    android:textColor="@color/blackText" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Yang lain:"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_cage" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/otherEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtOther">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/otherEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="25dp"
+            android:background="#E0E0E0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/otherEditTextLayout" />
+
+        <TextView
+            android:id="@+id/txtVaccine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Apakah Anda bersedia untuk memenuhi\nkebutuhan vaksinasi lengkap yang dila-\nkukan rutin per tahun?"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line3" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/vaccineEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtVaccine">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/vaccineEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/descVaccine"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="*Usia 6-8 minggu: Vaksin DHPP (Distemper, Hepatitis, Parvovirus, dan Parainfluenza)\n*Usia 10-12 minggu: Vaksin DHPP kedua\n*Usia 16-18 minggu: Vaksin Rabies dan DHPP ketiga\n*Usia 1 tahun: Vaksin Rabies booster dan vaksin inti lainnya sesuai rekomendasi dokter hewan\n*Harga beragam, tetapi kisaran 50k-100k per dosis di klinik hewan pemerintah dan 100k-200k per dosis di klinik hewan swasta"
+            android:textColor="#8F8F8F"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/vaccineEditTextLayout"
+            app:layout_constraintStart_toStartOf="@id/vaccineEditTextLayout"
+            app:layout_constraintTop_toBottomOf="@id/vaccineEditTextLayout" />
+
+        <View
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="25dp"
+            android:background="#E0E0E0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descVaccine" />
+
+        <TextView
+            android:id="@+id/txtMedicine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Apakah kamu bersedia &amp; mampu mem-\nberikan obat cacing &amp; kutu rutin 1-3 bulan\nsekali ?"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line4" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/medicineEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMedicine">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/medicineEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/descMedicine"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:lineSpacingExtra="4dp"
+            android:text="* Sebagai gambaran\n\t-1 tablet obat cacing Merk Drontal Plus untuk BB Anjing 10 Kg adalah 20k-25k.\n\t-1 Pipet Obat tetes Kutu Merk Frontline Spot on Dogs BB Anjing minimal 2 kg adalah 150k-250k."
+            android:textColor="#8F8F8F"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/medicineEditTextLayout"
+            app:layout_constraintStart_toStartOf="@id/medicineEditTextLayout"
+            app:layout_constraintTop_toBottomOf="@id/medicineEditTextLayout" />
+
+        <View
+            android:id="@+id/line5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="25dp"
+            android:background="#E0E0E0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descMedicine" />
+
+        <TextView
+            android:id="@+id/txtPrivacy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Apakah Anda bersedia memenuhi kebut-\nuhan  kesehatan rutin anjing seperti medical check up?"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line5" />
+
+        <LinearLayout
+            android:id="@+id/radioGroupPrivacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtPrivacy">
+
+            <RadioGroup
+                android:id="@+id/radio_privacy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_yes"
+                    android:layout_width="155dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_regular"
+                    android:paddingHorizontal="32dp"
+                    android:paddingVertical="8dp"
+                    android:text="Ya"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_no"
+                    android:layout_width="155dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_regular"
+                    android:paddingHorizontal="32dp"
+                    android:paddingVertical="8dp"
+                    android:text="Tidak"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="16sp" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="25dp"
+            android:background="#E0E0E0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radioGroupPrivacy" />
+
+        <TextView
+            android:id="@+id/txtMove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Apa yang akan Anda lakukan terhadap\nanjing yang Anda adopsi, jika Anda harus\npindah kota/ liburan/perjalanan dinas?"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line6" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/moveEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMove">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/moveEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/line7"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="25dp"
+            android:background="#E0E0E0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/moveEditTextLayout" />
+
+        <TextView
+            android:id="@+id/txtNews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Apakah Anda bersedia untuk kami hubungi\nsewaktu-waktu, untuk menanyakan kabar\ndan informasi terbaru terkait anjing yang\nakan diadopsi?"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line7" />
+
+        <LinearLayout
+            android:id="@+id/radioGroupNews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtNews">
+
+            <RadioGroup
+                android:id="@+id/radio_news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_news_yes"
+                    android:layout_width="155dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_regular"
+                    android:paddingHorizontal="32dp"
+                    android:paddingVertical="8dp"
+                    android:text="Ya"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/radio_news_no"
+                    android:layout_width="155dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@android:color/transparent"
+                    android:fontFamily="@font/plus_jakarta_sans_regular"
+                    android:paddingHorizontal="22dp"
+                    android:paddingVertical="8dp"
+                    android:text="Tidak"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/text_selector"
+                    android:textSize="16sp" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line8"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="25dp"
+            android:background="#E0E0E0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radioGroupNews" />
+
+        <TextView
+            android:id="@+id/txtCare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Perlengkapan perawatan hewan anjing\nyang sudah Anda dimiliki:"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line8" />
+
+        <CheckBox
+            android:id="@+id/checkBoxPetCargo"
+            app:layout_constraintTop_toBottomOf="@id/txtCare"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/background_radio_vaksin"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_vaksinasi"
+            android:drawablePadding="@dimen/radio_button_padding_horizontal"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:paddingLeft="@dimen/radio_button_padding_horizontal"
+            android:paddingRight="@dimen/radio_button_padding_horizontal"
+            android:text="Pet Cargo sesuai ukuran anjing"
+            android:textColor="@color/blackText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <CheckBox
+            android:id="@+id/checkBoxTempatMakanMinum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:background="@drawable/background_radio_vaksin"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_vaksinasi"
+            android:drawablePadding="@dimen/radio_button_padding_horizontal"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:paddingLeft="@dimen/radio_button_padding_horizontal"
+            android:paddingRight="@dimen/radio_button_padding_horizontal"
+            android:text="Tempat makan &amp; minum."
+            android:textColor="@color/blackText"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxPetCargo"/>
+
+        <CheckBox
+            android:id="@+id/checkBoxLitterBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:background="@drawable/background_radio_vaksin"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_vaksinasi"
+            android:drawablePadding="@dimen/radio_button_padding_horizontal"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:paddingLeft="@dimen/radio_button_padding_horizontal"
+            android:paddingRight="@dimen/radio_button_padding_horizontal"
+            android:text="Tempat buang air anjing (underpad/pee tray/litter box)"
+            android:textColor="@color/blackText"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxTempatMakanMinum"/>
+
+        <CheckBox
+            android:id="@+id/checkBoxMainanKucing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:background="@drawable/background_radio_vaksin"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_vaksinasi"
+            android:drawablePadding="@dimen/radio_button_padding_horizontal"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:paddingLeft="@dimen/radio_button_padding_horizontal"
+            android:paddingRight="@dimen/radio_button_padding_horizontal"
+            android:text="Mainan anjing."
+            android:textColor="@color/blackText"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxLitterBox"/>
+
+        <CheckBox
+            android:id="@+id/checkBoxPerlengkapanMandi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:background="@drawable/background_radio_vaksin"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_vaksinasi"
+            android:drawablePadding="@dimen/radio_button_padding_horizontal"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:paddingLeft="@dimen/radio_button_padding_horizontal"
+            android:paddingRight="@dimen/radio_button_padding_horizontal"
+            android:text="Perlengkapan mandi (Shampoo, Sisir, dll)."
+            android:textColor="@color/blackText"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxMainanKucing"/>
+
+        <CheckBox
+            android:id="@+id/checkBoxBelumAda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:background="@drawable/background_radio_vaksin"
+            android:button="@null"
+            android:drawableLeft="@drawable/radio_vaksinasi"
+            android:drawablePadding="@dimen/radio_button_padding_horizontal"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:paddingLeft="@dimen/radio_button_padding_horizontal"
+            android:paddingRight="@dimen/radio_button_padding_horizontal"
+            android:text="Belum ada."
+            android:textColor="@color/blackText"
+            app:backgroundTint="#FFF6EA"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxPerlengkapanMandi"/>
+
+
+        <LinearLayout
+            android:id="@+id/layout_warning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/background_add_btn"
+            android:orientation="horizontal"
+            android:paddingVertical="20dp"
+            android:paddingStart="20dp"
+            app:backgroundTint="#F4FFEA"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxBelumAda">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/warning" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:lineSpacingExtra="4dp"
+                android:text="Harap periksa dan teliti lagi data yang telah\nkamu masukkan agar tidak terjadi kesalahan\natau kekeliruan saat menyimpan data."
+                android:textColor="#797979"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/background_back_button_adopt"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="@string/back"
+            android:textColor="#979797"
+            app:backgroundTint="#E2E2E2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnNext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_warning" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/background_next_button_adopt"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Lanjutkan"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/primaryColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintTop_toBottomOf="@id/layout_warning" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

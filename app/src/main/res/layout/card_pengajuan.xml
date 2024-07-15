@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="215dp"
+    android:background="@drawable/background_history_card">
+
+    <ImageView
+        android:id="@+id/ic_calendar"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/calendar"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="15dp"
+        android:fontFamily="@font/plus_jakarta_sans_regular"
+        android:textSize="10sp"
+        android:textColor="#A5A5A5"
+        android:text="Tanggal Pengajuan"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ic_calendar"/>
+
+    <TextView
+        android:id="@+id/dateRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_bold"
+        android:textSize="10sp"
+        android:textColor="@color/blackText"
+        android:text="Senin, 15 April 2024"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        app:layout_constraintStart_toStartOf="@id/date"/>
+
+    <include
+        android:id="@+id/card_indicator"
+        android:layout_width="95dp"
+        android:layout_height="25dp"
+        layout="@layout/card_indicator"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toTopOf="@id/ic_calendar"
+        app:layout_constraintBottom_toBottomOf="@id/ic_calendar"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E2E2E2"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/dateRequest"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgPet"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/adopt_virtual_dog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        app:shapeAppearanceOverlay="@style/AddedImageVirtualPet" />
+
+    <TextView
+        android:id="@+id/txtNamePet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/plus_jakarta_sans_bold"
+        android:text="Milo"
+        android:textColor="@color/blackText"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/imgPet"
+        app:layout_constraintTop_toTopOf="@id/imgPet" />
+
+    <TextView
+        android:id="@+id/txtDescPet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="Hewan Kucing - Ras Devon Rex"
+        android:textColor="#B3B3B3"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@id/txtNamePet"
+        app:layout_constraintTop_toBottomOf="@id/txtNamePet" />
+
+    <ImageView
+        android:id="@+id/side_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/side_detail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgPet"/>
+
+    <TextView
+        android:id="@+id/txtKode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:textSize="11sp"
+        android:textColor="@color/blackText"
+        android:layout_marginStart="25dp"
+        android:text="Kode Pengajuan"
+        app:layout_constraintTop_toTopOf="@id/side_detail"
+        app:layout_constraintBottom_toBottomOf="@id/side_detail"
+        app:layout_constraintStart_toEndOf="@id/side_detail"/>
+
+    <TextView
+        android:id="@+id/request_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PERMIN/JHAKSJA/2024"
+        android:textColor="#A5A5A5"
+        android:textSize="12sp"
+        android:layout_marginEnd="20dp"
+        android:maxLines="1"
+        app:layout_constraintTop_toTopOf="@id/txtKode"
+        app:layout_constraintBottom_toBottomOf="@id/txtKode"
+        android:fontFamily="@font/plus_jakarta_sans_regular"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,12 +3,11 @@ package com.example.adoptify_core.ui.adopt.list
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.FragmentListPetBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
 import com.example.adoptify_core.ui.adopt.detail.DetailAdoptActivity
@@ -45,6 +44,7 @@ class ListPetFragment : Fragment() {
         initData()
         getToken()
         setupView()
+
     }
 
     private fun setupView() {
@@ -62,7 +62,7 @@ class ListPetFragment : Fragment() {
         loginViewModel.getSession()
     }
 
-    private fun showRecylerView() {
+    private fun showRecyclerView() {
         listFragment.rvPet.apply {
             adapter = PetItemAdapter(filteredData) {
                 val intent = Intent(requireContext(), DetailAdoptActivity::class.java)
@@ -75,19 +75,21 @@ class ListPetFragment : Fragment() {
         }
     }
 
+
     private fun showLoading(isLoading: Boolean) {
         listFragment.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun getToken() {
         loginViewModel.token.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
                 is Resource.Loading -> showLoading(true)
                 is Resource.Success -> {
                     showLoading(false)
                     token = it.data
                     adoptViewModel.getListPet(token)
                 }
+
                 is Resource.Error -> {
                     showLoading(false)
                     Log.d("AdoptFragment", "error: ${it.message}")
@@ -98,21 +100,36 @@ class ListPetFragment : Fragment() {
 
     private fun getListPet(category: String) {
         adoptViewModel.data.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
                 is Resource.Loading -> showLoading(true)
                 is Resource.Success -> {
                     showLoading(false)
                     dataPet = it.data
-                    filteredData = dataPet.filter { it.kategori == category }
-                    Log.d("AdoptFragment", "data: $filteredData")
-                    showRecylerView()
+                    Log.d("AdoptFragment", "sebelum filter: ${it.data}")
+                    if (dataPet.isNotEmpty()) {
+                        showContent(false)
+                        filteredData = dataPet.filter { it.kategori == category && it.isAdopt == false }
+                        Log.d("AdoptFragment", "data: $filteredData")
+                        showRecyclerView()
+                    } else {
+                        showContent(true)
+                    }
                 }
+
                 is Resource.Error -> {
                     showLoading(false)
+                    showContent(true)
                     Log.d("AdoptFragment", "error: ${it.message}")
                 }
             }
         }
+    }
+
+    private fun showContent(isShowing: Boolean) {
+        listFragment.contentNull.layout.visibility = if (isShowing) View.VISIBLE else View.GONE
+        listFragment.contentNull.txtDesc.text = "Maaf, data pet Anda tidak tersedia. Coba muat ulang atau periksa kembali nanti."
+
+        listFragment.contentNull.btnClose.visibility = View.GONE
     }
 
     override fun onDestroyView() {

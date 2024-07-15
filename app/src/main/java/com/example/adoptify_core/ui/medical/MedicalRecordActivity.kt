@@ -2,17 +2,26 @@ package com.example.adoptify_core.ui.medical
 
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityMedicalRecordBinding
+import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.medical.record.RecordActivity
 import com.example.adoptify_core.ui.medical.vaksinasi.VaksinasiActivity
 import com.example.core.data.Resource
@@ -20,13 +29,12 @@ import com.example.core.domain.model.ListMedicalItem
 import com.example.core.domain.model.MedicalItem
 import com.example.core.domain.model.VaksinasiData
 import com.example.core.ui.MedicalRecordAdapter
-import com.example.core.utils.formatDateString
+import com.example.core.utils.ForceLogout
+import com.example.core.utils.SessionViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.lang.IllegalArgumentException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import kotlin.properties.Delegates
 
 @RequiresApi(Build.VERSION_CODES.Q)
 class MedicalRecordActivity : AppCompatActivity() {
@@ -34,12 +42,15 @@ class MedicalRecordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMedicalRecordBinding
 
     private val medicalViewModel: MedicalRecordViewModel by viewModel()
+    private val sessionViewModel: SessionViewModel by viewModel()
 
-    private lateinit var token: String
-    private var userId by Delegates.notNull<Int>()
+    private var token: String? = null
+    private var userId: Int? = null
 
     private var dataVaksinasi: List<VaksinasiData> = listOf()
     private var dataMedical: List<MedicalItem> = listOf()
+
+    private var logoutDialog: Dialog? = null
 
     private lateinit var medicalRecordAdapter: MedicalRecordAdapter
 
@@ -57,8 +68,7 @@ class MedicalRecordActivity : AppCompatActivity() {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                initData()
-                getVaksinasi()
+                observeData()
             }
         }
 
@@ -66,69 +76,122 @@ class MedicalRecordActivity : AppCompatActivity() {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                initData()
+                observeData()
+            }
+        }
+
+        observeData()
+        setupObserver()
+        setupListener()
+    }
+
+
+    private fun observeData() {
+        sessionViewModel.token.observe(this) {
+            token = it
+            if (token != null && userId != null) {
+                getVaksinasi()
                 getMedicalRecord()
             }
         }
 
-        initData()
-        getVaksinasi()
-        getMedicalRecord()
-        setupListener()
-    }
-
-    private fun initData() {
-        token = intent?.getStringExtra("token") ?: ""
-        userId = intent.getIntExtra("userId",0)
-        Log.d("Vaksinasi", "initData: $token and $userId")
-        medicalViewModel.getVaksinasi(token, userId)
-        medicalViewModel.getMedicalRecord(token, userId)
-    }
-
-    private fun getVaksinasi() {
-        medicalViewModel.vaksinasi.observe(this) {
-            when(it) {
-                is Resource.Loading -> { showLoading(true) }
-                is Resource.Success -> {
-                    showLoading(false)
-                    dataVaksinasi = it.data
-                    combinedData.addAll(dataVaksinasi.map { data -> ListMedicalItem.VaksinasiItem(data) })
-                    updateCombinedData()
-                    Log.d("Vaksinasi", "data: $dataVaksinasi")
-                }
-                is Resource.Error -> {
-                    showLoading(false)
-                    Log.d("Vaksinasi", "error: ${it.message}")
-                }
+        sessionViewModel.userId.observe(this) {
+            userId = it
+            if (token != null && userId != null) {
+                getVaksinasi()
+                getMedicalRecord()
             }
         }
     }
 
-    private fun getMedicalRecord() {
-        medicalViewModel.medical.observe(this) {
-            when(it) {
-                is Resource.Loading -> { showLoading(true) }
+    private fun forceLogout() {
+        ForceLogout.logoutLiveData.observe(this) {
+            showLogoutDialog()
+        }
+    }
+
+    private fun showLogoutDialog() {
+        logoutDialog = Dialog(this).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.modal_session_expired)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            //set width height card
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+
+            val btnLogin = findViewById<Button>(R.id.btnReload)
+            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@MedicalRecordActivity, R.color.primary_color_foster)
+
+            btnLogin.setOnClickListener { navigateToLogin() }
+            show()
+        }
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+
+    private fun setupObserver() {
+        medicalViewModel.vaksinasi.observe(this) {
+            when (it) {
+                is Resource.Loading -> {
+                    showLoading(true)
+                }
                 is Resource.Success -> {
                     showLoading(false)
-                    dataMedical = it.data
-                    combinedData.addAll(dataMedical.map { data -> ListMedicalItem.MedicalData(data) })
+                    dataVaksinasi = it.data ?: listOf()
                     updateCombinedData()
-                    Log.d("MedicalRecord", "data: ${it.data}")
-
+                    binding.swipeRefresh.isRefreshing = false
                 }
                 is Resource.Error -> {
                     showLoading(false)
+                    checkContent()
+                    binding.swipeRefresh.isRefreshing = false
+                    Log.d("Vaksinasi", "error: ${it.message}")
+                }
+            }
+        }
+
+        medicalViewModel.medical.observe(this) {
+            when (it) {
+                is Resource.Loading -> {
+                    showLoading(true)
+                }
+                is Resource.Success -> {
+                    showLoading(false)
+                    dataMedical = it.data ?: listOf()
+
+                    updateCombinedData()
+                    binding.swipeRefresh.isRefreshing = false
+                }
+                is Resource.Error -> {
+                    showLoading(false)
+                    checkContent()
+                    binding.swipeRefresh.isRefreshing = false
                     Log.d("MedicalRecord", "error: ${it.message}")
                 }
             }
         }
     }
 
+    private fun getVaksinasi() {
+        medicalViewModel.getVaksinasi(token!!, userId!!)
+    }
+
+    private fun getMedicalRecord() {
+        medicalViewModel.getMedicalRecord(token!!, userId!!)
+    }
     private fun updateCombinedData() {
         combinedData.clear()
         combinedData.addAll(dataVaksinasi.map { data -> ListMedicalItem.VaksinasiItem(data) })
         combinedData.addAll(dataMedical.map { data -> ListMedicalItem.MedicalData(data) })
         showRecylerView()
+        checkContent()
     }
 
     private fun sortItemMedicalRecord(): List<ListMedicalItem> {
@@ -136,10 +199,10 @@ class MedicalRecordActivity : AppCompatActivity() {
         val today = Calendar.getInstance()
         val yesterday = Calendar.getInstance().apply { add(Calendar.DATE, -1) }
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val fullDateFormat = SimpleDateFormat("EEEE, d MMMM yyyy", Locale("id","ID"))
+        val fullDateFormat = SimpleDateFormat("EEEE, d MMMM yyyy", Locale("id", "ID"))
 
         val sortedData = combinedData.sortedByDescending {
-            when(it) {
+            when (it) {
                 is ListMedicalItem.VaksinasiItem -> parseDateToLong(it.data.created_at)
                 is ListMedicalItem.MedicalData -> parseDateToLong(it.data.createdAt)
                 else -> 0L
@@ -185,17 +248,26 @@ class MedicalRecordActivity : AppCompatActivity() {
         binding.apply {
             cardMedical.btnMedical.setOnClickListener {
                 val intent = Intent(this@MedicalRecordActivity, RecordActivity::class.java)
-                intent.putExtra("token", token)
-                intent.putExtra("userId", userId)
                 medicalActivityLauncher.launch(intent)
             }
             cardMedical.btnVaksinasi.setOnClickListener {
                 val intent = Intent(this@MedicalRecordActivity, VaksinasiActivity::class.java)
-                intent.putExtra("token", token)
-                intent.putExtra("userId", userId)
                 vaksinasiActivityLauncher.launch(intent)
             }
+
+            icArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+
+            swipeRefresh.setOnRefreshListener {
+                observeData()
+                getVaksinasi()
+                getMedicalRecord()
+            }
         }
+    }
+
+    private fun checkContent() {
+        val isDataEmpty = dataVaksinasi.isEmpty() && dataMedical.isEmpty()
+        showContent(isDataEmpty)
     }
 
     private fun showRecylerView() {
@@ -204,12 +276,35 @@ class MedicalRecordActivity : AppCompatActivity() {
         binding.rvActivity.apply {
             layoutManager = LinearLayoutManager(this@MedicalRecordActivity)
             setHasFixedSize(true)
-            adapter = this@MedicalRecordActivity.medicalRecordAdapter
-            medicalRecordAdapter.notifyDataSetChanged()
+            adapter = medicalRecordAdapter
+        }
+    }
+
+    private fun showContent(isShowing: Boolean) {
+        binding.contentNull.apply {
+            layout.visibility = if (isShowing) View.VISIBLE else View.GONE
+            btnClose.visibility = View.GONE
+            txtDesc.text = "Maaf, data medical record Anda tidak tersedia. Coba muat ulang atau periksa kembali nanti."
         }
     }
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getVaksinasi()
+        getMedicalRecord()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        logoutDialog?.dismiss()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        logoutDialog?.dismiss()
     }
 }

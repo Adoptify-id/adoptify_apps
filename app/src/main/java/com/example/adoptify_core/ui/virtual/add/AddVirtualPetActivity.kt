@@ -1,29 +1,38 @@
 package com.example.adoptify_core.ui.virtual.add
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
+import android.view.LayoutInflater
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.RadioButton
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityAddVirtualPetBinding
+import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.virtual.VirtualPetViewModel
-import com.example.adoptify_core.ui.virtual.main.VirtualPetActivity
 import com.example.core.data.Resource
 import com.example.core.domain.model.AddVirtualPetItem
+import com.example.core.utils.ForceLogout
+import com.example.core.utils.SessionViewModel
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
 import org.koin.android.viewmodel.ext.android.viewModel
-import kotlin.properties.Delegates
 
 @RequiresApi(Build.VERSION_CODES.Q)
 class AddVirtualPetActivity : AppCompatActivity() {
@@ -31,6 +40,8 @@ class AddVirtualPetActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddVirtualPetBinding
 
     private var currentUriImage: Uri? = null
+
+    private var progressDialog: Dialog? = null
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         currentUriImage = it
@@ -41,21 +52,65 @@ class AddVirtualPetActivity : AppCompatActivity() {
         }
     }
 
+    private var logoutDialog: Dialog? = null
+
     private val virtualPetViewModel: VirtualPetViewModel by viewModel()
-    private lateinit var token: String
-    private var userId by Delegates.notNull<Int>()
+    private val sessionViewModel: SessionViewModel by viewModel()
+    private var token: String? = null
+    private var userId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddVirtualPetBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        observeData()
         setupView()
         setupListener()
         validateForm()
+        forceLogout()
         addVirtualPetResult()
     }
 
+    private fun observeData() {
+        sessionViewModel.token.observe(this) {
+            token = it
+        }
+        sessionViewModel.userId.observe(this) {
+            userId = it
+        }
+    }
+
+    private fun forceLogout() {
+        ForceLogout.logoutLiveData.observe(this) {
+            showLogoutDialog()
+        }
+    }
+
+    private fun showLogoutDialog() {
+        logoutDialog = Dialog(this).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.modal_session_expired)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            //set width height card
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+
+            val btnLogin = findViewById<Button>(R.id.btnReload)
+
+            btnLogin.setOnClickListener { navigateToLogin() }
+            show()
+        }
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
 
     private fun setupListener() {
         binding.apply {
@@ -82,19 +137,14 @@ class AddVirtualPetActivity : AppCompatActivity() {
             }
 
             btnSave.setOnClickListener { virtualPetHandler() }
-            header.btnBack.setOnClickListener { onBackPressed() }
+            header.btnBack.setOnClickListener {  onBackPressedDispatcher.onBackPressed() }
         }
     }
 
     private fun setupView() {
         binding.header.txtBookmark.text = resources.getString(R.string.virtual_pet)
-
         binding.nameEditText.addTextChangedListener(textWatcher)
         binding.ageEditText.addTextChangedListener(textWatcher)
-
-        token = intent?.getStringExtra("token") ?: ""
-        userId = intent.getIntExtra("userId", 0)
-        Log.d("AddVirtualPetActivity", "userId: $userId")
     }
 
     private fun validateForm() {
@@ -137,7 +187,7 @@ class AddVirtualPetActivity : AppCompatActivity() {
             val agePet = ageEditText.text.toString()
             val beratPet = weightEditText.text.toString()
             val imageFile =
-                currentUriImage?.let { uriToFile(it, this@AddVirtualPetActivity).reduceImageFile() }
+                currentUriImage?.let { uriToFile(it, this@AddVirtualPetActivity).reduceImageFile() }?.path
 
             val item = AddVirtualPetItem(
                 name = namePet,
@@ -150,7 +200,7 @@ class AddVirtualPetActivity : AppCompatActivity() {
                 user_id = userId
             )
 
-            virtualPetViewModel.insertVirtualPet(token, item)
+            virtualPetViewModel.insertVirtualPet(token!!, item)
         }
     }
 
@@ -170,6 +220,7 @@ class AddVirtualPetActivity : AppCompatActivity() {
 
                 is Resource.Error -> {
                     showLoading(false)
+                    popUpDialog("Yah!", "Penambahan data virtual pet gagal", it.message, R.drawable.alert_failed)
                     Log.d("AddVirtualPetActivity", "error: ${it.message}")
                 }
 
@@ -189,7 +240,67 @@ class AddVirtualPetActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) progressBarDialog() else dismissProgressDialog()
     }
 
+    private fun progressBarDialog() {
+        if (progressDialog == null) {
+            progressDialog = Dialog(this).apply {
+                val view = LayoutInflater.from(this@AddVirtualPetActivity).inflate(R.layout.dialog_progress, null)
+                setContentView(view)
+                setCancelable(false)
+                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
+        }
+        progressDialog?.show()
+    }
+
+    private fun dismissProgressDialog() {
+        progressDialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
+            }
+        }
+    }
+
+    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {
+        val dialog = Dialog(this)
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.alert_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            //set width height card
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+
+            val imageView = dialog.findViewById<ImageView>(R.id.img_alert)
+            val titleText = dialog.findViewById<TextView>(R.id.title_alert)
+            val descText = dialog.findViewById<TextView>(R.id.desc_alert)
+            val subDescText = dialog.findViewById<TextView>(R.id.sub_desc_alert)
+            val btnClose = dialog.findViewById<Button>(R.id.btnClose)
+
+            imageView.setImageDrawable(ContextCompat.getDrawable(this@AddVirtualPetActivity, image))
+            titleText.text = title
+            descText.text = desc
+            subDescText.text = subDesc
+            btnClose.setOnClickListener { dismiss() }
+            show()
+        }
+    }
+
+    override fun onDestroy() {
+        dismissProgressDialog()
+        logoutDialog?.dismiss()
+        super.onDestroy()
+    }
+
+    override fun onPause() {
+        dismissProgressDialog()
+        logoutDialog?.dismiss()
+        super.onPause()
+    }
 }
+

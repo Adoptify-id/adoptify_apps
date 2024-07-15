@@ -4,10 +4,16 @@ import com.example.core.data.source.remote.response.AddMedicalResponse
 import com.example.core.data.source.remote.response.AddPetAdoptResponse
 import com.example.core.data.source.remote.response.AddVaksinasiResponse
 import com.example.core.data.source.remote.response.AddVirtualPetResponse
+import com.example.core.data.source.remote.response.DetailSubmissionFosterResponse
+import com.example.core.data.source.remote.response.DetailSubmissionResponse
+import com.example.core.data.source.remote.response.FormAdoptResponse
+import com.example.core.data.source.remote.response.FormDetailResponse
 import com.example.core.data.source.remote.response.LoginResponse
 import com.example.core.data.source.remote.response.MedicalRecordResponse
 import com.example.core.data.source.remote.response.PetAdoptResponse
 import com.example.core.data.source.remote.response.RegisterResponse
+import com.example.core.data.source.remote.response.SubmissionFosterResponse
+import com.example.core.data.source.remote.response.SubmissionPetResponse
 import com.example.core.data.source.remote.response.UserResponse
 import com.example.core.data.source.remote.response.VaksinasiResponse
 import com.example.core.data.source.remote.response.VirtualPetResponse
@@ -20,7 +26,6 @@ import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
-import retrofit2.http.Part
 import retrofit2.http.PartMap
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -128,5 +133,88 @@ interface ApiService {
         @Header("Authorization") token: String
     ) : LoginResponse
 
+    @Multipart
+    @POST("adopt/input")
+    suspend fun formAdopt(
+        @Header("Authorization") token: String,
+        @PartMap form : Map<String, @JvmSuppressWildcards RequestBody>
+    ) : FormAdoptResponse
 
+    @GET("adopt/list")
+    suspend fun getListSubmissionPet(
+        @Header("Authorization") token: String,
+        @Query("userId") userId: Int
+    ) : SubmissionPetResponse
+
+    @GET("adopt/detail")
+    suspend fun getDetailSubmissionPet(
+        @Header("Authorization") token: String,
+        @Query("reqId") reqId: Int
+    ) : DetailSubmissionResponse
+
+    @GET("foster/list")
+    suspend fun getListSubmissionFoster(
+        @Header("Authorization") token: String,
+        @Query("userId") userId: Int
+    ) : SubmissionFosterResponse
+
+    @GET("foster/reqDetail")
+    suspend fun detailSubmissionFoster(
+        @Header("Authorization") token: String,
+        @Query("reqId") reqId: Int
+    ) : DetailSubmissionFosterResponse
+
+    @FormUrlEncoded
+    @PUT("foster/isAdoptUpdate/{petId}")
+    suspend fun updateAdopt(
+        @Header("Authorization") token: String,
+        @Path("petId") petId: Int,
+        @Field("isAdopt") isAdopt: Boolean
+    ) : PetAdoptResponse
+
+    @FormUrlEncoded
+    @PUT("foster/statusReqUpdate/{reqId}")
+    suspend fun updateStatusReq(
+        @Header("Authorization") token: String,
+        @Path("reqId") reqId: Int,
+        @Field("statusReqId") statusReqId: Int
+    ) : FormDetailResponse
+
+    @Multipart
+    @PUT("adopt/payment/{reqId}")
+    suspend fun updatePaymentAdopt(
+        @Header("Authorization") token: String,
+        @Path("reqId") reqId: Int,
+        @PartMap payment: Map<String, @JvmSuppressWildcards RequestBody>
+    ) : FormDetailResponse
+
+    @FormUrlEncoded
+    @PUT("foster/statusPayUpdate/{reqId}")
+    suspend fun updateStatusPaymentFoster(
+        @Header("Authorization") token: String,
+        @Path("reqId") reqId: Int,
+        @Field("statusPaymentId") statusPaymentId: Int
+    ) : FormDetailResponse
+
+    @Multipart
+    @PUT("foster/statusPickup/{reqId}")
+    suspend fun updateStatusPickup(
+        @Header("Authorization") token: String,
+        @Path("reqId") reqId: Int,
+        @PartMap pickup: Map<String, @JvmSuppressWildcards RequestBody>
+    ) : FormDetailResponse
+
+    @FormUrlEncoded
+    @PUT("adopt/cancel/{reqId}")
+    suspend fun cancelAdoptUser(
+        @Header("Authorization") token: String,
+        @Path("reqId") reqId: Int,
+        @Field("statusReqId") statusReqId: Int
+    ) : FormDetailResponse
+
+    @GET("foster/formDetail")
+    suspend fun getFormDetail(
+        @Header("Authorization") token: String,
+        @Query("reqId") reqId: Int,
+    ) : FormDetailResponse
 }

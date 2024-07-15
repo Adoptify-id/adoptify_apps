@@ -1,8 +1,6 @@
 package com.example.core.domain.model
 
 import com.google.gson.annotations.SerializedName
-import okhttp3.RequestBody
-import java.io.File
 
 data class AddVirtualPet(
     val message: String
@@ -25,7 +23,7 @@ data class AddVirtualPetItem(
     val kategori: String,
 
     @field:SerializedName("fotoPet")
-    val fotoPet: File?,
+    val fotoPet: String?,
 
     @field:SerializedName("beratPet")
     val beratPet: Int,

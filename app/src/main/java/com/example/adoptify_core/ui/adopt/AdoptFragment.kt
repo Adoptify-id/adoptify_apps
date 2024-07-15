@@ -1,26 +1,16 @@
 package com.example.adoptify_core.ui.adopt
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.adoptify_core.R
+import androidx.fragment.app.Fragment
 import com.example.adoptify_core.databinding.FragmentAdoptBinding
-import com.example.adoptify_core.ui.adopt.detail.DetailAdoptActivity
 import com.example.adoptify_core.ui.adopt.list.ListPageAdapter
-import com.example.adoptify_core.ui.auth.login.LoginViewModel
-import com.example.adoptify_core.ui.main.MainViewModel
-import com.example.core.data.Resource
-import com.example.core.domain.model.DataAdopt
-import com.example.core.ui.PetItemAdapter
-import com.example.core.ui.VirtualPetAdapter
-import com.google.android.material.tabs.TabLayout
+import com.example.adoptify_core.ui.adopt.submission.SubmissionAdoptActivity
 import com.google.android.material.tabs.TabLayoutMediator
-import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class AdoptFragment : Fragment() {
@@ -29,15 +19,12 @@ class AdoptFragment : Fragment() {
 
     private val adoptFragment get() = _adoptFragment!!
 
-    private val adoptViewModel: AdoptViewModel by viewModel()
-    private val loginViewModel: LoginViewModel by viewModel()
     private val tabTitles = listOf(
         "Kucing",
         "Anjing"
     )
 
-    private var token = ""
-    private var dataPet: List<DataAdopt> = listOf()
+    private var logoutDialog: Dialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +46,13 @@ class AdoptFragment : Fragment() {
             }.attach()
         }
 
+        setupView()
+    }
+
+    private fun setupView() {
+        adoptFragment.headerAdopt.apply {
+            icAdopt.setOnClickListener { startActivity(Intent(requireContext(), SubmissionAdoptActivity::class.java)) }
+        }
     }
 
     override fun onDestroyView() {

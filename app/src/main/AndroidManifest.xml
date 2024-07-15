@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".BaseApplication"
@@ -16,6 +17,36 @@
         android:theme="@style/Theme.Adoptify_core"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.foster.upload.DetailPickupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.foster.upload.UploadPickupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.foster.form.ReviewFormActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.adopt.process.dog.ProcessAdoptDogActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.coming.ComingSoonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.adopt.status.StatusAdoptActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.foster.submission.DetailSubmissionFosterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.foster.submission.SubmissionFosterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.adopt.submission.DetailSubmissionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.adopt.submission.SubmissionAdoptActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.foster.profile.EditProfileFosterActivity"
             android:exported="false" />
@@ -44,7 +75,7 @@
             android:name=".ui.foster.FosterActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.adopt.process.ProcessAdoptActivity"
+            android:name=".ui.adopt.process.cat.ProcessAdoptActivity"
             android:exported="false" />
         <activity
             android:name=".ui.adopt.detail.DetailAdoptActivity"

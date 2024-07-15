@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:elevation="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/txtPersonalData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blackText"
+                android:textSize="28sp"
+                android:layout_gravity="center"
+                android:text="Formulir Pengajuan"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/plus_jakarta_sans_extra"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <include
+                android:id="@+id/status_adopt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/status_bar_adopt"
+                android:layout_marginVertical="30dp"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/txtPersonalData"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Bentuk tempat tinggal Anda:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header"/>
+
+        <LinearLayout
+            android:id="@+id/radio_cage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintTop_toBottomOf="@id/txtHome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/radioGroupTempatTinggal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:ignore="HardcodedText">
+
+                <RadioButton
+                    android:id="@+id/radioRumahPribadi"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Rumah pribadi."
+                    android:textColor="@color/blackText"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"/>
+
+                <RadioButton
+                    android:id="@+id/radioKontrakan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Kontrakan."
+                    android:textColor="@color/blackText"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"/>
+
+                <RadioButton
+                    android:id="@+id/radioKost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Kost."
+                    android:textColor="@color/blackText"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"/>
+
+                <RadioButton
+                    android:id="@+id/radioApartemen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Apartemen."
+                    android:textColor="@color/blackText"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Yang lain:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_cage"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/otherEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtOther"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/otherEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/otherEditTextLayout"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtAdopt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Dimanakah kucing yang akan Anda adopsi\nditempatkan nantinya?"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line3"/>
+
+        <LinearLayout
+            android:id="@+id/radio_adopt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintTop_toBottomOf="@id/txtAdopt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/radioGroupAdopt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:ignore="HardcodedText">
+
+                <RadioButton
+                    android:id="@+id/radioIndoor"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Indoor."
+                    android:textColor="@color/blackText"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"/>
+
+                <RadioButton
+                    android:id="@+id/radioSemiOutdoor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Semioutdoor."
+                    android:textColor="@color/blackText"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"/>
+
+                <RadioButton
+                    android:id="@+id/radioOutdoor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Outdoor."
+                    android:textColor="@color/blackText"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/radio_adopt"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtLive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Jika mengadopsi kucing dari kami, dimana\nkucing akan tinggal?"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line4"/>
+
+        <LinearLayout
+            android:id="@+id/radio_live"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintTop_toBottomOf="@id/txtLive"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/radioGroupLive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:ignore="HardcodedText">
+
+                <RadioButton
+                    android:id="@+id/radioIndoorRumah"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Indoor rumah (Seluruh ruangan yang ada di dalam rumah)"
+                    android:textColor="@color/blackText"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp" />
+
+
+                <RadioButton
+                    android:id="@+id/radioRuanganKucing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Ruangan kucing (Cat Room)"
+                    android:textColor="@color/blackText"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp" />
+
+                <RadioButton
+                    android:id="@+id/radioTeras"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Teras."
+                    android:textColor="@color/blackText"
+                    android:background="@drawable/background_radio_vaksin"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/radio_vaksinasi"
+                    android:drawablePadding="@dimen/radio_button_padding_horizontal"
+                    android:paddingLeft="@dimen/radio_button_padding_horizontal"
+                    android:paddingRight="@dimen/radio_button_padding_horizontal"
+                    android:fontFamily="@font/plus_jakarta_sans_medium"
+                    android:gravity="center_vertical"
+                    android:padding="16dp" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtOtherLive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Yang lain:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_live"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/otherLiveEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtOtherLive"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/otherLiveEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/line5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/otherLiveEditTextLayout"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtAdoptPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Apakah di lingkungan anda (radius 500m\ndari rumah anda) ada yang memelihara\nhewan peliharaan?"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line5"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/adoptPetEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtAdoptPet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/adoptPetEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/descAdoptPet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="12sp"
+            android:textColor="#8F8F8F"
+            android:text="* Jika ada sebutkan apa hewan itu."
+            app:layout_constraintTop_toBottomOf="@id/adoptPetEditTextLayout"
+            app:layout_constraintStart_toStartOf="@id/adoptPetEditTextLayout"
+            app:layout_constraintEnd_toEndOf="@id/adoptPetEditTextLayout"/>
+
+        <View
+            android:id="@+id/line6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/descAdoptPet"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Foto/video kondisi tempat\ntinggal, min. 5 foto/1 video"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line6"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/photoEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtPhoto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/photoEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Masukkan link google drive"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_warning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="40dp"
+            android:paddingVertical="20dp"
+            android:paddingStart="20dp"
+            android:background="@drawable/background_add_btn"
+            app:backgroundTint="#F4FFEA"
+            app:layout_constraintTop_toBottomOf="@id/photoEditTextLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/warning"
+                android:layout_marginEnd="12dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#797979"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:textSize="12sp"
+                android:lineSpacingExtra="4dp"
+                android:text="Harap periksa dan teliti lagi data yang telah\nkamu masukkan agar tidak terjadi kesalahan\natau kekeliruan saat menyimpan data."/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="@string/back"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="30dp"
+            app:backgroundTint="#E2E2E2"
+            android:textColor="#979797"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:background="@drawable/background_back_button_adopt"
+            app:layout_constraintEnd_toStartOf="@id/btnNext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_warning"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="Ajukan Adopsi"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            app:backgroundTint="@color/primaryColor"
+            android:layout_marginBottom="30dp"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:background="@drawable/background_next_button_adopt"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_warning"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.welcome.WelcomeActivity">
 
     <androidx.viewpager2.widget.ViewPager2
@@ -18,10 +19,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
-        android:layout_marginStart="90dp"
+        android:layout_marginStart="100dp"
         app:dotsColor="@color/dotNotSelected"
         app:dotsCornerRadius="18dp"
         app:dotsSize="9dp"
+        android:contentDescription="@string/page_navigation"
         app:dotsSpacing="5dp"
         app:dotsWidthFactor="2.0"
         app:selectedDotColor="@color/primaryColor"

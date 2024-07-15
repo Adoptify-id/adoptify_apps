@@ -8,42 +8,46 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.provider.MediaStore.Audio.Radio
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityVaksinasiBinding
-import com.example.adoptify_core.ui.medical.MedicalRecordActivity
+import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.medical.MedicalRecordViewModel
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.VaksinasiItem
-import org.koin.android.ext.android.bind
+import com.example.core.utils.ForceLogout
+import com.example.core.utils.SessionViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.properties.Delegates
 
 class VaksinasiActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityVaksinasiBinding
     private val medicalViewModel: MedicalRecordViewModel by viewModel()
+    private val sessionViewModel: SessionViewModel by viewModel()
+    private var progressDialog: Dialog? = null
     var valueDate = ""
     var titleDialog = ""
     var petVaksin = mutableListOf("Distemper", "Parvovirus", "Hepatitis", "Rabies", "Leptospira", "Parainfluenza", "Bordetella")
     var vaksinSelected = ""
-    private lateinit var token: String
-    private var userId by Delegates.notNull<Int>()
+    private var token: String? = null
+    private var userId: Int? = null
+    private var logoutDialog: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +55,75 @@ class VaksinasiActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.header.txtBookmark.text = resources.getString(R.string.vaksinasi)
+        observeData()
+        forceLogout()
+        setupView()
+        validateForm()
         setupListener()
         vaksinasiResult()
     }
 
+    private fun observeData() {
+        sessionViewModel.token.observe(this) {
+            token = it
+        }
+
+        sessionViewModel.userId.observe(this) {
+            userId = it
+        }
+    }
+
+    private fun forceLogout() {
+        ForceLogout.logoutLiveData.observe(this) {
+            showLogoutDialog()
+        }
+    }
+
+    private fun showLogoutDialog() {
+        logoutDialog = Dialog(this).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.modal_session_expired)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            //set width height card
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+
+            val btnLogin = findViewById<Button>(R.id.btnReload)
+            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@VaksinasiActivity, R.color.primary_color_foster)
+
+            btnLogin.setOnClickListener { navigateToLogin() }
+            show()
+        }
+    }
+
+    private fun navigateToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+
+    private fun setupView() {
+        binding.apply {
+            namePetEditText.addTextChangedListener(textWatcher)
+            conditionPetEditText.addTextChangedListener(textWatcher)
+            descPetEditText.addTextChangedListener(textWatcher)
+            weightPetEditText.addTextChangedListener(textWatcher)
+            addInfoEditText.addTextChangedListener(textWatcher)
+            nameClinicEditText.addTextChangedListener(textWatcher)
+            nameDoctorEditText.addTextChangedListener(textWatcher)
+            addressClinicEditText.addTextChangedListener(textWatcher)
+            medicalEditText.addTextChangedListener(textWatcher)
+
+            radioCategory.setOnCheckedChangeListener { _, _ ->  validateForm()}
+        }
+    }
+
     private fun setupListener() {
         binding.apply {
-            header.btnBack.setOnClickListener { onBackPressed() }
+            header.btnBack.setOnClickListener {  onBackPressedDispatcher.onBackPressed() }
             btnDate.setOnClickListener { showCalendar() }
             btnVaksin.setOnClickListener { showDialog() }
             btnSave.setOnClickListener { vaksinasiHandler() }
@@ -78,9 +144,6 @@ class VaksinasiActivity : AppCompatActivity() {
     }
 
     private fun vaksinasiHandler() {
-        token = intent?.getStringExtra("token") ?: ""
-        Log.d("InsertVaksinasi", "token: $token")
-        userId = intent.getIntExtra("userId",0)
         binding.apply {
             val categoryPet = radioCategory.checkedRadioButtonId.takeIf { it != -1 }?.let { radioButtonId ->
                 val radioButton = binding.root.findViewById<RadioButton>(radioButtonId)
@@ -90,7 +153,7 @@ class VaksinasiActivity : AppCompatActivity() {
             val name = namePetEditText.text.toString()
             val kesehatan = conditionPetEditText.text.toString()
             val descKesehatan = descPetEditText.text.toString()
-            val beratPet = weightPetEditText.text.toString()
+            val beratPet = weightPetEditText.text.toString().takeIf { it.isNotEmpty() }?.toIntOrNull() ?: 0
             val info = addInfoEditText.text.toString()
             val klinikName = nameClinicEditText.text.toString()
             val doctorName = nameDoctorEditText.text.toString()
@@ -104,7 +167,7 @@ class VaksinasiActivity : AppCompatActivity() {
                 name = name,
                 kesehatan = kesehatan,
                 descKesehatan = descKesehatan,
-                beratPet = beratPet.toInt(),
+                beratPet = beratPet,
                 info = info,
                 klinikName = klinikName,
                 dokterName = doctorName,
@@ -112,10 +175,40 @@ class VaksinasiActivity : AppCompatActivity() {
                 tanggal = tanggal,
                 jenisVaksin = jenisVaksin,
                 catatan = catatan,
-                userId = userId
+                userId = userId!!
             )
-            medicalViewModel.insertVaksinasi(token, data)
+            medicalViewModel.insertVaksinasi(token!!, data)
         }
+    }
+
+    private fun validateForm() {
+        binding.apply {
+            val isRadioGroupCategorySelected = radioCategory.checkedRadioButtonId != -1
+            val name = namePetEditText.text.toString()
+            val kesehatan = conditionPetEditText.text.toString()
+            val descKesehatan = descPetEditText.text.toString()
+            val beratPet = weightPetEditText.text.toString().takeIf { it.isNotEmpty() }?.toIntOrNull() ?: 0
+            val info = addInfoEditText.text.toString()
+            val klinikName = nameClinicEditText.text.toString()
+            val doctorName = nameDoctorEditText.text.toString()
+            val alamat = addressClinicEditText.text.toString()
+            val tanggal = valueDate
+            val jenisVaksin = vaksinSelected
+            val catatan = medicalEditText.text.toString()
+
+            val isFormValid = name.isNotEmpty() && kesehatan.isNotEmpty() && descKesehatan.isNotEmpty() && beratPet > 0 && info.isNotEmpty() && klinikName.isNotEmpty() && doctorName.isNotEmpty() && alamat.isNotEmpty() && tanggal.isNotEmpty() && jenisVaksin.isNotEmpty() && catatan.isNotEmpty() && isRadioGroupCategorySelected
+            btnSave.isEnabled = isFormValid
+            btnSave.backgroundTintList = ContextCompat.getColorStateList(
+                this@VaksinasiActivity,
+                if (isFormValid) R.color.pink else R.color.btn_disabled
+            )
+        }
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(s: Editable?) {validateForm()}
     }
 
     private fun vaksinasiResult() {
@@ -130,6 +223,7 @@ class VaksinasiActivity : AppCompatActivity() {
                 }
                 is Resource.Error -> {
                     showLoading(false)
+                    popUpDialog("Yah!", "Penambahan data vaksin gagal", it.message, R.drawable.alert_failed)
                     Log.d("InsertVaksinasi", "error: ${it.message}")
                 }
             }
@@ -137,12 +231,18 @@ class VaksinasiActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+//        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) progressBarDialog() else dismissProgressDialog()
     }
 
     @SuppressLint("NewApi")
     private fun showCalendar() {
         val calendar = Calendar.getInstance()
+
+        if (valueDate.isNotEmpty()) {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            calendar.time = dateFormat.parse(valueDate)
+        }
 
         val dialogDatePicker = DatePickerDialog(
             this, {DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
@@ -178,6 +278,11 @@ class VaksinasiActivity : AppCompatActivity() {
             title.text = titleDialog
             mutableRadioButton(radio_group, petVaksin)
 
+            if (vaksinSelected.isNotEmpty()) {
+                val selectedRadioButton = radio_group.findViewWithTag<RadioButton>(vaksinSelected)
+                selectedRadioButton?.isChecked = true
+            }
+
             button.setOnClickListener {
                 val selectedRadioButtonId =  radio_group.checkedRadioButtonId
                 if (selectedRadioButtonId != -1 ) {
@@ -195,6 +300,7 @@ class VaksinasiActivity : AppCompatActivity() {
         radioGroup.removeAllViews()
         for (vaksin in items) {
             val radioButton = RadioButton(this).apply {
+                tag = vaksin
                 layoutParams = RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.MATCH_PARENT,
                     resources.getDimensionPixelSize(R.dimen.radio_button_height)
@@ -218,5 +324,66 @@ class VaksinasiActivity : AppCompatActivity() {
             }
             radioGroup.addView(radioButton)
         }
+    }
+
+    private fun progressBarDialog() {
+        if (progressDialog == null) {
+            progressDialog = Dialog(this).apply {
+                val view = LayoutInflater.from(this@VaksinasiActivity).inflate(R.layout.dialog_progress, null)
+                setContentView(view)
+                setCancelable(false)
+                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
+        }
+        progressDialog?.show()
+    }
+
+    private fun dismissProgressDialog() {
+        progressDialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
+            }
+        }
+    }
+
+    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {
+        val dialog = Dialog(this)
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.alert_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+            //set width height card
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+
+            val imageView = dialog.findViewById<ImageView>(R.id.img_alert)
+            val titleText = dialog.findViewById<TextView>(R.id.title_alert)
+            val descText = dialog.findViewById<TextView>(R.id.desc_alert)
+            val subDescText = dialog.findViewById<TextView>(R.id.sub_desc_alert)
+            val btnClose = dialog.findViewById<Button>(R.id.btnClose)
+
+            imageView.setImageDrawable(ContextCompat.getDrawable(this@VaksinasiActivity, image))
+            titleText.text = title
+            descText.text = desc
+            subDescText.text = subDesc
+            btnClose.setOnClickListener { dismiss() }
+            show()
+        }
+    }
+
+    override fun onDestroy() {
+        dismissProgressDialog()
+        logoutDialog?.dismiss()
+        super.onDestroy()
+    }
+
+    override fun onPause() {
+        dismissProgressDialog()
+        logoutDialog?.dismiss()
+        super.onPause()
     }
 }

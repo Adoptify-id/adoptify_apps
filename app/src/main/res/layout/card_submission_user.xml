@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_history_card"
+    android:paddingHorizontal="30dp"
+    android:paddingVertical="30dp">
+
+    <TextView
+        android:id="@+id/txtTelpWA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="No. WhatsApp"
+        android:textColor="@color/blackText"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/telpWA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/plus_jakarta_sans_regular"
+        android:text="(+62) 81 746 627 234"
+        android:textColor="#A5A5A5"
+        app:layout_constraintStart_toStartOf="@id/txtTelpWA"
+        app:layout_constraintTop_toBottomOf="@id/txtTelpWA" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="#D9D9D9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/telpWA" />
+
+    <TextView
+        android:id="@+id/txtEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="E-Mail"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/blackText"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line" />
+
+    <TextView
+        android:id="@+id/emailUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/plus_jakarta_sans_regular"
+        android:text="rezaliana@gmail.com"
+        android:textColor="#A5A5A5"
+        app:layout_constraintStart_toStartOf="@id/txtEmail"
+        app:layout_constraintTop_toBottomOf="@id/txtEmail" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="#D9D9D9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailUser" />
+
+    <TextView
+        android:id="@+id/txtAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="Alamat Foster"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/blackText"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line2" />
+
+    <TextView
+        android:id="@+id/addressUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/plus_jakarta_sans_regular"
+        android:text="Jl. Depok No. 07, RT. 02/RW. 01, KecamatanKota Baru, Daerah Istimewa Yogyakarta (45245)."
+        android:textColor="#A5A5A5"
+        app:layout_constraintStart_toStartOf="@id/txtAddress"
+        app:layout_constraintTop_toBottomOf="@id/txtAddress" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

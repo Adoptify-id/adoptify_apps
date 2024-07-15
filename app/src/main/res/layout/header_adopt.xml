@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="210dp"
     android:background="@color/white"
-    android:elevation="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+    android:elevation="10dp">
+
     <ImageView
         android:id="@+id/paw"
         android:layout_width="25dp"
@@ -14,8 +14,8 @@
         android:layout_marginTop="75dp"
         android:layout_marginStart="32dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"   />
-    
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/txtAdopt"
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
         android:textColor="#303030"
         android:text="@string/adopt_pet"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/paw"/>
+        app:layout_constraintStart_toEndOf="@+id/paw" />
 
     <TextView
         android:id="@+id/txtDescAdopt"
@@ -37,7 +37,7 @@
         android:textColor="#ABABAB"
         android:text="@string/desc_adopt"
         app:layout_constraintTop_toBottomOf="@id/txtAdopt"
-       app:layout_constraintStart_toStartOf="@id/txtAdopt"/>
+        app:layout_constraintStart_toStartOf="@id/txtAdopt" />
 
     <ImageView
         android:id="@+id/ic_adopt"
@@ -71,6 +71,8 @@
         app:tabTextColor="#80D0D0D0"
         app:tabSelectedTextColor="@color/primaryColor"
         app:tabTextAppearance="@style/TextAppearance.App.LabelLarge"
+        app:tabIndicatorColor="@color/primaryColor"
+        app:tabIndicatorHeight="3dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtDescAdopt">
@@ -84,7 +86,5 @@
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:text="@string/cat" />
-
     </com.google.android.material.tabs.TabLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

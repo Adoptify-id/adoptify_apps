@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:fitsSystemWindows="true"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundScreen"
+    tools:context=".ui.adopt.submission.DetailSubmissionActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            layout="@layout/header_detail_submission"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="35dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:text="Permintaan Hewan"
+            android:textColor="@color/blackText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header"/>
+
+        <include
+            android:id="@+id/card_submission"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="30dp"
+            layout="@layout/card_detail_submission"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtRequest"/>
+
+        <ImageView
+            android:id="@+id/side_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/side_detail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_submission"/>
+
+        <TextView
+            android:id="@+id/txtKode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="11sp"
+            android:textColor="@color/blackText"
+            android:layout_marginStart="25dp"
+            android:text="Kode Pengajuan"
+            app:layout_constraintTop_toTopOf="@id/side_detail"
+            app:layout_constraintBottom_toBottomOf="@id/side_detail"
+            app:layout_constraintStart_toEndOf="@id/side_detail"/>
+
+        <TextView
+            android:id="@+id/request_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PERMIN/JHAKSJA/2024"
+            android:textColor="#A5A5A5"
+            app:layout_constraintTop_toTopOf="@id/txtKode"
+            app:layout_constraintBottom_toBottomOf="@id/txtKode"
+            android:fontFamily="@font/plus_jakarta_sans_regular"
+            app:layout_constraintEnd_toEndOf="@id/card_submission" />
+
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="11sp"
+            android:textColor="@color/blackText"
+            android:text="Tanggal Pengajuan"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="@id/txtKode"
+            app:layout_constraintTop_toBottomOf="@+id/txtKode"/>
+
+        <TextView
+            android:id="@+id/date_adopt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Senin, 15 April 2024"
+            android:textColor="#A5A5A5"
+            app:layout_constraintTop_toTopOf="@id/txtDate"
+            app:layout_constraintBottom_toBottomOf="@id/txtDate"
+            android:fontFamily="@font/plus_jakarta_sans_regular"
+            app:layout_constraintEnd_toEndOf="@id/card_submission" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#D9D9D9"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtDate"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ic_foster"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/background_image_foster"
+            android:src="@drawable/ic_foster"
+            android:scaleType="fitXY"
+            app:shapeAppearanceOverlay="@style/AddedImageVirtualPet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line" />
+
+        <TextView
+            android:id="@+id/foster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/plus_jakarta_sans_semibold"
+            android:layout_marginStart="30dp"
+            android:textSize="8sp"
+            android:textColor="@color/greyText"
+            android:text="Pemilik Foster"
+            app:layout_constraintTop_toTopOf="@id/ic_foster"
+            app:layout_constraintStart_toEndOf="@+id/ic_foster"/>
+
+        <TextView
+            android:id="@+id/community_foster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/plus_jakarta_sans_regular"
+            android:textColor="@color/primaryColor"
+            android:text="Indonesia Foster Community"
+            android:layout_marginTop="3dp"
+            app:layout_constraintTop_toBottomOf="@id/foster"
+            app:layout_constraintStart_toStartOf="@+id/foster"/>
+
+        <TextView
+            android:id="@+id/fosterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:textSize="18sp"
+            android:textColor="@color/blackText"
+            android:text="Reza Liana"
+            app:layout_constraintTop_toBottomOf="@id/community_foster"
+            app:layout_constraintStart_toStartOf="@+id/foster"/>
+
+        <include
+            android:id="@+id/card_detail_foster"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="30dp"
+            layout="@layout/card_submission_user"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fosterName"/>
+
+        <include
+            android:id="@+id/card_upload"
+            android:layout_width="match_parent"
+            android:layout_height="235dp"
+            layout="@layout/list_card_detail_submission"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_detail_foster"/>
+
+        <LinearLayout
+            android:id="@+id/layout_warning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:paddingVertical="20dp"
+            android:paddingStart="20dp"
+            android:background="@drawable/background_add_btn"
+            app:backgroundTint="#F4FFEA"
+            app:layout_constraintTop_toBottomOf="@id/card_upload"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/warning"
+                android:layout_marginEnd="12dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#797979"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:textSize="12sp"
+                android:lineSpacingExtra="4dp"
+                android:text="Harap periksa dan teliti lagi data yang telah\nkamu masukkan agar tidak terjadi kesalahan\natau kekeliruan saat menyimpan data."/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="Batalkan"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="30dp"
+            app:backgroundTint="#E2E2E2"
+            android:textColor="#979797"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:background="@drawable/background_back_button_adopt"
+            app:layout_constraintEnd_toStartOf="@id/btnNext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_warning"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="Lanjutkan"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            app:backgroundTint="@color/primaryColor"
+            android:layout_marginBottom="30dp"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:background="@drawable/background_next_button_adopt"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_warning"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="Tutup"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:background="@drawable/background_next_button_adopt"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_warning"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/primaryColor"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>

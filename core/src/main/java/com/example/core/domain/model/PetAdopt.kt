@@ -1,7 +1,5 @@
 package com.example.core.domain.model
 
-import java.io.File
-
 data class PetAdopt(
     val msg: String? = null,
     val data: List<DataAdopt?>? = null,
@@ -15,7 +13,7 @@ data class DataAdopt(
     val umur: Int,
     val gender: String,
     val ras: String,
-    val descPet: String,
+    val descPet: String? = null,
     val kategori: String? = null,
     val namePet: String,
     val isAdopt: Boolean? = false,
@@ -23,5 +21,7 @@ data class DataAdopt(
     val createdAt: String? = null,
     val userId: Int? = null,
     val fullName: String? = null,
-    val username: String? = null
+    val username: String? = null,
+    val alamat: String? = null,
+    val provinsi: String? = null,
 )

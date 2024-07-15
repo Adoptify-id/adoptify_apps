@@ -1,7 +1,6 @@
 package com.example.core.data.source.remote.response
 
 import com.google.gson.annotations.SerializedName
-import java.io.File
 
 data class PetAdoptResponse(
 
@@ -58,5 +57,11 @@ data class PetAdoptItem(
 
 	@field:SerializedName("username")
 	val username: String? = null,
+
+	@field:SerializedName("alamat")
+	val alamat: String? = null,
+
+	@field:SerializedName("provinsi")
+	val provinsi: String? = null,
 
 )

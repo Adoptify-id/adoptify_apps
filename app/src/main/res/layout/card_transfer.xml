@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/card"
+    android:layout_height="170dp"
+    android:background="@drawable/background_history_card">
+
+    <TextView
+        android:id="@+id/txtReceiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="Penerima:"
+        android:textColor="#8F8F8F"
+        android:textSize="12sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Receiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="Adoptify Indonesia"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtNameBank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="Nama Bank:"
+        android:textColor="#8F8F8F"
+        android:textSize="12sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtReceiver" />
+
+    <TextView
+        android:id="@+id/nameBank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="Mandiri Business"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Receiver" />
+
+    <TextView
+        android:id="@+id/txtNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="No.Rekening:"
+        android:textColor="#8F8F8F"
+        android:textSize="12sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtNameBank" />
+
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/plus_jakarta_sans_bold"
+        android:text="34388291672"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toStartOf="@id/ic_copy"
+        app:layout_constraintTop_toBottomOf="@id/nameBank" />
+    
+    <ImageView
+        android:id="@+id/ic_copy"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_copy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtNumber"
+        app:layout_constraintBottom_toBottomOf="@id/number"/>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E2E2E2"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/txtNumber"/>
+
+    <TextView
+        android:id="@+id/txtNominal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="Nominal:"
+        android:textColor="#8F8F8F"
+        android:textSize="12sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/txtRp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_medium"
+        android:text="Rp"
+        android:textColor="#8F8F8F"
+        android:textSize="12sp"
+        android:layout_marginEnd="6dp"
+        app:layout_constraintEnd_toStartOf="@id/nominalAdopt"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/nominalAdopt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/plus_jakarta_sans_extra"
+        android:text="50.000"
+        android:letterSpacing="-0.03"
+        android:textColor="@color/primaryColor"
+        android:textSize="28sp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

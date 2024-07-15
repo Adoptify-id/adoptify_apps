@@ -29,4 +29,6 @@ interface AuthUseCase {
     fun getUserId(): Flow<Int>
 
     fun getRoleId(): Flow<Int>
+
+    fun refreshToken(token: String) : Flow<Resource<Login>>
 }

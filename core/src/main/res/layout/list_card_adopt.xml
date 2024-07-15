@@ -5,6 +5,7 @@
     android:layout_height="150dp"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="10dp"
+    android:layout_marginHorizontal="20dp"
     android:layout_marginBottom="25dp"
     app:cardElevation="5dp">
 
@@ -133,7 +134,7 @@
             android:id="@+id/ic_ras"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="35dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/background_type_adopt"
             android:padding="5dp"
@@ -147,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/plus_jakarta_sans_semibold"
-            android:text="@string/age"
+            android:text="@string/ras"
             android:textColor="@color/halfBlackText"
             android:textSize="8sp"
             app:layout_constraintStart_toEndOf="@id/ic_ras"
@@ -163,7 +164,6 @@
             android:textSize="11sp"
             app:layout_constraintStart_toStartOf="@id/ras"
             app:layout_constraintTop_toBottomOf="@id/ras" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

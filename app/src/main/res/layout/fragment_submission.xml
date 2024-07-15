@@ -6,36 +6,445 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     android:background="@color/white"
-    tools:context=".ui.adopt.process.PersonalDataFragment">
+    tools:context=".ui.adopt.process.cat.PersonalDataFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txtPersonalData"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/blackText"
-            android:textSize="28sp"
-            android:text="@string/submission"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/plus_jakarta_sans_extra"
+            android:orientation="vertical"
+            android:elevation="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:background="@color/white">
 
-        <include
-            android:id="@+id/status_adopt"
+            <TextView
+                android:id="@+id/txtPersonalData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blackText"
+                android:textSize="28sp"
+                android:layout_gravity="center"
+                android:text="Formulir Pengajuan"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/plus_jakarta_sans_extra"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <include
+                android:id="@+id/status_adopt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/status_bar_adopt"
+                android:layout_marginVertical="30dp"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/txtPersonalData"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtReason"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/status_bar_adopt"
-            android:layout_marginTop="40dp"
-            app:layout_constraintTop_toBottomOf="@id/txtPersonalData"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Apa alasan kamu ingin mengadopsi?"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/header"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/reasonEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtReason"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reasonEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis alasan"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/reasonEditTextLayout"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtHope"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Bagaimana jika kucing yang diadopsi\ntidak sesuai dengan harapan?"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hopeEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtHope"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/hopeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/hopeEditTextLayout"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtMaintain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Apakah anda sedang/pernah memelihara\nkucing sebelumnya?"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/maintainEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtMaintain"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/maintainEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+        
+        <TextView
+            android:id="@+id/descMaintain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:justificationMode="inter_word"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="12sp"
+            android:textColor="#8F8F8F"
+            android:text="* Jika sedang memelihara bisa disebutkan jumlah, jenis, nama dan umur hewan peliharaan tsb   /  *Jika pernah memelihara hewan peliharaan bisa diceritakan sebab sudah tidak memelihara hewan tsb (wafat/hilang/alasan lainnya)"
+            app:layout_constraintTop_toBottomOf="@id/maintainEditTextLayout"
+            app:layout_constraintStart_toStartOf="@id/maintainEditTextLayout"
+            app:layout_constraintEnd_toEndOf="@id/maintainEditTextLayout"/>
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/descMaintain"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtBesides"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Apakah anda mempunyai hewan\npeliharaan selain kucing?"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line2"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/besideEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtBesides"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/besideEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/descBesides"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="12sp"
+            android:textColor="#8F8F8F"
+            android:text="* Jika punya sebutkan hewannya tersebut!"
+            app:layout_constraintTop_toBottomOf="@id/besideEditTextLayout"
+            app:layout_constraintStart_toStartOf="@id/besideEditTextLayout"
+            app:layout_constraintEnd_toEndOf="@id/besideEditTextLayout"/>
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/descBesides"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtVaccine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Jika anda sedang merawat kucing, apakah\nkucing tersebut sudah di vaksin?"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line3"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/vaccineEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtVaccine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/vaccineEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/descVaccine"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="12sp"
+            android:textColor="#8F8F8F"
+            android:text="* Jika sudah di vaksin apa"
+            app:layout_constraintTop_toBottomOf="@id/vaccineEditTextLayout"
+            app:layout_constraintStart_toStartOf="@id/vaccineEditTextLayout"
+            app:layout_constraintEnd_toEndOf="@id/vaccineEditTextLayout"/>
+
+        <View
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/descVaccine"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtAdopter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Jika calon adopter sedang merawat\nkucing, apakah kucing tersebut sudah\ndi steril/kebiri?"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line4"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/adopterEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtAdopter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/adopterEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis jawaban"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_warning"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="45dp"
+            android:paddingVertical="20dp"
+            android:paddingStart="20dp"
+            android:background="@drawable/background_add_btn"
+            app:backgroundTint="#F4FFEA"
+            app:layout_constraintTop_toBottomOf="@id/adopterEditTextLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/warning"
+                android:layout_marginEnd="12dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#797979"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:textSize="12sp"
+                android:lineSpacingExtra="4dp"
+                android:text="Harap periksa dan teliti lagi data yang telah\nkamu masukkan agar tidak terjadi kesalahan\natau kekeliruan saat menyimpan data."/>
 
 
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnBack"
@@ -52,24 +461,25 @@
             android:background="@drawable/background_back_button_adopt"
             app:layout_constraintEnd_toStartOf="@id/btnNext"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtDesc"
+            app:layout_constraintTop_toBottomOf="@id/layout_warning"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <Button
             android:id="@+id/btnNext"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:text="Ajukan Adopsi"
+            android:text="Lanjutkan"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
             app:backgroundTint="@color/primaryColor"
             android:layout_marginBottom="30dp"
+            android:textColor="@color/white"
             android:background="@drawable/background_next_button_adopt"
             android:fontFamily="@font/plus_jakarta_sans_bold"
             app:layout_constraintStart_toEndOf="@id/btnBack"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtDesc"
+            app:layout_constraintTop_toBottomOf="@id/layout_warning"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

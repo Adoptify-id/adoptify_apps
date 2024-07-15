@@ -1,13 +1,20 @@
 package com.example.core.utils
 
+import com.example.core.data.source.local.entity.PetEntity
 import com.example.core.data.source.remote.response.AddMedicalResponse
 import com.example.core.data.source.remote.response.AddPetAdoptResponse
 import com.example.core.data.source.remote.response.AddVaksinasiResponse
 import com.example.core.data.source.remote.response.AddVirtualPetResponse
 import com.example.core.data.source.remote.response.DataItem
+import com.example.core.data.source.remote.response.DataSubmission
 import com.example.core.data.source.remote.response.DataUser
+import com.example.core.data.source.remote.response.DetailSubmissionFosterResponse
+import com.example.core.data.source.remote.response.DetailSubmissionResponse
+import com.example.core.data.source.remote.response.FormAdoptResponse
+import com.example.core.data.source.remote.response.FormDetailResponse
+import com.example.core.data.source.remote.response.FormItem
+import com.example.core.data.source.remote.response.ItemSubmissionFoster
 import com.example.core.data.source.remote.response.LoginResponse
-import com.example.core.data.source.remote.response.MedicalRecordResponse
 import com.example.core.data.source.remote.response.PetAdoptItem
 import com.example.core.data.source.remote.response.PetAdoptResponse
 import com.example.core.data.source.remote.response.RegisterResponse
@@ -17,21 +24,30 @@ import com.example.core.domain.model.AddVaksinasiPet
 import com.example.core.domain.model.AddVirtualPet
 import com.example.core.domain.model.AddVirtualPetItem
 import com.example.core.domain.model.DataAdopt
+import com.example.core.domain.model.DataSubmissionFoster
 import com.example.core.domain.model.DetailDataUser
+import com.example.core.domain.model.DetailItemSubmission
+import com.example.core.domain.model.DetailSubmission
+import com.example.core.domain.model.DetailSubmissionData
+import com.example.core.domain.model.DetailSubmissionFoster
 import com.example.core.domain.model.DetailUser
+import com.example.core.domain.model.FormData
+import com.example.core.domain.model.FormDetail
 import com.example.core.domain.model.Login
 import com.example.core.domain.model.MedicalItem
 import com.example.core.domain.model.MedicalRecord
 import com.example.core.domain.model.PetAdopt
 import com.example.core.domain.model.Register
+import com.example.core.domain.model.SubmissionItem
 import com.example.core.domain.model.User
 import com.example.core.domain.model.VaksinasiData
 import com.example.core.domain.model.VirtualPetItem
-import okhttp3.MediaType.Companion.toMediaType
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 object DataMapper {
     fun loginResponseToLogin(data: LoginResponse): Login = Login(
@@ -71,10 +87,14 @@ object DataMapper {
         requestBodyMap["beratPet"] = data.beratPet.toString().toRequestBody()
         requestBodyMap["userId"] = data.user_id.toString().toRequestBody()
 
-        val file = data.fotoPet ?: return requestBodyMap
 
-        val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-        requestBodyMap["fotoPet\"; filename=\"${file.name}\""] = requestFile
+        data.fotoPet?.let {
+            val file = File(it)
+            if (file.exists()) {
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                requestBodyMap["fotoPet\"; filename=\"${file.name}"] = requestFile
+            }
+        }
 
         return requestBodyMap
     }
@@ -120,9 +140,10 @@ object DataMapper {
         userId = data.userId
     )
 
-    fun vaksinasiResponseToVaksinasi(data: AddVaksinasiResponse): AddVaksinasiPet = AddVaksinasiPet(data.message)
+    fun vaksinasiResponseToVaksinasi(data: AddVaksinasiResponse): AddVaksinasiPet =
+        AddVaksinasiPet(data.message)
 
-    fun updateUserMapping(data: DataUser) : Map<String, RequestBody>  {
+    fun updateUserMapping(data: DataUser): Map<String, RequestBody> {
         val requestBodyMap = mutableMapOf<String, RequestBody>()
 
         requestBodyMap["gender"] = data.gender!!.toRequestBody()
@@ -133,16 +154,19 @@ object DataMapper {
         requestBodyMap["fullName"] = data.fullName!!.toRequestBody()
         requestBodyMap["userId"] = data.userId!!.toString().toRequestBody()
 
-        val file = data.foto ?: return requestBodyMap
-        val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-        requestBodyMap["foto\"; filename=\"${file}\""] = requestFile
-
-
+        data.foto?.let {
+            val file = File(it)
+            if (file.exists()) {
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                requestBodyMap["foto\"; filename=\"${file.name}"] = requestFile
+            }
+        }
         return requestBodyMap
     }
-    fun updateUserResponseToUser(data: UserResponse) : DetailUser = DetailUser(data.msg)
 
-    fun detailDataUserResponseToUser(data: UserResponse) : DetailUser = DetailUser(
+    fun updateUserResponseToUser(data: UserResponse): DetailUser = DetailUser(data.msg)
+
+    fun detailDataUserResponseToUser(data: UserResponse): DetailUser = DetailUser(
         msg = data.msg,
         data = data.data?.map {
             DetailDataUser(
@@ -160,7 +184,7 @@ object DataMapper {
         }
     )
 
-    fun medicalItemToMedical(data: List<DataItem>) : List<MedicalItem> =
+    fun medicalItemToMedical(data: List<DataItem>): List<MedicalItem> =
         data.map {
             MedicalItem(
                 beratPet = it.beratPet,
@@ -195,17 +219,21 @@ object DataMapper {
         requestBodyMap["catatan"] = data.catatan.toRequestBody()
         requestBodyMap["userId"] = data.userId.toString().toRequestBody()
 
-        val file = data.xRay ?: return requestBodyMap
-
-        val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-        requestBodyMap["xRay\"; filename=\"${file}\""] = requestFile
+        data.xRay?.let {
+            val file = File(it)
+            if (file.exists()) {
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                requestBodyMap["xRay\"; filename=\"${file.name}"] = requestFile
+            }
+        }
 
         return requestBodyMap
     }
 
-    fun medicalResponseToMedical(data: AddMedicalResponse) : MedicalRecord = MedicalRecord(data.message)
+    fun medicalResponseToMedical(data: AddMedicalResponse): MedicalRecord =
+        MedicalRecord(data.message)
 
-    fun petAdoptItemMap(data: PetAdoptItem) : Map<String, RequestBody> {
+    fun petAdoptItemMap(data: PetAdoptItem): Map<String, RequestBody> {
         val requestBodyMap = mutableMapOf<String, RequestBody>()
 
         requestBodyMap["namePet"] = data.namePet.toRequestBody()
@@ -216,17 +244,20 @@ object DataMapper {
         requestBodyMap["kategori"] = data.kategori!!.toRequestBody()
         requestBodyMap["userId"] = data.userId.toString().toRequestBody()
 
-        val file = data.fotoPet ?: return requestBodyMap
-
-        val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-        requestBodyMap["fotoPet\"; filename=\"${file}\""] = requestFile
+        data.fotoPet?.let {
+            val file = File(it)
+            if (file.exists()) {
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                requestBodyMap["fotoPet\"; filename=\"${file.name}"] = requestFile
+            }
+        }
 
         return requestBodyMap
     }
 
-    fun petResponseToPet(data: AddPetAdoptResponse) : PetAdopt = PetAdopt(data.message)
+    fun petResponseToPet(data: AddPetAdoptResponse): PetAdopt = PetAdopt(data.message)
 
-    fun petAdoptItemToPet(data: List<PetAdoptItem>) : List<DataAdopt> =
+    fun petAdoptItemToPet(data: List<PetAdoptItem>): List<DataAdopt> =
         data.map {
             DataAdopt(
                 fotoPet = it.fotoPet,
@@ -236,14 +267,16 @@ object DataMapper {
                 ras = it.ras,
                 descPet = it.descPet,
                 kategori = it.kategori,
+                isAdopt = it.isAdopt,
                 namePet = it.namePet,
                 createdAt = it.createdAt,
                 userId = it.userId,
 
-            )
+                )
         }
 
-    fun detailDataPetToPet(data: PetAdoptResponse) : PetAdopt = PetAdopt(
+
+    fun detailDataPetToPet(data: PetAdoptResponse): PetAdopt = PetAdopt(
         msg = data.msg,
         data = data.data.map {
             DataAdopt(
@@ -256,8 +289,263 @@ object DataMapper {
                 kategori = it.kategori,
                 namePet = it.namePet,
                 fullName = it.fullName,
-                username = it.username
+                username = it.username,
+                isAdopt = it.isAdopt,
+                alamat = it.alamat,
+                provinsi = it.provinsi
             )
         }
     )
+
+    fun formItemAdoptMap(data: FormItem): Map<String, RequestBody> {
+        val requestBodyMap = mutableMapOf<String, RequestBody>()
+
+        requestBodyMap["name"] = data.name!!.toRequestBody()
+        requestBodyMap["umur"] = data.umur!!.toString().toRequestBody()
+        requestBodyMap["noWa"] = data.noWa!!.toRequestBody()
+        requestBodyMap["domisili"] = data.domisili!!.toRequestBody()
+        requestBodyMap["pekerjaan"] = data.pekerjaan!!.toRequestBody()
+        requestBodyMap["rangePendapatan"] = data.rangePendapatan!!.toRequestBody()
+        requestBodyMap["medsos"] = data.medsos!!.toRequestBody()
+
+        data.kartuIdentitas?.let {
+            val file = File(it)
+            if (file.exists()) {
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                requestBodyMap["kartuIdentitas\"; filename=\"${file.name}"] = requestFile
+            }
+        }
+
+        requestBodyMap["umum1"] = data.umum1!!.toRequestBody()
+        requestBodyMap["umum2"] = data.umum2!!.toRequestBody()
+        requestBodyMap["umum3"] = data.umum3!!.toRequestBody()
+        requestBodyMap["umum4"] = data.umum4!!.toRequestBody()
+        requestBodyMap["umum5"] = data.umum5!!.toRequestBody()
+        requestBodyMap["umum6"] = data.umum6!!.toRequestBody()
+        requestBodyMap["ppk1"] = data.ppk1!!.toRequestBody()
+        requestBodyMap["ppk2"] = data.ppk2!!.toRequestBody()
+        requestBodyMap["ppk3"] = data.ppk3!!.toRequestBody()
+        requestBodyMap["ppk4"] = data.ppk4!!.toRequestBody()
+        requestBodyMap["ppk5"] = data.ppk5!!.toRequestBody()
+        requestBodyMap["ppk6"] = data.ppk6!!.toRequestBody()
+        requestBodyMap["ppk7"] = data.ppk7!!.toRequestBody()
+        requestBodyMap["ppk8"] = data.ppk8!!.toRequestBody()
+        requestBodyMap["ppk9"] = data.ppk9!!.toRequestBody()
+        requestBodyMap["ppk10"] = data.ppk10!!.toRequestBody()
+        requestBodyMap["rl1"] = data.rl1!!.toRequestBody()
+        requestBodyMap["rl2"] = data.rl2!!.toRequestBody()
+        requestBodyMap["rl3"] = data.rl3!!.toRequestBody()
+        requestBodyMap["rl4"] = data.rl4!!.toRequestBody()
+        requestBodyMap["rl5"] = data.rl5!!.toRequestBody()
+        requestBodyMap["userId"] = data.userId.toString().toRequestBody()
+        requestBodyMap["petId"] = data.petId.toString().toRequestBody()
+
+        return requestBodyMap
+    }
+
+    fun formResponseToForm(data: FormAdoptResponse): FormDetail = FormDetail(data.message)
+
+    fun submissionListPet(data: List<DataSubmission>): List<SubmissionItem> =
+        data.map {
+            SubmissionItem(
+                ras = it.ras,
+                namePet = it.namePet,
+                kategori = it.kategori,
+                reqId = it.reqId,
+                fullName = it.fullName,
+                fotoPet = it.fotoPet,
+                statusPaymentId = it.statusPaymentId,
+                statusPickupId = it.statusPickupId,
+                statusReqId = it.statusReqId
+            )
+        }
+
+    fun detailSubmissionToSubmission(data: DetailSubmissionResponse): DetailSubmission =
+        DetailSubmission(
+            msg = data.msg,
+            data = data.data.map {
+                DetailSubmissionData(
+                    umur = it.umur,
+                    gender = it.gender,
+                    descPet = it.descPet,
+                    ras = it.ras,
+                    kodePengajuan = it.kodePengajuan,
+                    kartuIdentitas = it.kartuIdentitas,
+                    reqDate = it.reqDate,
+                    namePet = it.namePet,
+                    fullName = it.fullName,
+                    noTelp = it.noTelp,
+                    alamat = it.alamat,
+                    provinsi = it.provinsi,
+                    kodePos = it.kodePos,
+                    foto = it.foto,
+                    email = it.email,
+                    fotoPet = it.fotoPet,
+                    statusPaymentId = it.statusPaymentId,
+                    statusPickupId = it.statusPickupId,
+                    statusReqId = it.statusReqId
+                )
+            }
+        )
+
+    fun submissionListFoster(data: List<ItemSubmissionFoster>): List<DataSubmissionFoster> =
+        data.map {
+            DataSubmissionFoster(
+                ras = it.ras,
+                namePet = it.namePet,
+                kategori = it.kategori,
+                reqId = it.reqId,
+                foto = it.foto,
+                name = it.name,
+                statusPaymentId = it.statusPaymentId,
+                statusPickupId = it.statusPickupId,
+                statusReqId = it.statusReqId
+            )
+        }
+
+    fun detailSubmissionFosterToSubmissionFoster(data: DetailSubmissionFosterResponse): DetailSubmissionFoster =
+        DetailSubmissionFoster(
+            msg = data.msg,
+            status = data.status,
+            data = data.data.map {
+                DetailItemSubmission(
+                    umur = it.umur,
+                    gender = it.gender,
+                    descPet = it.descPet,
+                    ras = it.ras,
+                    kodePengajuan = it.kodePengajuan,
+                    kartuIdentitas = it.kartuIdentitas,
+                    suratKomitmen = it.suratKomitmen,
+                    transfer = it.transfer,
+                    buktiPickup = it.buktiPickup,
+                    reqId = it.reqId,
+                    reqDate = it.reqDate,
+                    namePet = it.namePet,
+                    name = it.name,
+                    noWa = it.noWa,
+                    domisili = it.domisili,
+                    email = it.email,
+                    foto = it.foto,
+                    fotoPet = it.fotoPet,
+                    statusPaymentId = it.statusPaymentId,
+                    statusPickupId = it.statusPickupId,
+                    statusReqId = it.statusReqId,
+                    petId = it.petId,
+                    kategori = it.kategori
+                )
+            }
+        )
+
+    fun updateFormResponseToForm(data: FormDetailResponse): FormDetail = FormDetail(
+        msg = data.msg,
+        data = data.data?.map {
+            FormData(
+                statusReqId = it?.statusReqId,
+                statusPickupId = it?.statusPickupId,
+                statusPaymentId = it?.statusPaymentId
+            )
+        }
+    )
+
+    fun updateFormPayment(data: FormItem): Map<String, RequestBody> {
+        val requestBodyMap = mutableMapOf<String, RequestBody>()
+
+        requestBodyMap["statusPaymentId"] = data.statusPaymentId!!.toString().toRequestBody()
+        data.suratKomitmen?.let {
+            val file = File(it)
+            if (file.exists()) {
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                requestBodyMap["suratKomitmen\"; filename=\"${file.name}"] = requestFile
+            }
+        }
+        data.transfer?.let {
+            val file = File(it)
+            if (file.exists()) {
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                requestBodyMap["transfer\"; filename=\"${file.name}"] = requestFile
+            }
+        }
+
+        return requestBodyMap
+    }
+
+    fun updatePickup(data: FormItem): Map<String, RequestBody> {
+        val requestBodyMap = mutableMapOf<String, RequestBody>()
+
+        requestBodyMap["statusPickupId"] = data.statusPickupId!!.toString().toRequestBody()
+        data.buktiPickup?.let {
+            val file = File(it)
+            if (file.exists()) {
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                requestBodyMap["buktiPickup\"; filename=\"${file.name}"] = requestFile
+            }
+        }
+        return requestBodyMap
+    }
+
+    fun petsEntityToPets(pet: DataAdopt, isFavorite: Boolean): PetEntity {
+        return PetEntity(
+            id = pet.petId!!,
+            namePet = pet.namePet,
+            gender = pet.gender,
+            age = pet.umur,
+            ras = pet.ras,
+            fotoPet = pet.fotoPet!!,
+            isFavorite = isFavorite
+        )
+    }
+
+    fun formDetailResponseToForm(data: FormDetailResponse): FormDetail = FormDetail(
+        msg = data.msg,
+        data = data.data?.map {
+            FormData(
+                reqId = it?.reqId,
+                name = it?.name,
+                umur = it?.umur,
+                domisili = it?.domisili,
+                noWa = it?.noWa,
+                pekerjaan = it?.pekerjaan,
+                rangePendapatan = it?.rangePendapatan,
+                medsos = it?.medsos,
+                kartuIdentitas = it?.kartuIdentitas,
+                ppk1 =  it?.ppk1,
+                ppk2 =  it?.ppk2,
+                ppk3 =  it?.ppk3,
+                ppk4 =  it?.ppk4,
+                ppk5 =  it?.ppk5,
+                ppk6 =  it?.ppk6,
+                ppk7 =  it?.ppk7,
+                ppk8 =  it?.ppk8,
+                ppk9 =  it?.ppk9,
+                ppk10 =  it?.ppk10,
+                umum1 = it?.umum1,
+                umum2 = it?.umum2,
+                umum3 = it?.umum3,
+                umum4 = it?.umum4,
+                umum5 = it?.umum5,
+                umum6 = it?.umum6,
+                rl1 = it?.rl1,
+                rl2 = it?.rl2,
+                rl3 = it?.rl3,
+                rl4 = it?.rl4,
+                rl5 = it?.rl5,
+                kategori = it?.kategori
+            )
+        }
+    )
+
+
+    fun parseErrorMessage(errorBody: String?): String {
+        return if (errorBody != null) {
+
+            try {
+                val json = Gson().fromJson(errorBody, JsonObject::class.java)
+                json.get("detail").asString
+            } catch (e: Exception) {
+                "Error parsing response"
+            }
+        } else {
+            "Unknown error"
+        }
+    }
 }

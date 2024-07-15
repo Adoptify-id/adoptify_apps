@@ -2,33 +2,39 @@ package com.example.adoptify_core.ui.foster.dashboard
 
 import android.animation.LayoutTransition
 import android.content.Intent
-import android.graphics.text.TextRunShaper
 import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.FragmentDashboardBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
 import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.auth.login.LoginViewModel
 import com.example.adoptify_core.ui.foster.detail.DetailFosterActivity
 import com.example.adoptify_core.ui.foster.profile.DetailProfileFosterActivity
+import com.example.adoptify_core.ui.foster.submission.SubmissionFosterActivity
 import com.example.adoptify_core.ui.main.MainViewModel
 import com.example.adoptify_core.ui.profile.ProfileViewModel
 import com.example.core.data.Resource
 import com.example.core.domain.model.DataAdopt
 import com.example.core.domain.model.ListPetItem
 import com.example.core.ui.FosterItemAdapter
+import com.example.core.utils.SessionManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import kotlin.math.exp
 import kotlin.properties.Delegates
 
 
@@ -46,6 +52,8 @@ class DashboardFragment : Fragment() {
 
     private val profileViewModel: ProfileViewModel by viewModel()
 
+    private val sessionManager: SessionManager by inject()
+
     private var token = ""
     private var userId by Delegates.notNull<Int>()
 
@@ -57,6 +65,9 @@ class DashboardFragment : Fragment() {
     private lateinit var itemAdapter: FosterItemAdapter
 
     private val combinedData = mutableListOf<ListPetItem>()
+
+    private var bottomDialog: BottomSheetDialog? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,6 +86,16 @@ class DashboardFragment : Fragment() {
         getUserId()
         getName()
         setupListener()
+
+        dashboardFragment.swipeRefresh.apply {
+            setOnRefreshListener {
+                getToken()
+                getUserId()
+            }
+            setColorSchemeColors(resources.getColor(R.color.primary_color_foster))
+        }
+
+        Log.d("MainActivity", "SessionManager initialized: $sessionManager")
     }
 
     private fun setupView() {
@@ -94,15 +115,37 @@ class DashboardFragment : Fragment() {
     private fun setupListener() {
         dashboardFragment.apply {
             btnLogout.setOnClickListener {
-                startActivity(Intent(requireContext(), LoginActivity::class.java))
-                requireActivity().finish()
-                profileViewModel.deleteSession()
+                bottomDialog = BottomSheetDialog(requireContext()).apply {
+                    val view = layoutInflater.inflate(R.layout.bottom_sheet_logout, null)
+                    val btnClose = view.findViewById<Button>(R.id.btnBack)
+                    val btnLogout = view.findViewById<Button>(R.id.btnLogout)
+                    btnLogout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.primary_color_foster)
+                    btnClose.setOnClickListener { dismiss() }
+                    btnLogout.setOnClickListener {
+                        val intent = Intent(requireContext(), LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        activity?.finish()
+                        profileViewModel.deleteSession()
+                    }
+                    setCancelable(false)
+                    setContentView(view)
+                    show()
+                }
             }
             card.btnProfile.setOnClickListener {
                 val intent = Intent(requireContext(), DetailProfileFosterActivity::class.java)
                 intent.putExtra("TOKEN", token)
                 intent.putExtra("USER_ID", userId)
                 startActivity(intent)
+            }
+            card.btnTransaction.setOnClickListener {
+                startActivity(
+                    Intent(
+                        requireContext(),
+                        SubmissionFosterActivity::class.java
+                    )
+                )
             }
         }
     }
@@ -114,8 +157,10 @@ class DashboardFragment : Fragment() {
                 is Resource.Success -> {
                     token = it.data
                     isTokenAvailable = true
+                    dashboardFragment.swipeRefresh.isRefreshing = false
                     if (isTokenAvailable && isUserIdAvailable) {
                         getListPet()
+                        getProfileUser()
                     }
                     Log.d("HomeFragment", "check: $token")
                 }
@@ -132,8 +177,10 @@ class DashboardFragment : Fragment() {
                 is Resource.Success -> {
                     userId = it.data
                     isUserIdAvailable = true
+                    dashboardFragment.swipeRefresh.isRefreshing = false
                     if (isTokenAvailable && isUserIdAvailable) {
                         getListPet()
+                        getProfileUser()
                     }
                     dashboardFragment.card.fosterId.text = "#FosterID · ${it.data}"
                     Log.d("Foster", "data: ${it.data}")
@@ -170,19 +217,54 @@ class DashboardFragment : Fragment() {
         adoptViewModel.getPetByUser(token, userId)
         adoptViewModel.data.observe(viewLifecycleOwner) {
             when (it) {
-                is Resource.Loading -> { showLoading(true) }
+                is Resource.Loading -> {
+                    showLoading(true)
+                }
 
                 is Resource.Success -> {
                     showLoading(false)
                     dataPet = it.data
-                    combinedData.addAll(dataPet.map { data -> ListPetItem.PetItem(data) })
-                    updateCombinedData()
-                    Log.d("Home", "data: ${it.data}")
+                    if (dataPet.isNotEmpty()) {
+                        showContent(false)
+                        combinedData.addAll(dataPet.map { data -> ListPetItem.PetItem(data) })
+                        updateCombinedData()
+                        Log.d("Home", "data: ${it.data}")
+                    } else {
+                        showContent(true)
+                    }
+                }
+
+                is Resource.Error -> {
+                    showContent(true)
+                    showLoading(false)
+                    Log.d("Home", "error: ${it.message}")
+                }
+            }
+        }
+    }
+
+    private fun getProfileUser() {
+        profileViewModel.getDetailUser(token, userId)
+        profileViewModel.detail.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    showLoading(true)
+                }
+
+                is Resource.Success -> {
+                    showLoading(false)
+                    it.data.data?.map {
+                        val imageUrl =
+                            "https://storage.googleapis.com/bucket-adoptify/imagesUser/${it?.foto}"
+                        Glide.with(requireActivity())
+                            .load(imageUrl)
+                            .placeholder(R.drawable.dummy_profile)
+                            .into(dashboardFragment.card.profileUser)
+                    }
                 }
 
                 is Resource.Error -> {
                     showLoading(false)
-                    Log.d("Home", "error: ${it.message}")
                 }
             }
         }
@@ -259,6 +341,7 @@ class DashboardFragment : Fragment() {
         }
     }
 
+
     private fun showLoading(isLoading: Boolean) {
         dashboardFragment.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
@@ -270,9 +353,27 @@ class DashboardFragment : Fragment() {
         dashboardFragment.card.listButton.visibility = newVisible
     }
 
+    private fun showContent(isShowing: Boolean) {
+        dashboardFragment.contentNull.apply {
+            layout.visibility = if (isShowing) View.VISIBLE else View.GONE
+            btnClose.setOnClickListener { }
+            txtTitle.setTextColor(resources.getColor(R.color.primary_color_foster))
+            btnClose.backgroundTintList =
+                ContextCompat.getColorStateList(requireContext(), R.color.primary_color_foster)
+            txtDesc.text =
+                "Maaf, data pet Anda tidak tersedia. Coba muat ulang atau periksa kembali nanti."
+
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _dashboardFragment = null
+        bottomDialog?.dismiss()
     }
 
+    override fun onPause() {
+        super.onPause()
+        bottomDialog?.dismiss()
+    }
 }

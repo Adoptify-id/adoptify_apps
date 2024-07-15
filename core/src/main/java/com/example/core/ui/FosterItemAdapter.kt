@@ -20,6 +20,9 @@ class FosterItemAdapter(private val items: List<ListPetItem>, private val onItem
     inner class HeaderViewHolder(private val binding: ListHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(header: String) {
             binding.headerText.text = header
+            val layoutParams = binding.headerText.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.marginStart = 50
+            binding.headerText.layoutParams = layoutParams
         }
     }
 

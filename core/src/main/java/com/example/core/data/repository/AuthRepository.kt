@@ -6,7 +6,6 @@ import com.example.core.data.source.local.LocalDataSource
 import com.example.core.data.source.remote.RemoteDataSource
 import com.example.core.data.source.remote.network.ApiResponse
 import com.example.core.data.source.remote.response.DataUser
-import com.example.core.domain.model.DetailDataUser
 import com.example.core.domain.model.DetailUser
 import com.example.core.domain.model.Login
 import com.example.core.domain.model.Register
@@ -69,7 +68,7 @@ class AuthRepository(
     ): Flow<Resource<DetailUser>> = flow {
         emit(Resource.Loading(true))
         when(val apiResponse = remoteDataSource.updateUser(token, userId, data).first()) {
-            is ApiResponse.Success -> {1
+            is ApiResponse.Success -> {
                 val data = DataMapper.updateUserResponseToUser(apiResponse.data)
                 emit(Resource.Success(data))
             }
@@ -97,5 +96,20 @@ class AuthRepository(
     override fun getUserId(): Flow<Int> = localDataSource.getUserId()
 
     override fun getRoleId(): Flow<Int> = localDataSource.getRoleId()
+    override fun refreshToken(token: String): Flow<Resource<Login>> = flow {
+        emit(Resource.Loading(true))
+        when(val apiResponse = remoteDataSource.refreshToken(token).first()) {
+            is ApiResponse.Success -> {
+                val data = DataMapper.loginResponseToLogin(apiResponse.data)
+                emit(Resource.Success(data))
+                Log.d("Auth", "data: $data")
+            }
+            is ApiResponse.Error -> {
+                Log.d("Auth", "error: ${apiResponse.message}")
+                emit(Resource.Error(apiResponse.message))
+            }
+            is ApiResponse.Empty -> {}
+        }
+    }
 
 }

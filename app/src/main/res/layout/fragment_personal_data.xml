@@ -6,59 +6,75 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     android:background="@color/white"
-    tools:context=".ui.adopt.process.PersonalDataFragment">
+    tools:context=".ui.adopt.process.cat.PersonalDataFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txtPersonalData"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/blackText"
-            android:textSize="28sp"
-            android:text="@string/personal_data"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/plus_jakarta_sans_extra"
+            android:orientation="vertical"
+            android:elevation="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:background="@color/white">
 
-        <include
-            android:id="@+id/status_adopt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/status_bar_adopt"
-            android:layout_marginTop="40dp"
-            app:layout_constraintTop_toBottomOf="@id/txtPersonalData"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                android:id="@+id/txtPersonalData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blackText"
+                android:textSize="28sp"
+                android:layout_gravity="center"
+                android:text="Data Calon Adopter"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/plus_jakarta_sans_extra"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <include
+                android:id="@+id/status_adopt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/status_bar_adopt"
+                android:layout_marginVertical="30dp"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/txtPersonalData"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </LinearLayout>
         
         <TextView
-            android:id="@+id/txtAdapterData"
+            android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
             android:textSize="16sp"
             android:textColor="@color/blackText"
-            android:text="@string/data_calon_adapter"
-            app:layout_constraintStart_toStartOf="@id/status_adopt"
-            app:layout_constraintTop_toBottomOf="@id/status_adopt"/>
+            android:text="Nama"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameEditTextLayout"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/background_text_field"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:errorEnabled="true"
             app:hintEnabled="false"
-            app:layout_constraintTop_toBottomOf="@+id/txtAdapterData"
+            app:layout_constraintTop_toBottomOf="@+id/txtName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -70,12 +86,91 @@
                 android:ems="10"
                 android:fontFamily="@font/plus_jakarta_sans_medium"
                 android:hint="Nama lengkap"
+                android:textColor="@color/blackText"
                 android:inputType="textPersonName"
                 android:padding="12dp"
                 android:textColorHint="@color/textColorHint"
                 android:textSize="14sp"
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/usernameEditTextLayout"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Umur"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ageEditTextLayout"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toBottomOf="@+id/txtAge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ageEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis umur"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="number"
+                android:padding="12dp"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/ageEditTextLayout"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtTelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="No. Telphone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/telephoneEditTextLayout"
@@ -88,7 +183,7 @@
             app:boxStrokeWidthFocused="0dp"
             app:errorEnabled="true"
             app:hintEnabled="false"
-            app:layout_constraintTop_toBottomOf="@+id/usernameEditTextLayout"
+            app:layout_constraintTop_toBottomOf="@+id/txtTelp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
             <com.google.android.material.textfield.TextInputEditText
@@ -99,6 +194,7 @@
                 android:ems="10"
                 android:fontFamily="@font/plus_jakarta_sans_medium"
                 android:hint="Nomor telepon"
+                android:textColor="@color/blackText"
                 android:textColorHint="@color/textColorHint"
                 android:inputType="phone"
                 android:padding="12dp"
@@ -106,36 +202,29 @@
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailEditTextLayout"
+        <View
+            android:id="@+id/line2"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/telephoneEditTextLayout"
             android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/background_text_field"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:errorEnabled="true"
-            app:hintEnabled="false"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/telephoneEditTextLayout">
+            app:layout_constraintStart_toStartOf="parent"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/emailEditText"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:drawablePadding="20dp"
-                android:ems="10"
-                android:fontFamily="@font/plus_jakarta_sans_medium"
-                android:hint="E-mail"
-                android:inputType="textEmailAddress"
-                android:padding="12dp"
-                android:textColorHint="@color/textColorHint"
-                android:textSize="14sp"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/txtAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Alamat (domisili)"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line2"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/addressEditTextLayout"
@@ -150,7 +239,7 @@
             app:hintEnabled="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/emailEditTextLayout">
+            app:layout_constraintTop_toBottomOf="@id/txtAddress">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/addressEditText"
@@ -160,6 +249,7 @@
                 android:ems="10"
                 android:fontFamily="@font/plus_jakarta_sans_medium"
                 android:hint="Alamat rumah"
+                android:textColor="@color/blackText"
                 android:inputType="text"
                 android:padding="12dp"
                 android:textColorHint="@color/textColorHint"
@@ -205,29 +295,184 @@
             app:layout_constraintTop_toTopOf="@id/txtFillAuto"
             app:layout_constraintBottom_toBottomOf="@id/txtDescFillAuto"/>
 
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/switchButton"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
         <TextView
-            android:id="@+id/txtIdentityCard"
+            android:id="@+id/txtJob"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="25dp"
             android:layout_marginStart="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
             android:textSize="16sp"
-            android:textColor="#303030"
-            android:text="@string/card_identity"
+            android:textColor="@color/blackText"
+            android:text="Pekerjaan"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDescFillAuto"/>
+            app:layout_constraintTop_toBottomOf="@id/line3"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/jobEditTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtJob">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/jobEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis Pekerjaan"
+                android:textColor="@color/blackText"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/jobEditTextLayout"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtRange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Range pendapatan"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line4"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/rangeEditTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtRange">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/rangeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Tulis range pendapatan"
+                android:textColor="@color/blackText"
+                android:inputType="number"
+                android:padding="12dp"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:id="@+id/line5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/rangeEditTextLayout"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtMedsos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:textSize="16sp"
+            android:textColor="@color/blackText"
+            android:text="Media sosial"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line5"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/medsosEditTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/background_text_field"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtMedsos">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/medsosEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawablePadding="20dp"
+                android:ems="10"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:hint="Instagram/Facebook/Tiktok"
+                android:textColor="@color/blackText"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColorHint="@color/textColorHint"
+                android:textSize="14sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <include
             android:id="@+id/card_upload"
             android:layout_width="match_parent"
             android:layout_height="92dp"
             layout="@layout/card_upload"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="50dp"
             android:layout_marginHorizontal="40dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtIdentityCard"/>
+            app:layout_constraintTop_toBottomOf="@id/medsosEditTextLayout"/>
         
         <TextView
             android:id="@+id/txtDesc"
@@ -236,9 +481,11 @@
             android:layout_marginTop="22dp"
             android:text="@string/desc_identity_card"
             android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:layout_marginHorizontal="40dp"
             android:textSize="12sp"
             android:textColor="#8F8F8F"
-            app:layout_constraintStart_toStartOf="@id/card_upload"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_upload"/>
 
         <Button
@@ -273,8 +520,22 @@
             android:fontFamily="@font/plus_jakarta_sans_bold"
             app:layout_constraintStart_toEndOf="@id/btnBack"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/txtDesc"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/primaryColor"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

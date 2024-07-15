@@ -162,4 +162,15 @@
     <string name="vaksin_anjing">Vaksin Anjing</string>
     <string name="vaksin_kucing">Vaksin Kucing</string>
     <string name="transaction">Transaksi</string>
+    <string name="button_back">Button Back</string>
+    <string name="page_navigation">Page Navigation</string>
+    <string name="username_field">Username Field</string>
+    <string name="email_field">Email Field</string>
+    <string name="telephone_field">Telephone Field</string>
+    <string name="password_field">Password Field</string>
+    <string name="confirm_password_field">Confirm Password Field</string>
+    <string name="button_add">Button Add</string>
+    <string name="button_favorite">Button Favorite</string>
+    <string name="data_general">Data Umum</string>
+    <string name="data_care">Data Perawatan</string>
 </resources>

@@ -1,127 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="50dp"
-    android:fillViewport="true"
-    android:fitsSystemWindows="true"
+    android:background="@color/backgroundScreen"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.profile.ProfileFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
 
-        <ImageView
-            android:id="@+id/bg_profile"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/background_page_foster"/>
+            android:layout_marginBottom="30dp">
 
-        <TextView
-            android:id="@+id/txtProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/plus_jakarta_sans_extra"
-            android:letterSpacing="-0.03"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            android:text="@string/profile"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/btnLogout"
-            app:layout_constraintTop_toTopOf="@id/btnLogout"/>
+            <ImageView
+                android:id="@+id/bg_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/background_page_foster"/>
 
-        <ImageView
-            android:id="@+id/btnLogout"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="65dp"
-            android:layout_marginEnd="32dp"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="10dp"
-            android:src="@drawable/ic_logout"
-            android:background="@drawable/backgroun_button_profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            <TextView
+                android:id="@+id/txtProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/plus_jakarta_sans_extra"
+                android:letterSpacing="-0.03"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:text="@string/profile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/btnLogout"
+                app:layout_constraintTop_toTopOf="@id/btnLogout"/>
 
-        <include
-            android:id="@+id/card"
-            layout="@layout/card_foster"
-            android:layout_width="370dp"
-            android:layout_height="wrap_content"
-            android:elevation="2dp"
-            app:layout_constraintBottom_toBottomOf="@id/bg_profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.487"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bg_profile" />
+            <ImageView
+                android:id="@+id/btnLogout"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="65dp"
+                android:layout_marginEnd="32dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="10dp"
+                android:src="@drawable/ic_logout"
+                android:background="@drawable/backgroun_button_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/galleryFoster"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Galeri Foster"
-            android:fontFamily="@font/plus_jakarta_sans_bold"
-            android:textSize="18sp"
-            android:layout_marginTop="35dp"
-            android:layout_marginStart="30dp"
-            app:layout_constraintStart_toStartOf="@id/card"
-            app:layout_constraintTop_toBottomOf="@id/card"/>
+            <include
+                android:id="@+id/card"
+                layout="@layout/card_foster"
+                android:layout_width="370dp"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                app:layout_constraintBottom_toBottomOf="@id/bg_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.487"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bg_profile" />
 
-        <TextView
-            android:id="@+id/descGallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kumpulan hewan yang telah dipublikasikan"
-            android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:textSize="12sp"
-            android:textColor="#ABABAB"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            app:layout_constraintStart_toStartOf="@id/card"
-            app:layout_constraintTop_toBottomOf="@id/galleryFoster"/>
+            <TextView
+                android:id="@+id/galleryFoster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Galeri Foster"
+                android:fontFamily="@font/plus_jakarta_sans_bold"
+                android:textSize="18sp"
+                android:layout_marginTop="35dp"
+                android:layout_marginStart="30dp"
+                app:layout_constraintStart_toStartOf="@id/card"
+                app:layout_constraintTop_toBottomOf="@id/card"/>
 
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginVertical="25dp"
-            android:background="#D9D9D9"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/descGallery" />
+            <TextView
+                android:id="@+id/descGallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kumpulan hewan yang telah dipublikasikan"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:textSize="12sp"
+                android:textColor="#ABABAB"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                app:layout_constraintStart_toStartOf="@id/card"
+                app:layout_constraintTop_toBottomOf="@id/galleryFoster"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_pet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginHorizontal="20dp"
-            tools:listitem="@layout/list_card_adopt"
-            app:layout_constraintTop_toBottomOf="@id/line"/>
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="25dp"
+                android:background="#D9D9D9"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descGallery" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/primary_color_foster"
-            android:visibility="gone"
-            tools:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_pet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                tools:listitem="@layout/list_card_adopt"
+                app:layout_constraintTop_toBottomOf="@id/line"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/primary_color_foster"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-</ScrollView>
+            <include
+                android:id="@+id/contentNull"
+                layout="@layout/empty_list_virtual_pet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/line" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

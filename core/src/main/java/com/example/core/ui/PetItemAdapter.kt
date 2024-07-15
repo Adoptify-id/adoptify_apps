@@ -1,7 +1,5 @@
 package com.example.core.ui
 
-import android.content.Intent
-import android.provider.ContactsContract.Data
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +16,7 @@ class PetItemAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataAdopt) {
             binding.apply {
-                namePet.text = data.namePet.split(" ").joinToString { it.capitalize() }
+                namePet.text = data.namePet.split(" ").joinToString(separator = " ") { it.capitalize() }
                 genderPet.text = data.gender
                 agePet.text = "${data.umur} Bulan"
                 rasPet.text = data.ras

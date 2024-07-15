@@ -33,5 +33,6 @@ class AuthInteractor(private val authRepository: IAuthRepository) : AuthUseCase 
     override fun getUserId(): Flow<Int> = authRepository.getUserId()
 
     override fun getRoleId(): Flow<Int> = authRepository.getRoleId()
+    override fun refreshToken(token: String): Flow<Resource<Login>> = authRepository.refreshToken(token)
 
 }

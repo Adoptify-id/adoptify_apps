@@ -1,6 +1,7 @@
 package com.example.adoptify_core.ui.foster.add
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -9,7 +10,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,16 +17,19 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.FragmentAddPetBinding
 import com.example.adoptify_core.ui.auth.login.LoginViewModel
 import com.example.adoptify_core.ui.foster.FosterActivity
 import com.example.adoptify_core.ui.foster.FosterViewModel
+import com.example.adoptify_core.ui.foster.submission.SubmissionFosterActivity
 import com.example.adoptify_core.ui.main.MainViewModel
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.PetAdoptItem
@@ -48,6 +51,8 @@ class AddPetFragment : Fragment() {
     private val fosterViewModel: FosterViewModel by viewModel()
 
     private var currentUriImage: Uri? = null
+
+    private var progressDialog: Dialog? = null
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         currentUriImage = it
@@ -88,6 +93,7 @@ class AddPetFragment : Fragment() {
 
     }
 
+
     private fun setupView() {
         addPetFragment.apply {
             nameEditText.addTextChangedListener(textWatcher)
@@ -98,9 +104,12 @@ class AddPetFragment : Fragment() {
 
     //text watcher for edit text
     private val textWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) { validateForm() }
+        override fun afterTextChanged(s: Editable?) {
+            validateForm()
+        }
+
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int){}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
     private fun validateForm() {
@@ -178,10 +187,10 @@ class AddPetFragment : Fragment() {
             val name = nameEditText.text.toString()
             val age = ageEditText.text.toString()
             val desc = descEditText.text.toString()
-            val image = currentUriImage?.let { uriToFile(it, requireContext()).reduceImageFile() }
+            val image = currentUriImage?.let { uriToFile(it, requireContext()).reduceImageFile() }?.path
 
             val item = PetAdoptItem(
-                fotoPet = image.toString(),
+                fotoPet = image,
                 umur = age.toInt(),
                 gender = gender,
                 namePet = name,
@@ -204,7 +213,7 @@ class AddPetFragment : Fragment() {
 
                 is Resource.Success -> {
                     showLoading(false)
-                    popUpDialog("Yeiy!", "Proses tambah pet berhasil", R.drawable.alert_success)
+                    popUpDialog("Yeiy!", "Penambahan data berhasil", "Selamat! Data hewan peliharaan Anda telah berhasil ditambahkan. Anda kini dapat melihat dan mengelola informasi hewan peliharaan" ,R.drawable.alert_success)
                     clearEditText()
                     (activity as? FosterActivity)?.switchTab(0)
                     Log.d("AddPetFragment", "result: ${it.data}")
@@ -212,7 +221,7 @@ class AddPetFragment : Fragment() {
 
                 is Resource.Error -> {
                     showLoading(false)
-                    popUpDialog("Yah!", "Proses tambah pet gagal", R.drawable.alert_failed)
+                    popUpDialog("Yah!", "Penambahan data gagal", it.message ,R.drawable.alert_failed)
                     Log.d("AddPetFragment", "error: ${it.message}")
                 }
             }
@@ -244,14 +253,16 @@ class AddPetFragment : Fragment() {
             }
 
             btnSave.setOnClickListener { addPetHandler() }
+
+            headerFoster.btnPengajuan.setOnClickListener { startActivity(Intent(requireContext(), SubmissionFosterActivity::class.java)) }
         }
     }
 
     private fun showLoading(isLoading: Boolean) {
-        addPetFragment.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) progressBarDialog() else dismissProgressDialog()
     }
 
-    private fun popUpDialog(title: String, desc: String, image: Int) {
+    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {
         val dialog = Dialog(requireContext())
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -268,11 +279,13 @@ class AddPetFragment : Fragment() {
             val imageView = dialog.findViewById<ImageView>(R.id.img_alert)
             val titleText = dialog.findViewById<TextView>(R.id.title_alert)
             val descText = dialog.findViewById<TextView>(R.id.desc_alert)
+            val subDescText = dialog.findViewById<TextView>(R.id.sub_desc_alert)
             val btnClose = dialog.findViewById<Button>(R.id.btnClose)
 
             imageView.setImageDrawable(ContextCompat.getDrawable(requireContext(), image))
             titleText.text = title
             descText.text = desc
+            subDescText.text = subDesc
             btnClose.setOnClickListener { dismiss() }
             show()
         }
@@ -286,13 +299,43 @@ class AddPetFragment : Fragment() {
             radioCategory.clearCheck()
             radioRas.clearCheck()
             radioGender.clearCheck()
-            currentUriImage =  null
+            currentUriImage = null
             previewImage.setImageResource(R.drawable.ic_preview_image)
         }
     }
 
+    private fun progressBarDialog() {
+        if (progressDialog == null) {
+            progressDialog = Dialog(requireContext()).apply {
+                val view =
+                    LayoutInflater.from(requireContext()).inflate(R.layout.dialog_progress, null)
+                setContentView(view)
+                setCancelable(false)
+                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+                progressBar.indeterminateTintList = ContextCompat.getColorStateList(requireContext(), R.color.primary_color_foster)
+            }
+        }
+        progressDialog?.show()
+    }
+
+    private fun dismissProgressDialog() {
+        progressDialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
+            }
+        }
+    }
+
     override fun onDestroyView() {
+        dismissProgressDialog()
         super.onDestroyView()
         _addPetFragment = null
     }
+
+    override fun onPause() {
+        dismissProgressDialog()
+        super.onPause()
+    }
+
 }
