@@ -28,6 +28,7 @@ data class DetailSubmissionData(
 	val statusReqId: Int? = null,
 	val statusPaymentId: Int? = null,
 	val statusPickupId: Int? = null,
-	val kategori: String? = null
+	val kategori: String? = null,
+	val buktiPickup: String? = null
 )
 

@@ -78,4 +78,7 @@ data class DetailSubmissionItem(
 
 	@field:SerializedName("kodePos")
 	val kodePos: String? = null,
+
+    @field:SerializedName("buktiPickup")
+    val buktiPickup: String? = null,
 )

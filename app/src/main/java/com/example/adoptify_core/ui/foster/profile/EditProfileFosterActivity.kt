@@ -3,7 +3,6 @@ package com.example.adoptify_core.ui.foster.profile
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
@@ -20,18 +19,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityEditProfileFosterBinding
-import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.auth.login.LoginViewModel
 import com.example.adoptify_core.ui.main.MainViewModel
 import com.example.adoptify_core.ui.profile.ProfileViewModel
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.DataUser
-import com.example.core.utils.ForceLogout
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -40,7 +37,7 @@ import java.util.Locale
 import kotlin.properties.Delegates
 
 @RequiresApi(Build.VERSION_CODES.Q)
-class EditProfileFosterActivity : AppCompatActivity() {
+class EditProfileFosterActivity : BaseActivity() {
 
     private lateinit var binding: ActivityEditProfileFosterBinding
     private val profileViewModel: ProfileViewModel by viewModel()
@@ -48,8 +45,6 @@ class EditProfileFosterActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModel()
 
     private var currentUriImage: Uri? = null
-
-    private var logoutDialog: Dialog? = null
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         currentUriImage = it
@@ -76,7 +71,6 @@ class EditProfileFosterActivity : AppCompatActivity() {
         initData()
         getToken()
         getUserId()
-        forceLogout()
         updateResult()
     }
 
@@ -86,37 +80,6 @@ class EditProfileFosterActivity : AppCompatActivity() {
         binding.autoComplete.setAdapter(adapter)
         mainViewModel.getUserId()
         loginViewModel.getSession()
-    }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@EditProfileFosterActivity, R.color.primary_color_foster)
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun setupView() {
@@ -307,15 +270,5 @@ class EditProfileFosterActivity : AppCompatActivity() {
             }
             show()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        logoutDialog?.dismiss()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        logoutDialog?.dismiss()
     }
 }

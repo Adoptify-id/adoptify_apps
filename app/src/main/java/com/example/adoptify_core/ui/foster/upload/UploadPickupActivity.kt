@@ -16,8 +16,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityUploadPickupBinding
 import com.example.adoptify_core.ui.foster.FosterViewModel
@@ -31,7 +31,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.koin.android.viewmodel.ext.android.viewModel
 
 @RequiresApi(Build.VERSION_CODES.Q)
-class UploadPickupActivity : AppCompatActivity() {
+class UploadPickupActivity : BaseActivity() {
 
     private lateinit var binding: ActivityUploadPickupBinding
 

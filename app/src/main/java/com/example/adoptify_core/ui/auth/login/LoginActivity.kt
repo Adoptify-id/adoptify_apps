@@ -22,6 +22,7 @@ import com.example.adoptify_core.ui.auth.register.RegisterActivity
 import com.example.adoptify_core.ui.foster.FosterActivity
 import com.example.adoptify_core.ui.main.MainActivity
 import com.example.core.data.Resource
+import com.example.core.utils.ForceLogout
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
@@ -120,6 +121,7 @@ class LoginActivity : AppCompatActivity() {
     //get and save token for login
     private fun getSessionUser(token: String, username: String, userId: Int, roleId: Int) {
         loginViewModel.saveSession(token, username, userId, roleId)
+        ForceLogout.resetSessionExpired()
         navigateToMain(roleId)
     }
 

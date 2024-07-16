@@ -19,7 +19,6 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,6 +28,7 @@ import androidx.core.content.ContextCompat
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityStatusAdoptBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
+import com.example.adoptify_core.ui.adopt.pickup.ViewPickupActivity
 import com.example.adoptify_core.ui.adopt.submission.SubmissionAdoptActivity
 import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.core.data.Resource
@@ -171,11 +171,17 @@ class StatusAdoptActivity : AppCompatActivity() {
                     btnClose.visibility = View.VISIBLE
                     cardUpload.root.isEnabled = false
                     cardUploadTransfer.root.isEnabled = false
-                    btnClose.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+                    btnClose.text = "Lihat Bukti Pickup"
+                    btnClose.setOnClickListener {
+                        val intent = Intent(this@StatusAdoptActivity, ViewPickupActivity::class.java)
+                        intent.putExtra("REQ_ID", data.reqId)
+                        startActivity(intent)
+                    }
                     btnNext.visibility = View.GONE
                     btnBack.visibility = View.GONE
 
                 }
+
             } else if (data.statusReqId == 3 && data.statusPaymentId == 1 && data.statusPickupId == 1)  {
                 binding.indicatorAdopt.apply {
                     bgCard.setImageResource(R.drawable.bg_card_rejected)
@@ -354,8 +360,6 @@ class StatusAdoptActivity : AppCompatActivity() {
                 setContentView(view)
                 setCancelable(false)
                 window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
-                progressBar.indeterminateTintList = ContextCompat.getColorStateList(this@StatusAdoptActivity, R.color.primary_color_foster)
             }
         }
         progressDialog?.show()

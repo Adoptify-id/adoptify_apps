@@ -383,7 +383,8 @@ object DataMapper {
                     fotoPet = it.fotoPet,
                     statusPaymentId = it.statusPaymentId,
                     statusPickupId = it.statusPickupId,
-                    statusReqId = it.statusReqId
+                    statusReqId = it.statusReqId,
+                    buktiPickup = it.buktiPickup
                 )
             }
         )

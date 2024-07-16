@@ -17,6 +17,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.viewpager2.widget.ViewPager2
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityVirtualPetBinding
 import com.example.adoptify_core.ui.auth.login.LoginActivity
@@ -32,7 +33,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
 
-class VirtualPetActivity : AppCompatActivity() {
+class VirtualPetActivity : BaseActivity() {
 
     private lateinit var binding: ActivityVirtualPetBinding
 
@@ -43,9 +44,6 @@ class VirtualPetActivity : AppCompatActivity() {
     private var token: String? = null
     private var userId: Int? = null
     private lateinit var addVirtualPetLauncher: ActivityResultLauncher<Intent>
-
-    private var logoutDialog: Dialog? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +60,6 @@ class VirtualPetActivity : AppCompatActivity() {
         }
         observeData()
         getVirtualPet()
-        forceLogout()
         setupListener()
     }
 
@@ -79,37 +76,6 @@ class VirtualPetActivity : AppCompatActivity() {
                 virtualPetViewModel.getVirtualPet(token!!, userId!!)
             }
         }
-    }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun setupListener() {
@@ -179,13 +145,4 @@ class VirtualPetActivity : AppCompatActivity() {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        logoutDialog?.dismiss()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        logoutDialog?.dismiss()
-    }
 }

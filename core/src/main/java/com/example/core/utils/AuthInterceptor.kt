@@ -2,9 +2,6 @@ package com.example.core.utils
 
 import android.util.Log
 import com.example.core.data.source.local.datastore.UserPreferences
-import com.example.core.data.source.remote.RemoteDataSource
-import com.example.core.data.source.remote.network.ApiResponse
-import com.example.core.data.source.remote.network.ApiService
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -22,6 +19,17 @@ class AuthInterceptor(
             .header("Authorization", "Bearer $token")
             .build()
 
-        return chain.proceed(newRequest)
+
+        val response = chain.proceed(newRequest)
+        Log.d("Auth", "code: ${response.code}")
+        if (response.code == 401) {
+            runBlocking {
+                userPreferences.deleteSession()
+                ForceLogout.notifySessionExpired()
+            }
+            return response
+        }
+
+        return response
     }
 }

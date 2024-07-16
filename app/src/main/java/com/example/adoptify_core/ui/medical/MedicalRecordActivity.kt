@@ -2,26 +2,17 @@ package com.example.adoptify_core.ui.medical
 
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
-import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.adoptify_core.R
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.databinding.ActivityMedicalRecordBinding
-import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.medical.record.RecordActivity
 import com.example.adoptify_core.ui.medical.vaksinasi.VaksinasiActivity
 import com.example.core.data.Resource
@@ -29,7 +20,6 @@ import com.example.core.domain.model.ListMedicalItem
 import com.example.core.domain.model.MedicalItem
 import com.example.core.domain.model.VaksinasiData
 import com.example.core.ui.MedicalRecordAdapter
-import com.example.core.utils.ForceLogout
 import com.example.core.utils.SessionViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
@@ -37,7 +27,7 @@ import java.util.Calendar
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.Q)
-class MedicalRecordActivity : AppCompatActivity() {
+class MedicalRecordActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMedicalRecordBinding
 
@@ -49,8 +39,6 @@ class MedicalRecordActivity : AppCompatActivity() {
 
     private var dataVaksinasi: List<VaksinasiData> = listOf()
     private var dataMedical: List<MedicalItem> = listOf()
-
-    private var logoutDialog: Dialog? = null
 
     private lateinit var medicalRecordAdapter: MedicalRecordAdapter
 
@@ -102,38 +90,6 @@ class MedicalRecordActivity : AppCompatActivity() {
                 getMedicalRecord()
             }
         }
-    }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@MedicalRecordActivity, R.color.primary_color_foster)
-
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun setupObserver() {
@@ -296,15 +252,5 @@ class MedicalRecordActivity : AppCompatActivity() {
         super.onResume()
         getVaksinasi()
         getMedicalRecord()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        logoutDialog?.dismiss()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        logoutDialog?.dismiss()
     }
 }

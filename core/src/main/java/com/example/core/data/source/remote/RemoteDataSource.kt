@@ -28,7 +28,6 @@ import com.example.core.domain.model.AddVirtualPetItem
 import com.example.core.domain.model.User
 import com.example.core.utils.DataMapper
 import com.example.core.utils.DataMapper.parseErrorMessage
-import com.example.core.utils.ForceLogout
 import com.example.core.utils.serializeToMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -85,9 +84,10 @@ class RemoteDataSource(
                 emit(ApiResponse.Success(response.virtualPet))
             } catch (e: HttpException) {
                 if (e.code() == 401) {
-                    localDataSource.deleteSession()
-                    ForceLogout.logoutLiveData.postValue(Unit)
-                    emit(ApiResponse.Error(e.message().toString()))
+//                    localDataSource.deleteSession()
+//                    ForceLogout.logoutLiveData.postValue(Unit)
+                    val errorMessage = "Unauthorized User"
+                    emit(ApiResponse.Error(errorMessage))
                 } else {
                     val errorBody = e.response()?.errorBody()?.string()
                     val errorMessage = parseErrorMessage(errorBody)
@@ -107,9 +107,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -127,9 +126,8 @@ class RemoteDataSource(
                 emit(ApiResponse.Success(response.data))
             } catch (e: HttpException) {
                 if (e.code() == 401) {
-                    localDataSource.deleteSession()
-                    ForceLogout.logoutLiveData.postValue(Unit)
-                    emit(ApiResponse.Error(e.message().toString()))
+                    val errorMessage = "Unauthorized User"
+                    emit(ApiResponse.Error(errorMessage))
                 } else {
                     val errorBody = e.response()?.errorBody()?.string()
                     val errorMessage = parseErrorMessage(errorBody)
@@ -149,9 +147,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -172,9 +169,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -190,9 +186,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -209,9 +204,8 @@ class RemoteDataSource(
                 emit(ApiResponse.Success(response.data))
             } catch (e: HttpException) {
                 if (e.code() == 401) {
-                    localDataSource.deleteSession()
-                    ForceLogout.logoutLiveData.postValue(Unit)
-                    emit(ApiResponse.Error(e.message().toString()))
+                    val errorMessage = "Unauthorized User"
+                    emit(ApiResponse.Error(errorMessage))
                 } else {
                     val errorBody = e.response()?.errorBody()?.string()
                     val errorMessage = parseErrorMessage(errorBody)
@@ -231,9 +225,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -253,9 +246,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -271,9 +263,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response.data))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -290,9 +281,8 @@ class RemoteDataSource(
                 emit(ApiResponse.Success(response))
             } catch (e: HttpException) {
                 if (e.code() == 401) {
-                    localDataSource.deleteSession()
-                    ForceLogout.logoutLiveData.postValue(Unit)
-                    emit(ApiResponse.Error(e.message().toString()))
+                    val errorMessage = "Unauthorized User"
+                    emit(ApiResponse.Error(errorMessage))
                 } else {
                     val errorBody = e.response()?.errorBody()?.string()
                     val errorMessage = parseErrorMessage(errorBody)
@@ -313,9 +303,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -332,9 +321,8 @@ class RemoteDataSource(
                 emit(ApiResponse.Success(response.data))
             } catch (e: HttpException) {
                 if (e.code() == 401) {
-                    localDataSource.deleteSession()
-                    ForceLogout.logoutLiveData.postValue(Unit)
-                    emit(ApiResponse.Error(e.message().toString()))
+                    val errorMessage = "Unauthorized User"
+                    emit(ApiResponse.Error(errorMessage))
                 } else {
                     val errorBody = e.response()?.errorBody()?.string()
                     val errorMessage = parseErrorMessage(errorBody)
@@ -351,9 +339,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -371,9 +358,8 @@ class RemoteDataSource(
                 emit(ApiResponse.Success(response))
             } catch (e: HttpException) {
                 if (e.code() == 401) {
-                    localDataSource.deleteSession()
-                    ForceLogout.logoutLiveData.postValue(Unit)
-                    emit(ApiResponse.Error(e.message().toString()))
+                    val errorMessage = "Unauthorized User"
+                    emit(ApiResponse.Error(errorMessage))
                 } else {
                     val errorBody = e.response()?.errorBody()?.string()
                     val errorMessage = parseErrorMessage(errorBody)
@@ -392,9 +378,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response.data))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -413,9 +398,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -434,9 +418,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response.data))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -456,9 +439,8 @@ class RemoteDataSource(
                 emit(ApiResponse.Success(response))
             } catch (e: HttpException) {
                 if (e.code() == 401) {
-                    localDataSource.deleteSession()
-                    ForceLogout.logoutLiveData.postValue(Unit)
-                    emit(ApiResponse.Error(e.message().toString()))
+                    val errorMessage = "Unauthorized User"
+                    emit(ApiResponse.Error(errorMessage))
                 } else {
                     val errorBody = e.response()?.errorBody()?.string()
                     val errorMessage = parseErrorMessage(errorBody)
@@ -478,9 +460,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -500,9 +481,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -523,9 +503,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -546,9 +525,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -569,9 +547,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -591,9 +568,8 @@ class RemoteDataSource(
             emit(ApiResponse.Success(response))
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                localDataSource.deleteSession()
-                ForceLogout.logoutLiveData.postValue(Unit)
-                emit(ApiResponse.Error(e.message().toString()))
+                val errorMessage = "Unauthorized User"
+                emit(ApiResponse.Error(errorMessage))
             } else {
                 val errorBody = e.response()?.errorBody()?.string()
                 val errorMessage = parseErrorMessage(errorBody)
@@ -610,9 +586,8 @@ class RemoteDataSource(
                 emit(ApiResponse.Success(response))
             } catch (e: HttpException) {
                 if (e.code() == 401) {
-                    localDataSource.deleteSession()
-                    ForceLogout.logoutLiveData.postValue(Unit)
-                    emit(ApiResponse.Error(e.message().toString()))
+                    val errorMessage = "Unauthorized User"
+                    emit(ApiResponse.Error(errorMessage))
                 } else {
                     val errorBody = e.response()?.errorBody()?.string()
                     val errorMessage = parseErrorMessage(errorBody)

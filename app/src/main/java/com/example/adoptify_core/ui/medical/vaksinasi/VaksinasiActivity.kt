@@ -3,7 +3,6 @@ package com.example.adoptify_core.ui.medical.vaksinasi
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
@@ -20,22 +19,20 @@ import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityVaksinasiBinding
-import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.medical.MedicalRecordViewModel
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.VaksinasiItem
-import com.example.core.utils.ForceLogout
 import com.example.core.utils.SessionViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class VaksinasiActivity : AppCompatActivity() {
+class VaksinasiActivity : BaseActivity() {
 
     private lateinit var binding: ActivityVaksinasiBinding
     private val medicalViewModel: MedicalRecordViewModel by viewModel()
@@ -47,7 +44,6 @@ class VaksinasiActivity : AppCompatActivity() {
     var vaksinSelected = ""
     private var token: String? = null
     private var userId: Int? = null
-    private var logoutDialog: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +52,6 @@ class VaksinasiActivity : AppCompatActivity() {
 
         binding.header.txtBookmark.text = resources.getString(R.string.vaksinasi)
         observeData()
-        forceLogout()
         setupView()
         validateForm()
         setupListener()
@@ -71,38 +66,6 @@ class VaksinasiActivity : AppCompatActivity() {
         sessionViewModel.userId.observe(this) {
             userId = it
         }
-    }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@VaksinasiActivity, R.color.primary_color_foster)
-
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun setupView() {
@@ -377,13 +340,11 @@ class VaksinasiActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         dismissProgressDialog()
-        logoutDialog?.dismiss()
         super.onDestroy()
     }
 
     override fun onPause() {
         dismissProgressDialog()
-        logoutDialog?.dismiss()
         super.onPause()
     }
 }

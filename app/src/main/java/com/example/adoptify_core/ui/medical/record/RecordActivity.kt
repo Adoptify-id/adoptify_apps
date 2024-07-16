@@ -3,7 +3,6 @@ package com.example.adoptify_core.ui.medical.record
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
@@ -22,16 +21,14 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityRecordBinding
-import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.medical.MedicalRecordViewModel
 import com.example.adoptify_core.ui.profile.ProfileViewModel
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.DataItem
-import com.example.core.utils.ForceLogout
 import com.example.core.utils.SessionViewModel
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
@@ -40,7 +37,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.Q)
-class RecordActivity : AppCompatActivity() {
+class RecordActivity : BaseActivity() {
 
     private lateinit var binding: ActivityRecordBinding
 
@@ -54,7 +51,6 @@ class RecordActivity : AppCompatActivity() {
     var valueDate = ""
 
     private var progressDialog: Dialog? = null
-    private var logoutDialog: Dialog? = null
 
     private var currentUriImage: Uri? = null
 
@@ -70,7 +66,6 @@ class RecordActivity : AppCompatActivity() {
         binding.header.txtBookmark.text = resources.getString(R.string.medical_record)
         setupView()
         observeData()
-        forceLogout()
         setupListener()
         recordResult()
         validateForm()
@@ -91,38 +86,6 @@ class RecordActivity : AppCompatActivity() {
 
             radioCategory.setOnCheckedChangeListener { _, _ -> validateForm() }
         }
-    }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@RecordActivity, R.color.primary_color_foster)
-
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun observeData() {
@@ -370,13 +333,11 @@ class RecordActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         dismissProgressDialog()
-        logoutDialog?.dismiss()
         super.onDestroy()
     }
 
     override fun onPause() {
         dismissProgressDialog()
-        logoutDialog?.dismiss()
         super.onPause()
     }
 }

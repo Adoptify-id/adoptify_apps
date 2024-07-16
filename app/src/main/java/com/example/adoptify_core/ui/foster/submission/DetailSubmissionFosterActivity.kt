@@ -23,6 +23,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityDetailSubmissionFosterBinding
 import com.example.adoptify_core.ui.auth.login.LoginActivity
@@ -39,7 +40,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class DetailSubmissionFosterActivity : AppCompatActivity() {
+class DetailSubmissionFosterActivity : BaseActivity() {
 
     private lateinit var binding: ActivityDetailSubmissionFosterBinding
 
@@ -50,7 +51,6 @@ class DetailSubmissionFosterActivity : AppCompatActivity() {
     private var reqId: Int? = null
 
     private var progressDialog: Dialog? = null
-    private var logoutDialog: Dialog? = null
     private var successDialog: BottomSheetDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +60,6 @@ class DetailSubmissionFosterActivity : AppCompatActivity() {
 
         observeData()
         showDetailData()
-        forceLogout()
         updateAdoptResult()
         updateStatusReqResult()
         updateStatusPaymentResult()
@@ -94,40 +93,6 @@ class DetailSubmissionFosterActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-            btnLogin.backgroundTintList = ContextCompat.getColorStateList(
-                this@DetailSubmissionFosterActivity,
-                R.color.primary_color_foster
-            )
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun setupView(data: DetailItemSubmission) {
@@ -430,14 +395,12 @@ class DetailSubmissionFosterActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         dismissProgressDialog()
-        logoutDialog?.dismiss()
         successDialog?.dismiss()
         super.onDestroy()
     }
 
     override fun onPause() {
         dismissProgressDialog()
-        logoutDialog?.dismiss()
         successDialog?.dismiss()
         super.onPause()
     }

@@ -1,21 +1,22 @@
-package com.example.adoptify_core.ui.foster.upload
+package com.example.adoptify_core.ui.adopt.pickup
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
-import com.example.adoptify_core.databinding.ActivityDetailPickupBinding
-import com.example.adoptify_core.ui.foster.FosterViewModel
+import com.example.adoptify_core.databinding.ActivityViewPickupBinding
+import com.example.adoptify_core.ui.adopt.AdoptViewModel
 import com.example.core.data.Resource
 import com.example.core.utils.SessionViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class DetailPickupActivity : BaseActivity() {
+class ViewPickupActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDetailPickupBinding
-    private val fosterViewModel: FosterViewModel by viewModel()
+    private lateinit var binding: ActivityViewPickupBinding
+
+    private val adoptViewModel: AdoptViewModel by viewModel()
     private val sessionViewModel: SessionViewModel by viewModel()
 
     private var token: String = ""
@@ -23,12 +24,12 @@ class DetailPickupActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDetailPickupBinding.inflate(layoutInflater)
+        binding = ActivityViewPickupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         observeData()
-        detailSubmissionResult()
         setupView()
+        detailSubmissionResult()
     }
 
     private fun observeData() {
@@ -38,7 +39,7 @@ class DetailPickupActivity : BaseActivity() {
             token = it
             Log.d("DetailPickup", "token: $it , reqid: $reqId")
         }
-        fosterViewModel.detailSubmissionFoster(token, reqId!!)
+        adoptViewModel.getDetailSubmissionPet(token, reqId!!)
     }
 
     private fun setupView() {
@@ -53,7 +54,7 @@ class DetailPickupActivity : BaseActivity() {
     }
 
     private fun detailSubmissionResult() {
-        fosterViewModel.detailSubmission.observe(this) {
+        adoptViewModel.detailSubmission.observe(this) {
             when(it) {
                 is Resource.Loading -> {showLoading(true)}
                 is Resource.Success -> {

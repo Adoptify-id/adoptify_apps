@@ -17,25 +17,23 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityEditFosterBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
-import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.foster.FosterActivity
 import com.example.adoptify_core.ui.foster.FosterViewModel
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.PetAdoptItem
-import com.example.core.utils.ForceLogout
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
 @RequiresApi(Build.VERSION_CODES.Q)
-class EditFosterActivity : AppCompatActivity() {
+class EditFosterActivity : BaseActivity() {
 
     private lateinit var binding: ActivityEditFosterBinding
 
@@ -57,7 +55,6 @@ class EditFosterActivity : AppCompatActivity() {
         }
     }
 
-    private var logoutDialog: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +65,6 @@ class EditFosterActivity : AppCompatActivity() {
         setupView()
         initData()
         getDetail()
-        forceLogout()
         updateResult()
     }
 
@@ -104,37 +100,6 @@ class EditFosterActivity : AppCompatActivity() {
 
             btnSave.setOnClickListener { updateHandler() }
         }
-    }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@EditFosterActivity, R.color.primary_color_foster)
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun updateRadioButtonsForCategory(category: String) {
@@ -324,15 +289,5 @@ class EditFosterActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        logoutDialog?.dismiss()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        logoutDialog?.dismiss()
     }
 }

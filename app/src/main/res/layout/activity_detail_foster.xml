@@ -107,31 +107,6 @@
             app:layout_constraintTop_toBottomOf="@id/txtId" />
 
         <TextView
-            android:id="@+id/txtOwner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/plus_jakarta_sans_semibold"
-            android:text="@string/owner"
-            android:textColor="#A5A5A5"
-            android:textSize="10sp"
-            app:layout_constraintStart_toStartOf="@id/txtFosterName"
-            app:layout_constraintTop_toBottomOf="@id/txtFosterName" />
-
-        <TextView
-            android:id="@+id/txtOwnerName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:fontFamily="@font/plus_jakarta_sans_regular"
-            android:text="@string/dummy_name_owner"
-            android:textColor="@color/blackText"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@id/txtOwner"
-            app:layout_constraintTop_toBottomOf="@id/txtOwner" />
-
-
-        <TextView
             android:id="@+id/name_pet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
