@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
@@ -97,6 +98,11 @@ class SubmissionFosterActivity : BaseActivity() {
     }
 
     private fun showRecyclerView(filteredList: List<DataSubmissionFoster>) {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         binding.rvSubmission.apply {
             adapter = SubmissionFosterAdapter(filteredList) {
                 val intent = Intent(
@@ -104,7 +110,7 @@ class SubmissionFosterActivity : BaseActivity() {
                     DetailSubmissionFosterActivity::class.java
                 )
                 intent.putExtra("REQ_ID", it.reqId)
-                startActivity(intent)
+                startActivity(intent, options.toBundle())
             }
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@SubmissionFosterActivity)

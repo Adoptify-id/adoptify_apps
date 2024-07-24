@@ -16,6 +16,7 @@ import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityOptionsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
@@ -79,10 +80,15 @@ class VirtualPetActivity : BaseActivity() {
     }
 
     private fun setupListener() {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         binding.apply {
             btnAdd.setOnClickListener {
                 val intent = Intent(this@VirtualPetActivity, AddVirtualPetActivity::class.java)
-                addVirtualPetLauncher.launch(intent)
+                addVirtualPetLauncher.launch(intent, options)
             }
             header.icArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
             btnNext.setOnClickListener { virtualPetPager.currentItem += 1 }

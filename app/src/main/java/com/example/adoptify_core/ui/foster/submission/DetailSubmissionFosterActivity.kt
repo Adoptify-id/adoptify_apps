@@ -21,6 +21,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.adoptify_core.BaseActivity
@@ -96,6 +97,11 @@ class DetailSubmissionFosterActivity : BaseActivity() {
     }
 
     private fun setupView(data: DetailItemSubmission) {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         binding.apply {
             header.icArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
             cardSubmission.apply {
@@ -126,14 +132,14 @@ class DetailSubmissionFosterActivity : BaseActivity() {
             cardUpload.cardKtp.setOnClickListener {
                 val url =
                     "https://storage.googleapis.com/bucket-adoptify/imagesReqPet/${data.kartuIdentitas}"
-                downloadingImage("Kartu Identitas", url, "Kartu Identitas ${data.name}.jpg")
+                    downloadingImage("Kartu Identitas", url, "Kartu Identitas ${data.name}.jpg")
             }
             cardUpload.cardFormulir.setOnClickListener {
                 val intent =
                     Intent(this@DetailSubmissionFosterActivity, ReviewFormActivity::class.java)
                 intent.putExtra("REQ_ID", data.reqId)
                 intent.putExtra("CATEGORY", data.kategori)
-                startActivity(intent)
+                startActivity(intent, options.toBundle())
             }
 
             cardUpload.cardKomitmen.visibility = View.VISIBLE
@@ -212,6 +218,7 @@ class DetailSubmissionFosterActivity : BaseActivity() {
                     val txtConfirm = view.findViewById<TextView>(R.id.confirm)
                     val btnCancel = view.findViewById<Button>(R.id.btnCancel)
                     txtConfirm.text = "Apakah anda yakin ingin \nmenolak data adopsi ini?"
+                    btnCancel.text = "Tolak"
                     btnCancel.backgroundTintList = ContextCompat.getColorStateList(
                         this@DetailSubmissionFosterActivity, R.color.primary_color_foster
                     )
@@ -237,7 +244,7 @@ class DetailSubmissionFosterActivity : BaseActivity() {
                         UploadPickupActivity::class.java
                     )
                     intent.putExtra("REQ_ID", data.reqId)
-                    startActivity(intent)
+                    startActivity(intent, options.toBundle())
                 }
             } else if (data.statusPickupId == 2) {
                 btnClose.text = "Lihat Bukti Pickup"
@@ -247,7 +254,7 @@ class DetailSubmissionFosterActivity : BaseActivity() {
                         DetailPickupActivity::class.java
                     )
                     intent.putExtra("REQ_ID", data.reqId)
-                    startActivity(intent)
+                    startActivity(intent, options.toBundle())
                 }
             } else {
                 btnClose.setOnClickListener { finish() }

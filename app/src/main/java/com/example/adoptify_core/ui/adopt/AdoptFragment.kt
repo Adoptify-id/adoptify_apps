@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
+import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.FragmentAdoptBinding
 import com.example.adoptify_core.ui.adopt.list.ListPageAdapter
 import com.example.adoptify_core.ui.adopt.submission.SubmissionAdoptActivity
@@ -50,8 +52,13 @@ class AdoptFragment : Fragment() {
     }
 
     private fun setupView() {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            requireContext(),
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         adoptFragment.headerAdopt.apply {
-            icAdopt.setOnClickListener { startActivity(Intent(requireContext(), SubmissionAdoptActivity::class.java)) }
+            icAdopt.setOnClickListener { startActivity(Intent(requireContext(), SubmissionAdoptActivity::class.java), options.toBundle()) }
         }
     }
 

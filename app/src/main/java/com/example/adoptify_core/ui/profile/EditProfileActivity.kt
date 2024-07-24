@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityEditProfileBinding
 import com.example.adoptify_core.ui.auth.login.LoginActivity
@@ -39,7 +40,7 @@ import java.util.Locale
 import kotlin.properties.Delegates
 
 @RequiresApi(Build.VERSION_CODES.Q)
-class EditProfileActivity : AppCompatActivity() {
+class EditProfileActivity : BaseActivity() {
 
     private lateinit var binding: ActivityEditProfileBinding
     private val profileViewModel: ProfileViewModel by viewModel()
@@ -47,7 +48,6 @@ class EditProfileActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModel()
 
     private var currentUriImage: Uri? = null
-    private var logoutDialog: Dialog? = null
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         currentUriImage = it
@@ -74,7 +74,6 @@ class EditProfileActivity : AppCompatActivity() {
         initData()
         getToken()
         getUserId()
-        forceLogout()
         updateResult()
     }
 
@@ -92,38 +91,6 @@ class EditProfileActivity : AppCompatActivity() {
             telpEditText.isEnabled = false
             emailEditText.isEnabled = false
         }
-    }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@EditProfileActivity, R.color.primary_color_foster)
-
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun getToken() {
@@ -306,15 +273,5 @@ class EditProfileActivity : AppCompatActivity() {
             }
             show()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        logoutDialog?.dismiss()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        logoutDialog?.dismiss()
     }
 }

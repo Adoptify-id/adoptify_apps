@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityLoginBinding
@@ -127,11 +128,20 @@ class LoginActivity : AppCompatActivity() {
 
     private fun navigateToMain(roleId: Int) {
         val intent = if (roleId == 1) {
-            Intent(this@LoginActivity, MainActivity::class.java)
+            Intent(this@LoginActivity, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
         } else {
-            Intent(this@LoginActivity, FosterActivity::class.java)
+            Intent(this@LoginActivity, FosterActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
         }
-        startActivity(intent)
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
+        startActivity(intent, options.toBundle())
         finish()
     }
 

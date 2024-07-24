@@ -365,6 +365,7 @@ object DataMapper {
             msg = data.msg,
             data = data.data.map {
                 DetailSubmissionData(
+                    reqId = it.reqId,
                     umur = it.umur,
                     gender = it.gender,
                     descPet = it.descPet,
@@ -384,7 +385,11 @@ object DataMapper {
                     statusPaymentId = it.statusPaymentId,
                     statusPickupId = it.statusPickupId,
                     statusReqId = it.statusReqId,
-                    buktiPickup = it.buktiPickup
+                    buktiPickup = it.buktiPickup,
+                    name = it.name,
+                    kategori = it.kategori,
+                    suratKomitmen = it.suratKomitmen,
+                    transfer = it.transfer,
                 )
             }
         )

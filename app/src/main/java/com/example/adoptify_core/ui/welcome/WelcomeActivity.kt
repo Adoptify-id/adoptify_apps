@@ -21,5 +21,7 @@ class WelcomeActivity : AppCompatActivity() {
         viewPager.isUserInputEnabled = false
         indicator.dotsClickable = false
         indicator.attachTo(viewPager)
+        viewPager.setPageTransformer(DepthPageTransformer())
+
     }
 }

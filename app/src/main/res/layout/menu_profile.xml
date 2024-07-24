@@ -198,47 +198,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/plus_jakarta_sans_medium"
-        android:text="@string/report"
+        android:text="Kebijakan Privasi"
         android:textColor="#969696"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@id/txtCallCenter"
         app:layout_constraintStart_toEndOf="@id/ic_call_center"
         app:layout_constraintTop_toBottomOf="@id/line2" />
-
-    <TextView
-        android:id="@+id/txtAbout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:fontFamily="@font/plus_jakarta_sans_semibold"
-        android:text="@string/about"
-        android:textColor="#303030"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/txtHelp"
-        app:layout_constraintTop_toBottomOf="@id/txtReport" />
-
-    <ImageView
-        android:id="@+id/ic_about_us"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="25dp"
-        android:src="@drawable/ic_about_app"
-        app:layout_constraintStart_toStartOf="@id/txtAbout"
-        app:layout_constraintTop_toBottomOf="@id/txtAbout" />
-
-    <TextView
-        android:id="@+id/txtAboutUs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="23dp"
-        android:fontFamily="@font/plus_jakarta_sans_medium"
-        android:text="@string/about_us"
-        android:textColor="#969696"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@id/ic_about_us"
-        app:layout_constraintTop_toBottomOf="@id/txtAbout" />
 
     <View
         android:id="@+id/line3"
@@ -251,28 +216,29 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtAboutUs" />
+        app:layout_constraintTop_toBottomOf="@id/txtReport" />
 
     <ImageView
-        android:id="@+id/ic_privacy_police"
+        android:id="@+id/ic_about_us"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/ic_privacy_police"
-        app:layout_constraintStart_toStartOf="@id/ic_about_us"
+        android:src="@drawable/ic_about_app"
+        app:layout_constraintStart_toStartOf="@id/txtHelp"
         app:layout_constraintTop_toBottomOf="@id/line3" />
 
     <TextView
-        android:id="@+id/txtPrivacy"
+        android:id="@+id/txtAboutUs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/plus_jakarta_sans_medium"
-        android:text="@string/report"
+        android:text="@string/about_us"
         android:textColor="#969696"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@id/txtAboutUs"
-        app:layout_constraintStart_toEndOf="@id/ic_privacy_police"
+        app:layout_constraintStart_toEndOf="@id/ic_about_us"
         app:layout_constraintTop_toBottomOf="@id/line3" />
 
 

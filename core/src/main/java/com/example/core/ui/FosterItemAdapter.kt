@@ -2,6 +2,7 @@ package com.example.core.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.core.R
@@ -10,7 +11,7 @@ import com.example.core.databinding.ListHeaderBinding
 import com.example.core.domain.model.DataAdopt
 import com.example.core.domain.model.ListPetItem
 
-class FosterItemAdapter(private val items: List<ListPetItem>, private val onItemClick: (DataAdopt) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class FosterItemAdapter(private val items: List<ListPetItem>, private val onItemClick: (DataAdopt, ImageView) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val TYPE_HEADER = 0
@@ -30,7 +31,7 @@ class FosterItemAdapter(private val items: List<ListPetItem>, private val onItem
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataAdopt) {
             binding.apply {
-                namePet.text = data.namePet.split(" ").joinToString { it.capitalize() }
+                namePet.text = data.namePet.split(" ").joinToString(separator = " ") { it.capitalize() }
                 genderPet.text = data.gender
                 agePet.text = "${data.umur} Bulan"
                 rasPet.text = data.ras
@@ -39,7 +40,9 @@ class FosterItemAdapter(private val items: List<ListPetItem>, private val onItem
                     .placeholder(R.drawable.adopt_virtual_dog)
                     .into(imgPet)
 
-                root.setOnClickListener { onItemClick(data) }
+                imgPet.transitionName = "shared_image_${data.petId}"
+
+                root.setOnClickListener { onItemClick(data, imgPet) }
             }
         }
     }

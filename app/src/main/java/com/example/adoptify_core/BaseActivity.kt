@@ -9,6 +9,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.core.utils.ForceLogout
 
@@ -45,7 +46,12 @@ open class BaseActivity : AppCompatActivity() {
     private fun navigateToLogin() {
         val intent = Intent(this, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_left,
+            R.anim.slide_out_right
+        )
+        startActivity(intent, options.toBundle())
         finish()
     }
 

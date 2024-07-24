@@ -11,6 +11,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.adoptify_core.BaseActivity
@@ -22,6 +23,7 @@ import com.example.adoptify_core.ui.foster.edit.EditFosterActivity
 import com.example.core.data.Resource
 import com.example.core.domain.model.DataAdopt
 import com.example.core.utils.ForceLogout
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
@@ -41,6 +43,18 @@ class DetailFosterActivity : BaseActivity() {
         binding = ActivityDetailFosterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val transitionName = intent.getStringExtra("TRANSITION_NAME")
+        binding.imagePet.transitionName = transitionName
+
+        window.sharedElementEnterTransition = MaterialContainerTransform().apply {
+            addTarget(binding.imagePet)
+            duration = 500L
+        }
+        window.sharedElementReturnTransition = MaterialContainerTransform().apply {
+            addTarget(binding.imagePet)
+            duration = 500L
+        }
+
         initData()
         getDetailResult()
         setupListener()
@@ -55,7 +69,6 @@ class DetailFosterActivity : BaseActivity() {
     }
 
     private fun setupView(data: DataAdopt?) {
-
         val imageUrl = if (data?.fotoPet == null) {
             null
         } else {
@@ -97,6 +110,11 @@ class DetailFosterActivity : BaseActivity() {
     }
 
     private fun setupListener() {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         binding.apply {
             icArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
             btnEdit.setOnClickListener {
@@ -104,7 +122,7 @@ class DetailFosterActivity : BaseActivity() {
                 intent.putExtra("PET_ID", petId)
                 intent.putExtra("TOKEN", token)
                 intent.putExtra("USER_ID", userId)
-                startActivity(intent)
+                startActivity(intent, options.toBundle())
             }
         }
     }

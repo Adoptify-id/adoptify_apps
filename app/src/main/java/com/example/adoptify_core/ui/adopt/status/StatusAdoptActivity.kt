@@ -23,18 +23,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityStatusAdoptBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
 import com.example.adoptify_core.ui.adopt.pickup.ViewPickupActivity
 import com.example.adoptify_core.ui.adopt.submission.SubmissionAdoptActivity
-import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.FormItem
 import com.example.core.domain.model.DetailSubmissionData
-import com.example.core.utils.ForceLogout
 import com.example.core.utils.SessionViewModel
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
@@ -43,7 +42,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.Q)
-class StatusAdoptActivity : AppCompatActivity() {
+class StatusAdoptActivity : BaseActivity() {
 
     private lateinit var binding: ActivityStatusAdoptBinding
 
@@ -86,7 +85,6 @@ class StatusAdoptActivity : AppCompatActivity() {
         observeData()
         updateResult()
         showDetailData()
-        forceLogout()
         setupHeader()
         setupListener()
     }
@@ -99,38 +97,6 @@ class StatusAdoptActivity : AppCompatActivity() {
 
         adoptViewModel.getDetailSubmissionPet(token, reqId!!)
     }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
-    }
-
 
     private fun setupHeader() {
         binding.apply {
@@ -148,6 +114,11 @@ class StatusAdoptActivity : AppCompatActivity() {
     }
 
     private fun setupView(data: DetailSubmissionData) {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         binding.apply {
             if (data.statusReqId == 2 && data.statusPaymentId == 1 && data.statusPickupId == 1) {
                 binding.indicatorAdopt.apply {
@@ -169,13 +140,11 @@ class StatusAdoptActivity : AppCompatActivity() {
                     cardTransfer.card.visibility = View.GONE
                     btnDownload.visibility = View.GONE
                     btnClose.visibility = View.VISIBLE
-                    cardUpload.root.isEnabled = false
-                    cardUploadTransfer.root.isEnabled = false
                     btnClose.text = "Lihat Bukti Pickup"
                     btnClose.setOnClickListener {
                         val intent = Intent(this@StatusAdoptActivity, ViewPickupActivity::class.java)
                         intent.putExtra("REQ_ID", data.reqId)
-                        startActivity(intent)
+                        startActivity(intent, options.toBundle())
                     }
                     btnNext.visibility = View.GONE
                     btnBack.visibility = View.GONE
@@ -189,6 +158,18 @@ class StatusAdoptActivity : AppCompatActivity() {
                     iconStatus.setImageResource(R.drawable.ic_status_rejected)
                     txtStatus.text = "Ditolak"
                     card.setCardBackgroundColor(ContextCompat.getColor(this@StatusAdoptActivity, R.color.primaryColor))
+                    btnNext.visibility = View.GONE
+                    btnBack.visibility = View.GONE
+                    btnClose.visibility = View.VISIBLE
+                    cardTransfer.card.visibility = View.GONE
+                    btnDownload.visibility = View.GONE
+                    cardUpload.card.visibility = View.GONE
+                    txtTransfer.visibility = View.GONE
+                    txtDescTransfer.visibility = View.GONE
+                    txtDescSuratKomitmen.visibility = View.GONE
+                    cardUploadTransfer.card.visibility = View.GONE
+                    line.visibility = View.GONE
+                    btnClose.setOnClickListener { finish() }
                 }
             }
             cardPengajuan.apply {
@@ -204,6 +185,16 @@ class StatusAdoptActivity : AppCompatActivity() {
                     } else if (data.statusReqId == 2 && data.statusPaymentId == 2 && data.statusPickupId == 2) {
                         icIndicator.setImageResource(R.drawable.status_done)
                         txtIndicator.text = "Selesai"
+                        cardUpload.card.setOnClickListener {
+                            val url =
+                                "https://storage.googleapis.com/bucket-adoptify/imagesReqPet/${data.suratKomitmen}"
+                            downloadingImage("Surat Komitmen", url, "Surat Komitmen ${data.name}.jpg")
+                        }
+                        cardUploadTransfer.card.setOnClickListener {
+                            val url =
+                                "https://storage.googleapis.com/bucket-adoptify/imagesReqPet/${data.transfer}"
+                            downloadingImage("Bukti Transfer", url, "Bukti Transfer ${data.name}.jpg")
+                        }
                         txtIndicator.setTextColor(ContextCompat.getColor(this@StatusAdoptActivity, R.color.primary_color_foster))
                         card.setCardBackgroundColor(ContextCompat.getColor(this@StatusAdoptActivity, R.color.bg_card_done))
                     } else if (data.statusReqId == 3 && data.statusPaymentId == 1 && data.statusPickupId == 1)  {
@@ -232,6 +223,18 @@ class StatusAdoptActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun downloadingImage(title: String, url: String, fileName: String) {
+        val request = DownloadManager.Request(Uri.parse(url))
+            .setTitle(title)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+
+        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        downloadManager.enqueue(request)
+
+        Toast.makeText(this, "Download started...", Toast.LENGTH_SHORT).show()
     }
 
     private fun parseDateToLong(dateString: String?): String {

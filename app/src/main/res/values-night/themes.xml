@@ -3,6 +3,7 @@
     <style name="Base.Theme.Adoptify_core" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="Theme.Adoptify_core" parent="Base.Theme.Adoptify_core" />

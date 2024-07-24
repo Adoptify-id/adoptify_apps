@@ -1,17 +1,24 @@
 package com.example.adoptify_core.ui.bookmark
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.FragmentBookmarkBinding
+import com.example.adoptify_core.ui.adopt.detail.DetailAdoptActivity
 import com.example.core.data.Resource
 import com.example.core.data.source.local.entity.PetEntity
 import com.example.core.ui.FavoriteItemAdapter
+import com.example.core.utils.SessionViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -22,6 +29,10 @@ class BookmarkFragment : Fragment() {
 
     private var listFavorite: List<PetEntity> = listOf()
     private val bookmarkViewModel: BookmarkViewModel by viewModel()
+    private val sessionViewModel: SessionViewModel by viewModel()
+
+    private var token = ""
+    private lateinit var startForResult: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +46,27 @@ class BookmarkFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         bookmarkFragment.header.txtBookmark.text = requireActivity().getString(R.string.saved)
+
+        startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val petId = data?.getIntExtra("PET_ID", -1) ?: return@registerForActivityResult
+                val position = listFavorite.indexOfFirst { it.id == petId }
+                if (position != -1) {
+                    bookmarkFragment.rvFavorite.scrollToPosition(position)
+                }
+            }
+        }
+
+        observeData()
         setupView()
         getFavorite()
+    }
+
+    private fun observeData() {
+        sessionViewModel.token.observe(viewLifecycleOwner) {
+            token = it
+        }
     }
 
     private fun setupView() {
@@ -74,7 +104,19 @@ class BookmarkFragment : Fragment() {
 
     private fun showRecyclerView() {
         bookmarkFragment.rvFavorite.apply {
-            adapter = FavoriteItemAdapter(listFavorite) {}
+            adapter = FavoriteItemAdapter(listFavorite) { pet, imageView ->
+                val intent = Intent(requireContext(), DetailAdoptActivity::class.java)
+                intent.putExtra("PET_ID", pet.id)
+                intent.putExtra("TOKEN", token)
+                intent.putExtra("TRANSITION_NAME", imageView.transitionName)
+
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    requireActivity(),
+                    imageView,
+                    imageView.transitionName
+                )
+                startForResult.launch(intent, options)
+            }
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
         }

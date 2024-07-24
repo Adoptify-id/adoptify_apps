@@ -31,13 +31,13 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginVertical="5dp"
-            android:background="@drawable/background_selected_tab"/>
+            android:background="@drawable/background_selected_tab_foster"/>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/background_tab"
+            android:background="@drawable/background_tab_foster"
             app:tabGravity="fill"
             app:tabMode="fixed"
             app:tabIndicatorHeight="0dp"
@@ -46,7 +46,6 @@
             app:tabSelectedTextColor="@color/white"
             app:tabIndicatorColor="@null"
             app:tabRippleColor="@null"/>
-
     </FrameLayout>
 
     <androidx.viewpager2.widget.ViewPager2

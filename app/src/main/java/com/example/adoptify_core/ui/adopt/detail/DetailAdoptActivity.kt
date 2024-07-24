@@ -1,31 +1,25 @@
 package com.example.adoptify_core.ui.adopt.detail
 
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import com.bumptech.glide.Glide
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityDetailAdoptBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
 import com.example.adoptify_core.ui.adopt.process.cat.ProcessAdoptActivity
 import com.example.adoptify_core.ui.adopt.process.dog.ProcessAdoptDogActivity
-import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.bookmark.BookmarkViewModel
 import com.example.core.data.Resource
 import com.example.core.domain.model.DataAdopt
 import com.example.core.utils.DataMapper
-import com.example.core.utils.ForceLogout
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class DetailAdoptActivity : AppCompatActivity() {
+class DetailAdoptActivity : BaseActivity() {
 
     private lateinit var binding: ActivityDetailAdoptBinding
 
@@ -37,16 +31,25 @@ class DetailAdoptActivity : AppCompatActivity() {
     private var isFavorite = false
     private var currentData: DataAdopt? = null
 
-    private var logoutDialog: Dialog? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailAdoptBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val transitionName = intent.getStringExtra("TRANSITION_NAME")
+        binding.imagePet.transitionName = transitionName
+
+        window.sharedElementEnterTransition = MaterialContainerTransform().apply {
+            addTarget(binding.imagePet)
+            duration = 500L
+        }
+        window.sharedElementReturnTransition = MaterialContainerTransform().apply {
+            addTarget(binding.imagePet)
+            duration = 500L
+        }
+
         initData()
         getDetailResult()
-        forceLogout()
         setupListener()
     }
 
@@ -65,8 +68,12 @@ class DetailAdoptActivity : AppCompatActivity() {
     }
 
     private fun setupView(data: DataAdopt?) {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         currentData = data
-
         val imageUrl = if (data?.fotoPet == null) {
             null
         } else {
@@ -96,46 +103,15 @@ class DetailAdoptActivity : AppCompatActivity() {
                 if (data?.kategori == "Kucing") {
                     val intent = Intent(this@DetailAdoptActivity, ProcessAdoptActivity::class.java)
                     intent.putExtra("PET_ID", data.petId)
-                    startActivity(intent)
+                    startActivity(intent, options.toBundle())
                 } else {
                     val intent =
                         Intent(this@DetailAdoptActivity, ProcessAdoptDogActivity::class.java)
                     intent.putExtra("PET_ID", data?.petId)
-                    startActivity(intent)
+                    startActivity(intent, options.toBundle())
                 }
             }
         }
-    }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun getDetailResult() {
@@ -197,13 +173,4 @@ class DetailAdoptActivity : AppCompatActivity() {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        logoutDialog?.dismiss()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        logoutDialog?.dismiss()
-    }
 }

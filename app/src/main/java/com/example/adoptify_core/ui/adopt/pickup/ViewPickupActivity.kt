@@ -3,8 +3,8 @@ package com.example.adoptify_core.ui.adopt.pickup
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityViewPickupBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
@@ -12,7 +12,7 @@ import com.example.core.data.Resource
 import com.example.core.utils.SessionViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ViewPickupActivity : AppCompatActivity() {
+class ViewPickupActivity : BaseActivity() {
 
     private lateinit var binding: ActivityViewPickupBinding
 

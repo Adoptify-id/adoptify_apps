@@ -2,6 +2,7 @@ package com.example.core.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.core.R
@@ -10,7 +11,7 @@ import com.example.core.databinding.ListCardAdoptBinding
 
 class FavoriteItemAdapter(
     private val petList: List<PetEntity>,
-    private val onItemClick: (PetEntity) -> Unit
+    private val onItemClick: (PetEntity, ImageView) -> Unit
 ) : RecyclerView.Adapter<FavoriteItemAdapter.FavoriteItemHolder>() {
     inner class FavoriteItemHolder(private val binding: ListCardAdoptBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: PetEntity) {
@@ -24,7 +25,9 @@ class FavoriteItemAdapter(
                     .placeholder(R.drawable.adopt_virtual_dog)
                     .into(imgPet)
 
-                root.setOnClickListener { onItemClick(data) }
+                imgPet.transitionName = "shared_image_${data.id}"
+
+                root.setOnClickListener { onItemClick(data, imgPet) }
             }
         }
     }

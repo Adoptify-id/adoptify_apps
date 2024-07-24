@@ -1,21 +1,22 @@
 package com.example.adoptify_core.ui.welcome
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import com.example.adoptify_core.R
+import com.example.adoptify_core.databinding.ActivitySplashScreenBinding
 import com.example.adoptify_core.ui.auth.login.LoginViewModel
 import com.example.adoptify_core.ui.foster.FosterActivity
 import com.example.adoptify_core.ui.main.MainActivity
-import com.example.adoptify_core.ui.main.MainViewModel
 import com.example.core.data.Resource
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
 class SplashScreenActivity : AppCompatActivity() {
-
+    private lateinit var binding: ActivitySplashScreenBinding
     private val splashTime: Long = 3000
     private var token = ""
     private var roleId by Delegates.notNull<Int>()
@@ -23,12 +24,17 @@ class SplashScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen)
+        binding = ActivitySplashScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         loginViewModel.getSession()
         loginViewModel.getRoleId()
         checkSession()
         getRole()
+
+        val fadeInScale = AnimationUtils.loadAnimation(this, R.anim.fade_in_scale)
+        binding.logo.startAnimation(fadeInScale)
+
         @Suppress("DEPRECATION")
         Handler().postDelayed({
             checkToken()

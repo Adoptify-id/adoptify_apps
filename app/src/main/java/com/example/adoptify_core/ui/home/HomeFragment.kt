@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -66,6 +67,10 @@ class HomeFragment : Fragment() {
         setupListener()
 
         Log.d("MainActivity", "SessionManager initialized: $sessionManager")
+
+        if (isTokenAvailable && isUserIdAvailable) {
+
+        }
 
         homeFragment.swipeRefresh.apply {
             setOnRefreshListener {
@@ -233,32 +238,22 @@ class HomeFragment : Fragment() {
 
 
     private fun setupListener() {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            requireContext(),
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         homeFragment.apply {
             btnNext.setOnClickListener { virtualPetPager.currentItem += 1 }
             btnBack.setOnClickListener { virtualPetPager.currentItem -= 1 }
             btnMedicalRecord.setOnClickListener {
-                startActivity(
-                    Intent(
-                        requireContext(),
-                        MedicalRecordActivity::class.java
-                    )
-                )
+                startActivity(Intent(requireContext(), MedicalRecordActivity::class.java), options.toBundle())
             }
             btnVirtualPet.setOnClickListener {
-                startActivity(
-                    Intent(
-                        requireContext(),
-                        VirtualPetActivity::class.java
-                    )
-                )
+                startActivity(Intent(requireContext(), VirtualPetActivity::class.java), options.toBundle())
             }
             btnMoreRewards.setOnClickListener {
-                startActivity(
-                    Intent(
-                        requireContext(),
-                        ComingSoonActivity::class.java
-                    )
-                )
+                startActivity(Intent(requireContext(), ComingSoonActivity::class.java), options.toBundle())
             }
             cardCat.root.setOnClickListener { }
             cardDog.root.setOnClickListener { }
@@ -280,13 +275,10 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _homeFragment = null
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
+
 }

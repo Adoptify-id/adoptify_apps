@@ -1,6 +1,7 @@
 package com.example.adoptify_core.ui.foster.dashboard
 
 import android.animation.LayoutTransition
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.transition.AutoTransition
@@ -10,6 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,6 +72,8 @@ class DashboardFragment : Fragment() {
 
     private var bottomDialog: BottomSheetDialog? = null
 
+    private lateinit var startForResult: ActivityResultLauncher<Intent>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,6 +85,17 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val petId = data?.getIntExtra("PET_ID", -1) ?: return@registerForActivityResult
+                val position = dataPet.indexOfFirst { it.petId == petId }
+                if (position != -1) {
+                    dashboardFragment.rvPet.scrollToPosition(position)
+                }
+            }
+        }
 
         setupView()
         initData()
@@ -113,6 +130,11 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupListener() {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            requireContext(),
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         dashboardFragment.apply {
             btnLogout.setOnClickListener {
                 bottomDialog = BottomSheetDialog(requireContext()).apply {
@@ -122,9 +144,14 @@ class DashboardFragment : Fragment() {
                     btnLogout.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.primary_color_foster)
                     btnClose.setOnClickListener { dismiss() }
                     btnLogout.setOnClickListener {
+                        val optionsLogout = ActivityOptionsCompat.makeCustomAnimation(
+                            requireContext(),
+                            R.anim.slide_in_left,
+                            R.anim.slide_out_right
+                        )
                         val intent = Intent(requireContext(), LoginActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
+                        startActivity(intent, optionsLogout.toBundle())
                         activity?.finish()
                         profileViewModel.deleteSession()
                     }
@@ -137,15 +164,10 @@ class DashboardFragment : Fragment() {
                 val intent = Intent(requireContext(), DetailProfileFosterActivity::class.java)
                 intent.putExtra("TOKEN", token)
                 intent.putExtra("USER_ID", userId)
-                startActivity(intent)
+                startActivity(intent, options.toBundle())
             }
             card.btnTransaction.setOnClickListener {
-                startActivity(
-                    Intent(
-                        requireContext(),
-                        SubmissionFosterActivity::class.java
-                    )
-                )
+                startActivity(Intent(requireContext(), SubmissionFosterActivity::class.java), options.toBundle())
             }
         }
     }
@@ -278,12 +300,19 @@ class DashboardFragment : Fragment() {
 
     private fun showRecyclerView() {
         val data = sortDataPet()
-        itemAdapter = FosterItemAdapter(data) {
+        itemAdapter = FosterItemAdapter(data) { pet, imageView ->
             val intent = Intent(requireContext(), DetailFosterActivity::class.java)
-            intent.putExtra("PET_ID", it.petId)
+            intent.putExtra("PET_ID", pet.petId)
             intent.putExtra("TOKEN", token)
             intent.putExtra("USER_ID", userId)
-            startActivity(intent)
+            intent.putExtra("TRANSITION_NAME", imageView.transitionName)
+
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                requireActivity(),
+                imageView,
+                imageView.transitionName
+            )
+            startForResult.launch(intent, options)
         }
         dashboardFragment.rvPet.apply {
             layoutManager = LinearLayoutManager(requireContext())

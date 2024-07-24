@@ -10,8 +10,10 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.adoptify_core.BaseActivity
+import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityMedicalRecordBinding
 import com.example.adoptify_core.ui.medical.record.RecordActivity
 import com.example.adoptify_core.ui.medical.vaksinasi.VaksinasiActivity
@@ -73,7 +75,6 @@ class MedicalRecordActivity : BaseActivity() {
         setupListener()
     }
 
-
     private fun observeData() {
         sessionViewModel.token.observe(this) {
             token = it
@@ -98,12 +99,14 @@ class MedicalRecordActivity : BaseActivity() {
                 is Resource.Loading -> {
                     showLoading(true)
                 }
+
                 is Resource.Success -> {
                     showLoading(false)
                     dataVaksinasi = it.data ?: listOf()
                     updateCombinedData()
                     binding.swipeRefresh.isRefreshing = false
                 }
+
                 is Resource.Error -> {
                     showLoading(false)
                     checkContent()
@@ -118,6 +121,7 @@ class MedicalRecordActivity : BaseActivity() {
                 is Resource.Loading -> {
                     showLoading(true)
                 }
+
                 is Resource.Success -> {
                     showLoading(false)
                     dataMedical = it.data ?: listOf()
@@ -125,6 +129,7 @@ class MedicalRecordActivity : BaseActivity() {
                     updateCombinedData()
                     binding.swipeRefresh.isRefreshing = false
                 }
+
                 is Resource.Error -> {
                     showLoading(false)
                     checkContent()
@@ -142,6 +147,7 @@ class MedicalRecordActivity : BaseActivity() {
     private fun getMedicalRecord() {
         medicalViewModel.getMedicalRecord(token!!, userId!!)
     }
+
     private fun updateCombinedData() {
         combinedData.clear()
         combinedData.addAll(dataVaksinasi.map { data -> ListMedicalItem.VaksinasiItem(data) })
@@ -201,14 +207,19 @@ class MedicalRecordActivity : BaseActivity() {
     }
 
     private fun setupListener() {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         binding.apply {
             cardMedical.btnMedical.setOnClickListener {
                 val intent = Intent(this@MedicalRecordActivity, RecordActivity::class.java)
-                medicalActivityLauncher.launch(intent)
+                medicalActivityLauncher.launch(intent, options)
             }
             cardMedical.btnVaksinasi.setOnClickListener {
                 val intent = Intent(this@MedicalRecordActivity, VaksinasiActivity::class.java)
-                vaksinasiActivityLauncher.launch(intent)
+                vaksinasiActivityLauncher.launch(intent, options)
             }
 
             icArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
@@ -240,7 +251,8 @@ class MedicalRecordActivity : BaseActivity() {
         binding.contentNull.apply {
             layout.visibility = if (isShowing) View.VISIBLE else View.GONE
             btnClose.visibility = View.GONE
-            txtDesc.text = "Maaf, data medical record Anda tidak tersedia. Coba muat ulang atau periksa kembali nanti."
+            txtDesc.text =
+                "Maaf, data medical record Anda tidak tersedia. Coba muat ulang atau periksa kembali nanti."
         }
     }
 

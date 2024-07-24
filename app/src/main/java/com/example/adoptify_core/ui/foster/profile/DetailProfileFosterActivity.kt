@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityOptionsCompat
 import com.bumptech.glide.Glide
 import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
@@ -66,9 +67,14 @@ class DetailProfileFosterActivity : BaseActivity() {
 
 
     private fun setupListener() {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         binding.btnEdit.setOnClickListener {
             val intent = Intent(this, EditProfileFosterActivity::class.java)
-            editActivityLauncher.launch(intent)
+            editActivityLauncher.launch(intent, options)
         }
         binding.icArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
     }

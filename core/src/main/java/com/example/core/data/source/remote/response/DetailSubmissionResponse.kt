@@ -81,4 +81,16 @@ data class DetailSubmissionItem(
 
     @field:SerializedName("buktiPickup")
     val buktiPickup: String? = null,
+
+    @field:SerializedName("name")
+    val name: String? = null,
+
+    @field:SerializedName("suratKomitmen")
+    val suratKomitmen: String? = null,
+
+    @field:SerializedName("transfer")
+    val transfer: String? = null,
+
+    @field:SerializedName("kategori")
+    val kategori: String? = null,
 )

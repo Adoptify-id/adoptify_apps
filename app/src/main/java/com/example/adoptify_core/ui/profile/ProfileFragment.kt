@@ -1,6 +1,7 @@
 package com.example.adoptify_core.ui.profile
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
@@ -9,10 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.FragmentProfileBinding
+import com.example.adoptify_core.ui.about.AboutActivity
 import com.example.adoptify_core.ui.adopt.submission.SubmissionAdoptActivity
 import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.auth.login.LoginViewModel
@@ -152,12 +156,17 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupListener() {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            requireContext(),
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         profileFragment.apply {
             card.icEdit.setOnClickListener {
                 val intent = Intent(requireContext(), DetailProfileActivity::class.java)
                 intent.putExtra("token", token)
                 intent.putExtra("userId", userId)
-                startActivity(intent)
+                startActivity(intent, options.toBundle())
             }
             card.layout.setOnClickListener { expand() }
             icLogout.setOnClickListener {
@@ -167,9 +176,14 @@ class ProfileFragment : Fragment() {
                    val btnLogout = view.findViewById<Button>(R.id.btnLogout)
                    btnClose.setOnClickListener { dismiss() }
                    btnLogout.setOnClickListener {
+                       val optionsLogout = ActivityOptionsCompat.makeCustomAnimation(
+                           requireContext(),
+                           R.anim.slide_in_left,
+                           R.anim.slide_out_right
+                       )
                        val intent = Intent(requireContext(), LoginActivity::class.java)
                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                       startActivity(intent)
+                       startActivity(intent, optionsLogout.toBundle())
                        activity?.finish()
                        profileViewModel.deleteSession()
                    }
@@ -178,8 +192,27 @@ class ProfileFragment : Fragment() {
                    show()
                }
             }
-            card.btnReward.setOnClickListener { startActivity(Intent(requireContext(), ComingSoonActivity::class.java)) }
-            card.btnTransaction.setOnClickListener { startActivity(Intent(requireContext(), SubmissionAdoptActivity::class.java)) }
+            menu.txtAboutUs.setOnClickListener { startActivity(Intent(requireContext(), AboutActivity::class.java), options.toBundle()) }
+            menu.txtReport.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/adoptify-privacy-policy/home"))
+                startActivity(intent, options.toBundle())
+            }
+            menu.txtCallCenter.setOnClickListener { openWhatsApp("+6285179673002") }
+            card.btnReward.setOnClickListener { startActivity(Intent(requireContext(), ComingSoonActivity::class.java), options.toBundle()) }
+            card.btnTransaction.setOnClickListener { startActivity(Intent(requireContext(), SubmissionAdoptActivity::class.java), options.toBundle()) }
+        }
+    }
+
+    private fun openWhatsApp(phoneNumber: String) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW)
+            val uri = "https://api.whatsapp.com/send?phone=$phoneNumber"
+            intent.setPackage("com.whatsapp")
+            intent.data = Uri.parse(uri)
+            startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "Terjadi kesalahan saat membuka WhatsApp", Toast.LENGTH_SHORT).show()
         }
     }
 

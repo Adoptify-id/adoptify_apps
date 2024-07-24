@@ -2,6 +2,7 @@ package com.example.core.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.core.R
@@ -10,7 +11,7 @@ import com.example.core.domain.model.DataAdopt
 
 class PetItemAdapter(
     private val petList: List<DataAdopt>,
-    private val onItemClick: (DataAdopt) -> Unit
+    private val onItemClick: (DataAdopt, ImageView) -> Unit
 ) : RecyclerView.Adapter<PetItemAdapter.PetItemHolder>() {
     inner class PetItemHolder(private val binding: ListCardAdoptBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -25,7 +26,9 @@ class PetItemAdapter(
                     .placeholder(R.drawable.adopt_virtual_dog)
                     .into(imgPet)
 
-                root.setOnClickListener { onItemClick(data) }
+                imgPet.transitionName = "shared_image_${data.petId}"
+
+                root.setOnClickListener { onItemClick(data, imgPet) }
             }
         }
     }

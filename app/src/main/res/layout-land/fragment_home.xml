@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh"
+    app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/primaryColor"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="70dp"
+    android:background="@color/backgroundScreen">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="70dp"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="70dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_profile"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="40dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dummy_profile"
+                app:shapeAppearanceOverlay="@style/AddedImageVirtualPet"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/plus_jakarta_sans_bold"
+                android:letterSpacing="-0.03"
+                android:text="@string/dummy_username"
+                android:textColor="@color/blackText"
+                android:textSize="20sp"
+                android:maxLines="1"
+                android:maxLength="25"
+                app:layout_constraintStart_toEndOf="@+id/img_profile"
+                app:layout_constraintTop_toTopOf="@+id/img_profile" />
+
+            <ImageView
+                android:id="@+id/ic_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_location"
+                app:layout_constraintStart_toStartOf="@+id/txtUsername"
+                app:layout_constraintTop_toBottomOf="@+id/txtUsername" />
+
+            <TextView
+                android:id="@+id/txtLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/plus_jakarta_sans_regular"
+                android:text="@string/dummy_location_user"
+                android:textColor="@color/greyText"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:maxLength="25"
+                app:layout_constraintBottom_toBottomOf="@id/ic_location"
+                app:layout_constraintStart_toEndOf="@id/ic_location"
+                app:layout_constraintTop_toTopOf="@id/ic_location" />
+
+            <ImageView
+                android:id="@+id/ic_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                android:src="@drawable/ic_notification"
+                app:layout_constraintBottom_toBottomOf="@id/img_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/img_profile" />
+
+<!--            <include-->
+<!--                android:id="@+id/reward_point"-->
+<!--                layout="@layout/card_point"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:layout_marginHorizontal="30dp"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/img_profile" />-->
+
+            <TextView
+                android:id="@+id/txtVirtualPet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/plus_jakarta_sans_bold"
+                android:text="@string/virtual_pet_wellbeings"
+                android:textColor="#303030"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/img_profile"
+                app:layout_constraintTop_toBottomOf="@id/img_profile" />
+
+            <TextView
+                android:id="@+id/txtDescTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:text="@string/desc_title_virtual"
+                android:textColor="#A5A5A5"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/txtVirtualPet"
+                app:layout_constraintTop_toBottomOf="@id/txtVirtualPet" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/virtual_pet_pager"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginVertical="12dp"
+                android:layout_marginTop="35dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                app:layout_constraintTop_toBottomOf="@id/txtDescTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="40dp"
+                android:background="@drawable/button_virtual_pet_hover"
+                android:src="@drawable/icon_back_button_hover"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/dots_indicator"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/dots_indicator"
+                tools:visibility="visible" />
+
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:id="@+id/dots_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:dotsColor="@color/dotNotSelected"
+                app:dotsCornerRadius="18dp"
+                app:dotsSize="9dp"
+                app:dotsSpacing="5dp"
+                app:dotsWidthFactor="2.0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/virtual_pet_pager"
+                app:progressMode="true"
+                app:selectedDotColor="@color/primaryColor" />
+
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/button_virtual_pet_hover"
+                android:src="@drawable/icon_next_button_hover"
+                app:layout_constraintBottom_toBottomOf="@id/dots_indicator"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/dots_indicator" />
+
+            <ImageView
+                android:id="@+id/btn_medical_record"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="35dp"
+                android:src="@drawable/btn_medical_record_new"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnNext" />
+
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="45dp"
+                android:background="#A3A3A3"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_medical_record" />
+
+            <ImageView
+                android:id="@+id/btnVirtualPet"
+                android:layout_width="match_parent"
+                android:layout_height="155dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginHorizontal="30dp"
+                android:src="@drawable/btn_virtual_pet_new"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line" />
+
+            <TextView
+                android:id="@+id/txtRewardPoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/plus_jakarta_sans_bold"
+                android:text="@string/rewards_point"
+                android:textColor="#303030"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnVirtualPet" />
+
+            <TextView
+                android:id="@+id/txtDescPoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:text="@string/desc_points"
+                android:textColor="#A5A5A5"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/txtRewardPoint"
+                app:layout_constraintTop_toBottomOf="@id/txtRewardPoint" />
+
+            <ImageView
+                android:id="@+id/btnMoreRewards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:src="@drawable/ic_next_grey"
+                app:layout_constraintBottom_toBottomOf="@id/txtDescPoint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txtRewardPoint" />
+
+            <HorizontalScrollView
+                android:id="@+id/item_rewards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:scrollbars="none"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtDescPoint">
+
+                <include
+                    android:id="@+id/list_button"
+                    layout="@layout/list_button_rewards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="20dp" />
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/txtAdoptPet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="45dp"
+                android:fontFamily="@font/plus_jakarta_sans_bold"
+                android:text="@string/adopt_pet"
+                android:textColor="#303030"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_rewards" />
+
+            <TextView
+                android:id="@+id/txtDescAdopt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/plus_jakarta_sans_medium"
+                android:text="@string/desc_adopt"
+                android:textColor="#A5A5A5"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/txtAdoptPet"
+                app:layout_constraintTop_toBottomOf="@id/txtAdoptPet" />
+
+            <include
+                android:id="@+id/card_cat"
+                layout="@layout/card_adopt_cat"
+                android:layout_width="0dp"
+                android:layout_height="152dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/card_dog"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtDescAdopt" />
+
+            <include
+                android:id="@+id/card_dog"
+                layout="@layout/card_adopt_dog"
+                android:layout_width="0dp"
+                android:layout_height="152dp"
+                android:layout_marginEnd="35dp"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/card_cat"
+                app:layout_constraintTop_toTopOf="@id/card_cat" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/primaryColor"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <include
+                android:id="@+id/contentNull"
+                layout="@layout/empty_list_virtual_pet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/txtLocation" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

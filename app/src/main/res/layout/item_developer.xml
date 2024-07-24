@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:scrollbars="none"
+    android:layout_marginHorizontal="40dp"
+    android:background="@color/backgroundScreen">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/machine_learning"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_role"
+            android:orientation="horizontal"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/plus_jakarta_sans_bold"
+                android:text="MACHINE LEARNING"
+                android:textColor="@color/halfBlackText"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="end"
+                android:src="@drawable/tensorflow" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ub"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ub"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/machine_learning" />
+
+        <TextView
+            android:id="@+id/member1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Kaamil Nailal Muna"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/ub"
+            app:layout_constraintTop_toBottomOf="@id/machine_learning" />
+
+        <TextView
+            android:id="@+id/role"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Chief Executive Officer (CEO)"
+            android:textColor="@color/halfBlackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/member1"
+            app:layout_constraintTop_toBottomOf="@id/member1" />
+
+        <ImageView
+            android:id="@+id/active1"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/active"
+            app:layout_constraintStart_toStartOf="@id/member1"
+            app:layout_constraintTop_toBottomOf="@id/role" />
+
+        <TextView
+            android:id="@+id/active_member1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/helvetica_medium"
+            android:text="Active member"
+            android:textColor="#1E1E1E"
+            app:layout_constraintBottom_toBottomOf="@id/active1"
+            app:layout_constraintStart_toEndOf="@id/active1"
+            app:layout_constraintTop_toTopOf="@id/active1" />
+
+        <ImageView
+            android:id="@+id/ub2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/ub"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ub" />
+
+        <TextView
+            android:id="@+id/member2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Alvita Ratna Maulana Martiza"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/ub"
+            app:layout_constraintTop_toBottomOf="@id/active1" />
+
+        <TextView
+            android:id="@+id/role2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Chief Marketing Officer (CMO)"
+            android:textColor="@color/halfBlackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/member2"
+            app:layout_constraintTop_toBottomOf="@id/member2" />
+
+        <ImageView
+            android:id="@+id/active2"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/active"
+            app:layout_constraintStart_toStartOf="@id/member2"
+            app:layout_constraintTop_toBottomOf="@id/role2" />
+
+        <TextView
+            android:id="@+id/active_member2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/helvetica_medium"
+            android:text="Active member"
+            android:textColor="#1E1E1E"
+            app:layout_constraintBottom_toBottomOf="@id/active2"
+            app:layout_constraintStart_toEndOf="@id/active2"
+            app:layout_constraintTop_toTopOf="@id/active2" />
+
+        <ImageView
+            android:id="@+id/itn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/itn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ub2" />
+
+        <TextView
+            android:id="@+id/member3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Mukhammad Zainul Musyafa"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/ub"
+            app:layout_constraintTop_toBottomOf="@id/active2" />
+
+        <TextView
+            android:id="@+id/role3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Chief Operational Officer (COO)"
+            android:textColor="@color/halfBlackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/member3"
+            app:layout_constraintTop_toBottomOf="@id/member3" />
+
+        <ImageView
+            android:id="@+id/active3"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/active"
+            app:layout_constraintStart_toStartOf="@id/member3"
+            app:layout_constraintTop_toBottomOf="@id/role3" />
+
+        <TextView
+            android:id="@+id/active_member3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/helvetica_medium"
+            android:text="Active member"
+            android:textColor="#1E1E1E"
+            app:layout_constraintBottom_toBottomOf="@id/active3"
+            app:layout_constraintStart_toEndOf="@id/active3"
+            app:layout_constraintTop_toTopOf="@id/active3" />
+
+        <LinearLayout
+            android:id="@+id/mobile_development"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_role"
+            android:orientation="horizontal"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/active_member3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/plus_jakarta_sans_bold"
+                android:text="MOBILE DEVELOPMENT"
+                android:textColor="@color/halfBlackText"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="end"
+                android:src="@drawable/android" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/itn2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/itn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mobile_development" />
+
+        <TextView
+            android:id="@+id/member4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Reihan Almas Hediawan"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/ub"
+            app:layout_constraintTop_toBottomOf="@id/mobile_development" />
+
+        <TextView
+            android:id="@+id/role4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Chief Technology Officer (CTO)"
+            android:textColor="@color/halfBlackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/member4"
+            app:layout_constraintTop_toBottomOf="@id/member4" />
+
+        <ImageView
+            android:id="@+id/active4"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/active"
+            app:layout_constraintStart_toStartOf="@id/member4"
+            app:layout_constraintTop_toBottomOf="@id/role4" />
+
+        <TextView
+            android:id="@+id/active_member4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/helvetica_medium"
+            android:text="Active member"
+            android:textColor="#1E1E1E"
+            app:layout_constraintBottom_toBottomOf="@id/active4"
+            app:layout_constraintStart_toEndOf="@id/active4"
+            app:layout_constraintTop_toTopOf="@id/active4" />
+
+        <ImageView
+            android:id="@+id/uns"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/uns"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itn2" />
+
+        <TextView
+            android:id="@+id/member5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Reza Liana"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/uns"
+            app:layout_constraintTop_toBottomOf="@id/active4" />
+
+        <TextView
+            android:id="@+id/role5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Chief Financial Officer (CFO)"
+            android:textColor="@color/halfBlackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/member5"
+            app:layout_constraintTop_toBottomOf="@id/member5" />
+
+        <ImageView
+            android:id="@+id/active5"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/active"
+            app:layout_constraintStart_toStartOf="@id/member5"
+            app:layout_constraintTop_toBottomOf="@id/role5" />
+
+        <TextView
+            android:id="@+id/active_member5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/helvetica_medium"
+            android:text="Active member"
+            android:textColor="#1E1E1E"
+            app:layout_constraintBottom_toBottomOf="@id/active5"
+            app:layout_constraintStart_toEndOf="@id/active5"
+            app:layout_constraintTop_toTopOf="@id/active5" />
+
+        <LinearLayout
+            android:id="@+id/cloud_computing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_role"
+            android:orientation="horizontal"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/active5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/plus_jakarta_sans_bold"
+                android:text="CLOUD COMPUTING"
+                android:textColor="@color/halfBlackText"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="end"
+                android:src="@drawable/cloud" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/itn3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/itn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cloud_computing" />
+
+        <TextView
+            android:id="@+id/member6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Maqila Sulaiman Abu Zakaria"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/itn3"
+            app:layout_constraintTop_toBottomOf="@id/cloud_computing" />
+
+        <TextView
+            android:id="@+id/role6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Chief Technology Officer (CTO)"
+            android:textColor="@color/halfBlackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/member6"
+            app:layout_constraintTop_toBottomOf="@id/member6" />
+
+        <ImageView
+            android:id="@+id/active6"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/active"
+            app:layout_constraintStart_toStartOf="@id/member6"
+            app:layout_constraintTop_toBottomOf="@id/role6" />
+
+        <TextView
+            android:id="@+id/active_member6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/helvetica_medium"
+            android:text="Active member"
+            android:textColor="#1E1E1E"
+            app:layout_constraintBottom_toBottomOf="@id/active6"
+            app:layout_constraintStart_toEndOf="@id/active6"
+            app:layout_constraintTop_toTopOf="@id/active6" />
+
+        <ImageView
+            android:id="@+id/ub3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/ub"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itn3" />
+
+        <TextView
+            android:id="@+id/member7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="Laudzak Akbar Baihaqy"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/ub3"
+            app:layout_constraintTop_toBottomOf="@id/active6" />
+
+        <TextView
+            android:id="@+id/role7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:text="Chief Product Officer (CPO)"
+            android:textColor="@color/halfBlackText"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/member7"
+            app:layout_constraintTop_toBottomOf="@id/member7" />
+
+        <ImageView
+            android:id="@+id/active7"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/active"
+            app:layout_constraintStart_toStartOf="@id/member7"
+            app:layout_constraintTop_toBottomOf="@id/role7" />
+
+        <TextView
+            android:id="@+id/active_member7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/helvetica_medium"
+            android:text="Active member"
+            android:textColor="#1E1E1E"
+            app:layout_constraintBottom_toBottomOf="@id/active7"
+            app:layout_constraintStart_toEndOf="@id/active7"
+            app:layout_constraintTop_toTopOf="@id/active7" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

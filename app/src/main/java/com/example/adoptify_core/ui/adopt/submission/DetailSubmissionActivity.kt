@@ -1,10 +1,14 @@
 package com.example.adoptify_core.ui.adopt.submission
 
 import android.app.Dialog
+import android.app.DownloadManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -12,12 +16,16 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityDetailSubmissionBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
+import com.example.adoptify_core.ui.adopt.review.ReviewFormUserActivity
 import com.example.adoptify_core.ui.adopt.status.StatusAdoptActivity
 import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.core.data.Resource
@@ -29,7 +37,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class DetailSubmissionActivity : AppCompatActivity() {
+class DetailSubmissionActivity : BaseActivity() {
 
     private lateinit var binding: ActivityDetailSubmissionBinding
 
@@ -39,8 +47,6 @@ class DetailSubmissionActivity : AppCompatActivity() {
     private var token: String = ""
     private var reqId: Int? = null
 
-    private var logoutDialog: Dialog? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailSubmissionBinding.inflate(layoutInflater)
@@ -48,7 +54,6 @@ class DetailSubmissionActivity : AppCompatActivity() {
 
         observeData()
         showDetailData()
-        forceLogout()
         cancelAdoptResult()
     }
 
@@ -62,6 +67,11 @@ class DetailSubmissionActivity : AppCompatActivity() {
     }
 
     private fun setupView(data: DetailSubmissionData) {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         binding.apply {
             cardSubmission.apply {
                 txtNamePet.text = data.namePet
@@ -85,9 +95,18 @@ class DetailSubmissionActivity : AppCompatActivity() {
                 emailUser.text = data.email
                 addressUser.text = "${data.alamat}, ${data.provinsi}, ${data.kodePos}"
             }
-            cardUpload.cardKtp.setOnClickListener { showingCardIdentity(data.kartuIdentitas) }
+            cardUpload.cardKtp.setOnClickListener {
+                val url = "https://storage.googleapis.com/bucket-adoptify/imagesReqPet/${data.kartuIdentitas}"
+                downloadingImage("Kartu Identitas", url, "Kartu Identitas ${data.fullName}.jpg")
+            }
+            cardUpload.cardFormulir.setOnClickListener {
+                val intent = Intent(this@DetailSubmissionActivity, ReviewFormUserActivity::class.java)
+                intent.putExtra("REQ_ID", data.reqId)
+                intent.putExtra("CATEGORY", data.kategori)
+                startActivity(intent, options.toBundle())
+            }
             header.icArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
-            val status = data.statusReqId == 2 && data.statusPaymentId == 3 && data.statusPickupId == 1 || data.statusReqId == 4
+            val status = data.statusReqId == 4
             btnClose.visibility = if (status) View.VISIBLE else View.GONE
             btnClose.setOnClickListener { finish() }
             btnNext.visibility = if (status) View.GONE else View.VISIBLE
@@ -101,7 +120,7 @@ class DetailSubmissionActivity : AppCompatActivity() {
             btnNext.setOnClickListener {
                 val intent = Intent(this@DetailSubmissionActivity, StatusAdoptActivity::class.java)
                 intent.putExtra("REQ_ID", reqId)
-                startActivity(intent)
+                startActivity(intent, options.toBundle())
                 finish()
             }
             btnBack.setOnClickListener {
@@ -121,37 +140,6 @@ class DetailSubmissionActivity : AppCompatActivity() {
                 dialog.show()
             }
         }
-    }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun showDetailData() {
@@ -200,30 +188,16 @@ class DetailSubmissionActivity : AppCompatActivity() {
         }
     }
 
-    private fun showingCardIdentity(image: String?) {
-        val dialog = Dialog(this)
-        dialog.apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_kartu_identitas)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    private fun downloadingImage(title: String, url: String, fileName: String) {
+        val request = DownloadManager.Request(Uri.parse(url))
+            .setTitle(title)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
 
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
+        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        downloadManager.enqueue(request)
 
-            val imageView = dialog.findViewById<ImageView>(R.id.img_alert)
-            val btnClose = dialog.findViewById<ImageView>(R.id.ic_close)
-
-            val imageUrl = "https://storage.googleapis.com/bucket-adoptify/imagesReqPet/${image}"
-            Glide.with(this@DetailSubmissionActivity)
-                .load(imageUrl)
-                .placeholder(R.drawable.ic_place_holder)
-                .into(imageView)
-            btnClose.setOnClickListener { dismiss() }
-            show()
-        }
+        Toast.makeText(this, "Download started...", Toast.LENGTH_SHORT).show()
     }
 
     private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {
@@ -259,15 +233,5 @@ class DetailSubmissionActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        logoutDialog?.dismiss()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        logoutDialog?.dismiss()
     }
 }

@@ -1,11 +1,15 @@
 package com.example.adoptify_core.ui.adopt.list
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.adoptify_core.databinding.FragmentListPetBinding
@@ -30,6 +34,8 @@ class ListPetFragment : Fragment() {
     private var dataPet: List<DataAdopt> = listOf()
     private var filteredData: List<DataAdopt> = listOf()
 
+    private lateinit var startForResult: ActivityResultLauncher<Intent>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,10 +47,20 @@ class ListPetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val petId = data?.getIntExtra("PET_ID", -1) ?: return@registerForActivityResult
+                val position = filteredData.indexOfFirst { it.petId == petId }
+                if (position != -1) {
+                    listFragment.rvPet.scrollToPosition(position)
+                }
+            }
+        }
+
         initData()
         getToken()
         setupView()
-
     }
 
     private fun setupView() {
@@ -64,11 +80,18 @@ class ListPetFragment : Fragment() {
 
     private fun showRecyclerView() {
         listFragment.rvPet.apply {
-            adapter = PetItemAdapter(filteredData) {
+            adapter = PetItemAdapter(filteredData) { pet, imageView ->
                 val intent = Intent(requireContext(), DetailAdoptActivity::class.java)
-                intent.putExtra("PET_ID", it.petId)
+                intent.putExtra("PET_ID", pet.petId)
                 intent.putExtra("TOKEN", token)
-                startActivity(intent)
+                intent.putExtra("TRANSITION_NAME", imageView.transitionName)
+
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    requireActivity(),
+                    imageView,
+                    imageView.transitionName
+                )
+                startForResult.launch(intent, options)
             }
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
@@ -140,4 +163,5 @@ class ListPetFragment : Fragment() {
     companion object {
         const val ARG_POSITION = "arg_position"
     }
+
 }

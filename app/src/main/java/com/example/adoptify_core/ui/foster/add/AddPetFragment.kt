@@ -22,6 +22,7 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.adoptify_core.R
@@ -229,9 +230,13 @@ class AddPetFragment : Fragment() {
     }
 
     private fun setupListener() {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            requireContext(),
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         addPetFragment.apply {
             btnAdd.setOnClickListener { galleryLauncher.launch("image/*") }
-
             radioCat.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     radioRasPet1.text = getString(R.string.anggora)
@@ -254,7 +259,7 @@ class AddPetFragment : Fragment() {
 
             btnSave.setOnClickListener { addPetHandler() }
 
-            headerFoster.btnPengajuan.setOnClickListener { startActivity(Intent(requireContext(), SubmissionFosterActivity::class.java)) }
+            headerFoster.btnPengajuan.setOnClickListener { startActivity(Intent(requireContext(), SubmissionFosterActivity::class.java), options.toBundle()) }
         }
     }
 

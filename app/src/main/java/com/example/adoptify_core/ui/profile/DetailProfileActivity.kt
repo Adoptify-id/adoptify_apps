@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
+import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityDetailProfileBinding
 import com.example.adoptify_core.ui.auth.login.LoginActivity
@@ -26,16 +27,13 @@ import com.example.core.utils.ForceLogout
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
-class DetailProfileActivity : AppCompatActivity() {
+class DetailProfileActivity : BaseActivity() {
 
     private lateinit var binding: ActivityDetailProfileBinding
     private val profileViewModel: ProfileViewModel by viewModel()
 
     private lateinit var token: String
     private var userId by Delegates.notNull<Int>()
-
-    private var logoutDialog: Dialog? = null
-
     private lateinit var editActivityLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +50,6 @@ class DetailProfileActivity : AppCompatActivity() {
             }
         }
         initData()
-        forceLogout()
         getDetailUser()
         setupListener()
     }
@@ -72,38 +69,6 @@ class DetailProfileActivity : AppCompatActivity() {
             provinceEditText.isEnabled = false
             codeEditText.isEnabled = false
         }
-    }
-
-    private fun forceLogout() {
-        ForceLogout.logoutLiveData.observe(this) {
-            showLogoutDialog()
-        }
-    }
-
-    private fun showLogoutDialog() {
-        logoutDialog = Dialog(this).apply {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-            setCancelable(false)
-            setContentView(R.layout.modal_session_expired)
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            //set width height card
-            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
-            val height = WindowManager.LayoutParams.WRAP_CONTENT
-            window?.setLayout(width, height)
-
-            val btnLogin = findViewById<Button>(R.id.btnReload)
-            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@DetailProfileActivity, R.color.primary_color_foster)
-
-            btnLogin.setOnClickListener { navigateToLogin() }
-            show()
-        }
-    }
-
-    private fun navigateToLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     private fun setupListener() {
@@ -146,15 +111,5 @@ class DetailProfileActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        logoutDialog?.dismiss()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        logoutDialog?.dismiss()
     }
 }
