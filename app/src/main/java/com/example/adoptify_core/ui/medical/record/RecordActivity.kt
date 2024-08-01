@@ -1,11 +1,9 @@
 package com.example.adoptify_core.ui.medical.record
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -32,8 +30,11 @@ import com.example.core.data.source.remote.response.DataItem
 import com.example.core.utils.SessionViewModel
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -44,6 +45,7 @@ class RecordActivity : BaseActivity() {
     private val medicalViewModel: MedicalRecordViewModel by viewModel()
     private val profileViewModel: ProfileViewModel by viewModel()
     private val sessionViewModel: SessionViewModel by viewModel()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private var token: String? = null
     private var userId: Int? = null
@@ -62,7 +64,7 @@ class RecordActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRecordBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         binding.header.txtBookmark.text = resources.getString(R.string.medical_record)
         setupView()
         observeData()
@@ -204,13 +206,25 @@ class RecordActivity : BaseActivity() {
                 is Resource.Success -> {
                     showLoading(false)
                     Log.d("MedicalRecord", "recordResult: ${it.data}")
-                    setResult(RESULT_OK)
-                    finish()
+                    popUpDialog(
+                        title = "Yeiy!",
+                        desc = "penambahan data medical record berhasil",
+                        subDesc = "Data medical record telah berhasil ditambahkan dan Anda dapat mengaksesnya kapan saja. Selamat menggunakan layanan kami!",
+                        image = R.drawable.alert_success
+                    ) {
+                        setResult(RESULT_OK)
+                        finish()
+
+                        val bundle = Bundle()
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_submit_medical_checkup")
+                        firebaseAnalytics.logEvent("submit_medical_checkup", bundle)
+                    }
                 }
 
                 is Resource.Error -> {
                     showLoading(false)
-                    popUpDialog("Yah!", "Penambahan data medical gagal", it.message, R.drawable.alert_failed)
+                    popUpDialog("Yah!", "Penambahan data medical record gagal", it.message, R.drawable.alert_failed)
                     Log.d("MedicalRecord", "error: ${it.message}")
                 }
             }
@@ -229,10 +243,10 @@ class RecordActivity : BaseActivity() {
             val doctorName = nameDoctorEditText.text.toString()
             val alamat = addressClinicEditText.text.toString()
             val tanggal = valueDate
-            val xRay = currentUriImage?.let { uriToFile(it, this@RecordActivity).reduceImageFile() }?.path
+            val xRay = currentUriImage != null
             val notes = medicalEditText.text.toString()
 
-            val isFormValid = name.isNotEmpty() && kesehatan.isNotEmpty() && descKesehatan.isNotEmpty() && info.isNotEmpty() && clinicName.isNotEmpty() && doctorName.isNotEmpty() && alamat.isNotEmpty() && tanggal.isNotEmpty() && xRay!!.isNotEmpty() && notes.isNotEmpty() && isRadioGroupCategorySelected && beratPet > 0
+            val isFormValid = name.isNotEmpty() && kesehatan.isNotEmpty() && descKesehatan.isNotEmpty() && info.isNotEmpty() && clinicName.isNotEmpty() && doctorName.isNotEmpty() && alamat.isNotEmpty() && tanggal.isNotEmpty() && xRay && notes.isNotEmpty() && isRadioGroupCategorySelected && beratPet > 0
             btnSave.isEnabled = isFormValid
             btnSave.backgroundTintList = ContextCompat.getColorStateList(
                 this@RecordActivity,
@@ -252,13 +266,13 @@ class RecordActivity : BaseActivity() {
         if (isLoading) progressBarDialog() else dismissProgressDialog()
     }
 
-    @SuppressLint("NewApi")
+
     private fun showCalendar() {
         val calendar = Calendar.getInstance()
 
         if (valueDate.isNotEmpty()) {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            calendar.time = dateFormat.parse(valueDate)
+            calendar.time = dateFormat.parse(valueDate) ?: Date()
         }
 
         val dialogDatePicker = DatePickerDialog(
@@ -302,16 +316,13 @@ class RecordActivity : BaseActivity() {
         }
     }
 
-    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {
+    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int, onDismiss: () -> Unit = {}) {
         val dialog = Dialog(this)
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)
             setContentView(R.layout.alert_dialog)
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-
-            //set width height card
             val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
             val height = WindowManager.LayoutParams.WRAP_CONTENT
             window?.setLayout(width, height)
@@ -326,7 +337,10 @@ class RecordActivity : BaseActivity() {
             titleText.text = title
             descText.text = desc
             subDescText.text = subDesc
-            btnClose.setOnClickListener { dismiss() }
+            btnClose.setOnClickListener {
+                dismiss()
+                onDismiss()
+            }
             show()
         }
     }

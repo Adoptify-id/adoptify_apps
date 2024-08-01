@@ -29,6 +29,7 @@ import com.example.adoptify_core.ui.adopt.submission.SubmissionAdoptActivity
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.FormItem
 import com.example.core.utils.SessionViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -45,6 +46,8 @@ class ThirdSubmissionFragment : Fragment() {
 
     private lateinit var sharedViewModel: SharedDataViewModel
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     private var token: String? = null
     private var userId: Int? = null
 
@@ -59,7 +62,7 @@ class ThirdSubmissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity())[SharedDataViewModel::class.java]
-
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         setupView()
         validateForm()
         observeData()
@@ -177,8 +180,12 @@ class ThirdSubmissionFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     showLoading(false)
-                    popUpDialog("Yeiy!", "Pengajuan adopsi gagal", "Selamat! Pengajuan adopsi berhasil ditambahkan. Anda kini dapat melihat informasi pengajuan hewan" ,R.drawable.alert_success)
+                    popUpDialog("Yeiy!", "Pengajuan adopsi berhasil", "Selamat! Pengajuan adopsi berhasil ditambahkan. Anda kini dapat melihat informasi pengajuan hewan" ,R.drawable.alert_success)
                     Log.d("ProcessAdopt", "result: ${it.data}")
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_submit_adopt_cat")
+                    firebaseAnalytics.logEvent("submit_adopt_cat", bundle)
                 }
                 is Resource.Error -> {
                     showLoading(false)

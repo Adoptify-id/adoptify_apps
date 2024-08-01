@@ -14,6 +14,7 @@ import com.example.core.data.Resource
 import com.example.core.domain.model.SubmissionItem
 import com.example.core.ui.ListSubmissionAdapter
 import com.example.core.utils.SessionViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SubmissionAdoptActivity : BaseActivity() {
@@ -26,12 +27,14 @@ class SubmissionAdoptActivity : BaseActivity() {
     private var token: String? = null
     private var userId: Int? = null
     private var listSubmission: List<SubmissionItem> = listOf()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySubmissionAdoptBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         observeData()
         listSubmissionResult()
         setupView()
@@ -92,6 +95,10 @@ class SubmissionAdoptActivity : BaseActivity() {
             adapter = ListSubmissionAdapter(filteredList) {
                 val intent = Intent(this@SubmissionAdoptActivity, DetailSubmissionActivity::class.java)
                 intent.putExtra("REQ_ID", it.reqId)
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_detail_submission")
+                firebaseAnalytics.logEvent("navigate_to_detail_submission", bundle)
                 startActivity(intent, options.toBundle())
             }
             setHasFixedSize(true)

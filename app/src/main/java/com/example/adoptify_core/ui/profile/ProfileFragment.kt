@@ -197,6 +197,10 @@ class ProfileFragment : Fragment() {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/adoptify-privacy-policy/home"))
                 startActivity(intent, options.toBundle())
             }
+            menu.txtRating.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.adoptify_core.android"))
+                startActivity(intent, options.toBundle())
+            }
             menu.txtCallCenter.setOnClickListener { openWhatsApp("+6285179673002") }
             card.btnReward.setOnClickListener { startActivity(Intent(requireContext(), ComingSoonActivity::class.java), options.toBundle()) }
             card.btnTransaction.setOnClickListener { startActivity(Intent(requireContext(), SubmissionAdoptActivity::class.java), options.toBundle()) }

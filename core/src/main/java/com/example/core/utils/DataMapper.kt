@@ -236,11 +236,11 @@ object DataMapper {
     fun petAdoptItemMap(data: PetAdoptItem): Map<String, RequestBody> {
         val requestBodyMap = mutableMapOf<String, RequestBody>()
 
-        requestBodyMap["namePet"] = data.namePet.toRequestBody()
-        requestBodyMap["umur"] = data.umur.toString().toRequestBody()
-        requestBodyMap["gender"] = data.gender.toRequestBody()
-        requestBodyMap["ras"] = data.ras.toRequestBody()
-        requestBodyMap["descPet"] = data.descPet.toRequestBody()
+        requestBodyMap["namePet"] = data.namePet!!.toRequestBody()
+        requestBodyMap["umur"] = data.umur!!.toString().toRequestBody()
+        requestBodyMap["gender"] = data.gender!!.toRequestBody()
+        requestBodyMap["ras"] = data.ras!!.toRequestBody()
+        requestBodyMap["descPet"] = data.descPet!!.toRequestBody()
         requestBodyMap["kategori"] = data.kategori!!.toRequestBody()
         requestBodyMap["userId"] = data.userId.toString().toRequestBody()
 
@@ -271,8 +271,9 @@ object DataMapper {
                 namePet = it.namePet,
                 createdAt = it.createdAt,
                 userId = it.userId,
-
-                )
+                alamat = it.alamat,
+                provinsi = it.provinsi
+            )
         }
 
 
@@ -292,7 +293,8 @@ object DataMapper {
                 username = it.username,
                 isAdopt = it.isAdopt,
                 alamat = it.alamat,
-                provinsi = it.provinsi
+                provinsi = it.provinsi,
+                foto = it.foto
             )
         }
     )
@@ -492,11 +494,12 @@ object DataMapper {
     fun petsEntityToPets(pet: DataAdopt, isFavorite: Boolean): PetEntity {
         return PetEntity(
             id = pet.petId!!,
-            namePet = pet.namePet,
-            gender = pet.gender,
-            age = pet.umur,
-            ras = pet.ras,
+            namePet = pet.namePet!!,
+            gender = pet.gender!!,
+            age = pet.umur!!,
+            ras = pet.ras!!,
             fotoPet = pet.fotoPet!!,
+            isAdopt = pet.isAdopt,
             isFavorite = isFavorite
         )
     }

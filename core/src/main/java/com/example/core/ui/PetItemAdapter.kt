@@ -17,9 +17,10 @@ class PetItemAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataAdopt) {
             binding.apply {
-                namePet.text = data.namePet.split(" ").joinToString(separator = " ") { it.capitalize() }
+                namePet.text = data.namePet?.split(" ")?.joinToString(separator = " ") { it.capitalize() }
                 genderPet.text = data.gender
                 agePet.text = "${data.umur} Bulan"
+                txtLocation.text = if (data.alamat.isNullOrEmpty() || data.provinsi.isNullOrEmpty()) "Lokasi tidak disetel" else "${data.alamat}, ${data.provinsi}"
                 rasPet.text = data.ras
                 Glide.with(itemView.context)
                     .load("https://storage.googleapis.com/bucket-adoptify/imagesPet/${data.fotoPet}")

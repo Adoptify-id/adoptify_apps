@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/white"
+    android:background="@color/backgroundScreen"
     tools:context=".ui.profile.EditProfileActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,7 +47,7 @@
             android:layout_marginTop="40dp"
             android:elevation="5dp"
             android:background="@drawable/background_profile"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/dummy_profile"
             app:shapeAppearanceOverlay="@style/AddedImageVirtualPet"
             app:layout_constraintStart_toStartOf="parent"
@@ -179,6 +179,7 @@
                 android:textColorHint="@color/textColorHint"
                 android:inputType="phone"
                 android:padding="12dp"
+                android:textColor="@color/blackText"
                 android:textSize="16sp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
@@ -210,6 +211,7 @@
                 android:inputType="textEmailAddress"
                 android:padding="12dp"
                 android:textSize="16sp"
+                android:textColor="@color/blackText"
                 tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -313,7 +315,10 @@
             android:layout_marginTop="50dp"
             android:layout_marginHorizontal="40dp"
             android:text="@string/save"
+            android:background="@drawable/background_selected_tab_foster"
             android:layout_marginBottom="60dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
             app:backgroundTint="@color/primary_color_foster"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/provinceEditTextLayout"

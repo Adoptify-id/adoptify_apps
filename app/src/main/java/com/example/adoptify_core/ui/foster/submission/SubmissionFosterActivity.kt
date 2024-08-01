@@ -14,6 +14,7 @@ import com.example.core.data.Resource
 import com.example.core.domain.model.DataSubmissionFoster
 import com.example.core.ui.SubmissionFosterAdapter
 import com.example.core.utils.SessionViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SubmissionFosterActivity : BaseActivity() {
@@ -26,12 +27,14 @@ class SubmissionFosterActivity : BaseActivity() {
     private var token: String? = null
     private var userId: Int? = null
     private var listSubmissionFoster: List<DataSubmissionFoster> = listOf()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySubmissionFosterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         observeData()
         submissionFosterResult()
         setupView()
@@ -105,11 +108,12 @@ class SubmissionFosterActivity : BaseActivity() {
         )
         binding.rvSubmission.apply {
             adapter = SubmissionFosterAdapter(filteredList) {
-                val intent = Intent(
-                    this@SubmissionFosterActivity,
-                    DetailSubmissionFosterActivity::class.java
-                )
+                val intent = Intent(this@SubmissionFosterActivity, DetailSubmissionFosterActivity::class.java)
                 intent.putExtra("REQ_ID", it.reqId)
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_detail_submission_foster")
+                firebaseAnalytics.logEvent("navigate_to_detail_submission_foster", bundle)
                 startActivity(intent, options.toBundle())
             }
             setHasFixedSize(true)

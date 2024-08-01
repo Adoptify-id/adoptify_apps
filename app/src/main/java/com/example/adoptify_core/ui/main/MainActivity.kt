@@ -17,5 +17,40 @@ class MainActivity : BaseActivity() {
         val navController = findNavController(R.id.fragment)
         binding.bottomNavigation.setupWithNavController(navController)
         binding.bottomNavigation.itemIconTintList = null
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.homeFragment -> {
+                    if (navController.currentDestination?.id != R.id.homeFragment) {
+                        navController.navigate(R.id.homeFragment)
+                    }
+                    true
+                }
+                R.id.bookmarkFragment -> {
+                    if (navController.currentDestination?.id != R.id.bookmarkFragment) {
+                        navController.navigate(R.id.bookmarkFragment)
+                    }
+                    true
+                }
+                R.id.adoptFragment -> {
+                    if (navController.currentDestination?.id != R.id.adoptFragment) {
+                        navController.navigate(R.id.adoptFragment)
+                    }
+                    true
+                }
+                R.id.profileFragment -> {
+                    if (navController.currentDestination?.id != R.id.profileFragment) {
+                        navController.navigate(R.id.profileFragment)
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    fun navigateToAdopt() {
+        val navController = findNavController(R.id.fragment)
+        navController.navigate(R.id.adoptFragment)
+        binding.bottomNavigation.selectedItemId = R.id.adoptFragment
     }
 }

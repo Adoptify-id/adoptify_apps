@@ -207,15 +207,17 @@
 
         <TextView
             android:id="@+id/txtAdopt"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
             android:textSize="16sp"
+            android:justificationMode="inter_word"
             android:textColor="@color/blackText"
-            android:text="Dimanakah kucing yang akan Anda adopsi\nditempatkan nantinya?"
+            android:text="Dimanakah kucing yang akan Anda adopsi ditempatkan nantinya?"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line3"
             app:layout_constraintTop_toBottomOf="@id/line3"/>
 
         <LinearLayout
@@ -302,15 +304,17 @@
 
         <TextView
             android:id="@+id/txtLive"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
             android:textSize="16sp"
             android:textColor="@color/blackText"
-            android:text="Jika mengadopsi kucing dari kami, dimana\nkucing akan tinggal?"
+            android:justificationMode="inter_word"
+            android:text="Jika mengadopsi kucing dari kami, dimana kucing akan tinggal?"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line4"
             app:layout_constraintTop_toBottomOf="@id/line4"/>
 
         <LinearLayout
@@ -442,15 +446,17 @@
 
         <TextView
             android:id="@+id/txtAdoptPet"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
             android:textSize="16sp"
             android:textColor="@color/blackText"
-            android:text="Apakah di lingkungan anda (radius 500m\ndari rumah anda) ada yang memelihara\nhewan peliharaan?"
+            android:justificationMode="inter_word"
+            android:text="Apakah di lingkungan anda (radius 500m dari rumah anda) ada yang memelihara hewan peliharaan?"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line5"
             app:layout_constraintTop_toBottomOf="@id/line5"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -510,15 +516,17 @@
 
         <TextView
             android:id="@+id/txtPhoto"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
             android:textSize="16sp"
             android:textColor="@color/blackText"
-            android:text="Foto/video kondisi tempat\ntinggal, min. 5 foto/1 video"
+            android:justificationMode="inter_word"
+            android:text="Foto/video kondisi tempat tinggal, min. 5 foto/1 video"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line6"
             app:layout_constraintTop_toBottomOf="@id/line6"/>
 
         <com.google.android.material.textfield.TextInputLayout

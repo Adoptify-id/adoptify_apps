@@ -107,14 +107,16 @@
 
         <TextView
             android:id="@+id/txtHope"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
             android:textSize="16sp"
+            android:justificationMode="inter_word"
             android:textColor="@color/blackText"
-            android:text="Bagaimana jika kucing yang diadopsi\ntidak sesuai dengan harapan?"
+            app:layout_constraintEnd_toEndOf="@id/line"
+            android:text="Bagaimana jika kucing yang diadopsi tidak sesuai dengan harapan?"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line"/>
 
@@ -162,17 +164,17 @@
 
         <TextView
             android:id="@+id/txtMaintain"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
             android:textSize="16sp"
+            android:justificationMode="inter_word"
             android:textColor="@color/blackText"
-            android:text="Apakah anda sedang/pernah memelihara\nkucing sebelumnya?"
+            android:text="Apakah anda sedang/pernah memelihara kucing sebelumnya?"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line1"
             app:layout_constraintTop_toBottomOf="@id/line1"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -233,15 +235,17 @@
 
         <TextView
             android:id="@+id/txtBesides"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
             android:textSize="16sp"
+            android:justificationMode="inter_word"
             android:textColor="@color/blackText"
-            android:text="Apakah anda mempunyai hewan\npeliharaan selain kucing?"
+            android:text="Apakah anda mempunyai hewan peliharaan selain kucing?"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line2"
             app:layout_constraintTop_toBottomOf="@id/line2"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -301,17 +305,17 @@
 
         <TextView
             android:id="@+id/txtVaccine"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
             android:textSize="16sp"
             android:textColor="@color/blackText"
-            android:text="Jika anda sedang merawat kucing, apakah\nkucing tersebut sudah di vaksin?"
+            android:justificationMode="inter_word"
+            android:text="Jika anda sedang merawat kucing, apakah kucing tersebut sudah di vaksin?"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line3"
             app:layout_constraintTop_toBottomOf="@id/line3"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -371,15 +375,17 @@
 
         <TextView
             android:id="@+id/txtAdopter"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginStart="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
             android:textSize="16sp"
             android:textColor="@color/blackText"
-            android:text="Jika calon adopter sedang merawat\nkucing, apakah kucing tersebut sudah\ndi steril/kebiri?"
+            android:justificationMode="inter_word"
+            android:text="Jika calon adopter sedang merawat kucing, apakah kucing tersebut sudah di steril / kebiri?"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line4"
             app:layout_constraintTop_toBottomOf="@id/line4"/>
 
         <com.google.android.material.textfield.TextInputLayout

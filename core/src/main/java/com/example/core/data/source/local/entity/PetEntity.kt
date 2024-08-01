@@ -25,6 +25,9 @@ data class PetEntity(
     @ColumnInfo(name = "ras")
     val ras: String,
 
+    @ColumnInfo(name="isAdopt")
+    val isAdopt: Boolean? = null,
+
     @ColumnInfo(name = "favorite")
     var isFavorite: Boolean? = null
 )

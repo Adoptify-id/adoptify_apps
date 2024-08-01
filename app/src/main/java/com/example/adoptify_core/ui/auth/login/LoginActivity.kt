@@ -24,12 +24,14 @@ import com.example.adoptify_core.ui.foster.FosterActivity
 import com.example.adoptify_core.ui.main.MainActivity
 import com.example.core.data.Resource
 import com.example.core.utils.ForceLogout
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private val loginViewModel: LoginViewModel by viewModel()
 
     private var roleId by Delegates.notNull<Int>()
@@ -38,6 +40,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         loginResult()
         getRole()
@@ -57,8 +61,8 @@ class LoginActivity : AppCompatActivity() {
                     )
                 )
             }
-            usernameEditText.addTextChangedListener(textWatcher)
-            passwordEditText.addTextChangedListener(textWatcher)
+            usernameEditText.addTextChangedListener(usernameTextWatcher)
+            passwordEditText.addTextChangedListener(passwordTextWatcher)
         }
     }
 
@@ -101,6 +105,10 @@ class LoginActivity : AppCompatActivity() {
                     if (token != null) {
                         getSessionUser(token, username, userId, roleId)
                     }
+                    val bundle = Bundle().apply {
+                        putString(FirebaseAnalytics.Param.METHOD, "app_login")
+                    }
+                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
                 }
 
                 is Resource.Error -> {
@@ -172,12 +180,8 @@ class LoginActivity : AppCompatActivity() {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    //text watcher for edit text
-    private val textWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            validateForm()
-        }
-
+    private val usernameTextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) { validateForm() }
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             s?.let {
@@ -190,6 +194,12 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private val passwordTextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) { validateForm() }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
     private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {

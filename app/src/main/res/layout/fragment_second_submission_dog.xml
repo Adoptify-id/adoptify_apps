@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:background="@color/white"
+    android:fillViewport="true"
     tools:context=".ui.adopt.process.dog.SecondSubmissionDogFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,14 +52,15 @@
 
         <TextView
             android:id="@+id/txtFood"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:text="Jenis makanan apa yang akan kamu\nberikan?"
+            android:text="Jenis makanan apa yang akan kamu berikan?"
             android:textColor="@color/blackText"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/line"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header" />
 
@@ -108,14 +108,16 @@
 
         <TextView
             android:id="@+id/txtMerk"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
+            android:justificationMode="inter_word"
             android:text="Apakah ada merk tertentu jika makanan anjing yang diberikan adalah makanan instant?"
             android:textColor="@color/blackText"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/line"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line" />
 
@@ -163,16 +165,16 @@
 
         <TextView
             android:id="@+id/txtDrink"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="25dp"
-            android:layout_marginEnd="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:text="Bersediakah kamu memberikan kebutuhan\npakan dengan tepat waktu pada anjing?"
+            android:justificationMode="inter_word"
+            android:text="Bersediakah kamu memberikan kebutuhan pakan dengan tepat waktu pada anjing?"
             android:textColor="@color/blackText"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line1" />
 
@@ -221,14 +223,16 @@
 
         <TextView
             android:id="@+id/txtCage"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:text="Apakah kamu berencana untuk mema-\nsukkan anjing ke dalam kandang?"
+            android:justificationMode="inter_word"
+            android:text="Apakah kamu berencana untuk memasukkan anjing ke dalam kandang?"
             android:textColor="@color/blackText"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/line2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line2" />
 
@@ -362,16 +366,16 @@
 
         <TextView
             android:id="@+id/txtVaccine"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="25dp"
-            android:layout_marginEnd="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:text="Apakah Anda bersedia untuk memenuhi\nkebutuhan vaksinasi lengkap yang dila-\nkukan rutin per tahun?"
+            android:justificationMode="inter_word"
+            android:text="Apakah Anda bersedia untuk memenuhi kebutuhan vaksinasi lengkap yang dilakukan rutin per tahun?"
             android:textColor="@color/blackText"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line3" />
 
@@ -432,16 +436,16 @@
 
         <TextView
             android:id="@+id/txtMedicine"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="25dp"
-            android:layout_marginEnd="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:text="Apakah kamu bersedia &amp; mampu mem-\nberikan obat cacing &amp; kutu rutin 1-3 bulan\nsekali ?"
+            android:justificationMode="inter_word"
+            android:text="Apakah kamu bersedia &amp; mampu memberikan obat cacing &amp; kutu rutin 1-3 bulan sekali ?"
             android:textColor="@color/blackText"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line4" />
 
@@ -505,20 +509,20 @@
             android:id="@+id/txtPrivacy"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:text="Apakah Anda bersedia memenuhi kebut-\nuhan  kesehatan rutin anjing seperti medical check up?"
+            android:justificationMode="inter_word"
+            android:text="Apakah Anda bersedia memenuhi kebutuhan kesehatan rutin anjing seperti medical check up?"
             android:textColor="@color/blackText"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/line5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line5" />
 
-        <LinearLayout
-            android:id="@+id/radioGroupPrivacy"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/radio_privacy"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="15dp"
@@ -527,44 +531,38 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtPrivacy">
 
-            <RadioGroup
-                android:id="@+id/radio_privacy"
-                android:layout_width="wrap_content"
+            <RadioButton
+                android:id="@+id/radio_yes"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/radio_selector"
+                android:button="@android:color/transparent"
+                android:fontFamily="@font/plus_jakarta_sans_regular"
+                android:paddingHorizontal="32dp"
+                android:paddingVertical="8dp"
+                android:text="Ya"
+                android:textAlignment="center"
+                android:textColor="@drawable/text_selector"
+                android:textSize="16sp" />
 
-                <RadioButton
-                    android:id="@+id/radio_yes"
-                    android:layout_width="155dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="15dp"
-                    android:background="@drawable/radio_selector"
-                    android:button="@android:color/transparent"
-                    android:fontFamily="@font/plus_jakarta_sans_regular"
-                    android:paddingHorizontal="32dp"
-                    android:paddingVertical="8dp"
-                    android:text="Ya"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/text_selector"
-                    android:textSize="16sp" />
+            <RadioButton
+                android:id="@+id/radio_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/radio_selector"
+                android:button="@android:color/transparent"
+                android:fontFamily="@font/plus_jakarta_sans_regular"
+                android:paddingHorizontal="32dp"
+                android:paddingVertical="8dp"
+                android:text="Tidak"
+                android:textAlignment="center"
+                android:textColor="@drawable/text_selector"
+                android:textSize="16sp" />
 
-                <RadioButton
-                    android:id="@+id/radio_no"
-                    android:layout_width="155dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="15dp"
-                    android:background="@drawable/radio_selector"
-                    android:button="@android:color/transparent"
-                    android:fontFamily="@font/plus_jakarta_sans_regular"
-                    android:paddingHorizontal="32dp"
-                    android:paddingVertical="8dp"
-                    android:text="Tidak"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/text_selector"
-                    android:textSize="16sp" />
-
-            </RadioGroup>
-        </LinearLayout>
+        </RadioGroup>
 
         <View
             android:id="@+id/line6"
@@ -575,20 +573,20 @@
             android:background="#E0E0E0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radioGroupPrivacy" />
+            app:layout_constraintTop_toBottomOf="@id/radio_privacy" />
 
         <TextView
             android:id="@+id/txtMove"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="25dp"
-            android:layout_marginEnd="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:text="Apa yang akan Anda lakukan terhadap\nanjing yang Anda adopsi, jika Anda harus\npindah kota/ liburan/perjalanan dinas?"
+            android:text="Apa yang akan Anda lakukan terhadap anjing yang Anda adopsi, jika Anda harus pindah kota/ liburan/perjalanan dinas?"
             android:textColor="@color/blackText"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:justificationMode="inter_word"
+            app:layout_constraintEnd_toEndOf="@id/line6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line6" />
 
@@ -636,41 +634,36 @@
 
         <TextView
             android:id="@+id/txtNews"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="25dp"
-            android:layout_marginEnd="40dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:text="Apakah Anda bersedia untuk kami hubungi\nsewaktu-waktu, untuk menanyakan kabar\ndan informasi terbaru terkait anjing yang\nakan diadopsi?"
+            android:text="Apakah Anda bersedia untuk kami hubungi sewaktu-waktu, untuk menanyakan kabar dan informasi terbaru terkait anjing yang akan diadopsi?"
             android:textColor="@color/blackText"
+            android:justificationMode="inter_word"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/line7"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line7" />
 
-        <LinearLayout
-            android:id="@+id/radioGroupNews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtNews">
-
             <RadioGroup
                 android:id="@+id/radio_news"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtNews">
 
                 <RadioButton
                     android:id="@+id/radio_news_yes"
-                    android:layout_width="155dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/radio_selector"
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/plus_jakarta_sans_regular"
@@ -683,9 +676,9 @@
 
                 <RadioButton
                     android:id="@+id/radio_news_no"
-                    android:layout_width="155dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@drawable/radio_selector"
                     android:button="@android:color/transparent"
                     android:fontFamily="@font/plus_jakarta_sans_regular"
@@ -697,7 +690,6 @@
                     android:textSize="16sp" />
 
             </RadioGroup>
-        </LinearLayout>
 
         <View
             android:id="@+id/line8"
@@ -708,24 +700,25 @@
             android:background="#E0E0E0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radioGroupNews" />
+            app:layout_constraintTop_toBottomOf="@id/radio_news" />
 
         <TextView
             android:id="@+id/txtCare"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:text="Perlengkapan perawatan hewan anjing\nyang sudah Anda dimiliki:"
+            android:justificationMode="inter_word"
+            android:text="Perlengkapan perawatan hewan anjing yang sudah Anda dimiliki:"
             android:textColor="@color/blackText"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/line8"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line8" />
 
         <CheckBox
             android:id="@+id/checkBoxPetCargo"
-            app:layout_constraintTop_toBottomOf="@id/txtCare"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:layout_marginHorizontal="40dp"
@@ -742,13 +735,15 @@
             android:text="Pet Cargo sesuai ukuran anjing"
             android:textColor="@color/blackText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtCare" />
 
         <CheckBox
             android:id="@+id/checkBoxTempatMakanMinum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/background_radio_vaksin"
             android:button="@null"
             android:drawableLeft="@drawable/radio_vaksinasi"
@@ -760,14 +755,14 @@
             android:paddingRight="@dimen/radio_button_padding_horizontal"
             android:text="Tempat makan &amp; minum."
             android:textColor="@color/blackText"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/checkBoxPetCargo"/>
+            app:layout_constraintTop_toBottomOf="@id/checkBoxPetCargo" />
 
         <CheckBox
             android:id="@+id/checkBoxLitterBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/background_radio_vaksin"
             android:button="@null"
             android:drawableLeft="@drawable/radio_vaksinasi"
@@ -779,14 +774,14 @@
             android:paddingRight="@dimen/radio_button_padding_horizontal"
             android:text="Tempat buang air anjing (underpad/pee tray/litter box)"
             android:textColor="@color/blackText"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/checkBoxTempatMakanMinum"/>
+            app:layout_constraintTop_toBottomOf="@id/checkBoxTempatMakanMinum" />
 
         <CheckBox
             android:id="@+id/checkBoxMainanKucing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/background_radio_vaksin"
             android:button="@null"
             android:drawableLeft="@drawable/radio_vaksinasi"
@@ -798,14 +793,14 @@
             android:paddingRight="@dimen/radio_button_padding_horizontal"
             android:text="Mainan anjing."
             android:textColor="@color/blackText"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/checkBoxLitterBox"/>
+            app:layout_constraintTop_toBottomOf="@id/checkBoxLitterBox" />
 
         <CheckBox
             android:id="@+id/checkBoxPerlengkapanMandi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/background_radio_vaksin"
             android:button="@null"
             android:drawableLeft="@drawable/radio_vaksinasi"
@@ -817,14 +812,14 @@
             android:paddingRight="@dimen/radio_button_padding_horizontal"
             android:text="Perlengkapan mandi (Shampoo, Sisir, dll)."
             android:textColor="@color/blackText"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/checkBoxMainanKucing"/>
+            app:layout_constraintTop_toBottomOf="@id/checkBoxMainanKucing" />
 
         <CheckBox
             android:id="@+id/checkBoxBelumAda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/background_radio_vaksin"
             android:button="@null"
             android:drawableLeft="@drawable/radio_vaksinasi"
@@ -837,8 +832,7 @@
             android:text="Belum ada."
             android:textColor="@color/blackText"
             app:backgroundTint="#FFF6EA"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/checkBoxPerlengkapanMandi"/>
+            app:layout_constraintTop_toBottomOf="@id/checkBoxPerlengkapanMandi" />
 
 
         <LinearLayout

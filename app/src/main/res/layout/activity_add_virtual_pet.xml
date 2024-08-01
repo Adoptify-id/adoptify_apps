@@ -61,7 +61,7 @@
 
         <RadioGroup
             android:id="@+id/radio_category"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="32dp"
             android:layout_marginTop="25dp"
@@ -72,8 +72,9 @@
 
             <RadioButton
                 android:id="@+id/radio_cat"
-                android:layout_width="160dp"
-                android:layout_height="152dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/radio_pet_selector"
                 android:button="@android:color/transparent"
@@ -88,8 +89,9 @@
 
             <RadioButton
                 android:id="@+id/radio_dog"
-                android:layout_width="160dp"
-                android:layout_height="152dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/radio_pet_selector"
                 android:button="@android:color/transparent"
                 android:drawableLeft="@drawable/card_dog"
@@ -147,7 +149,7 @@
                         android:fontFamily="@font/plus_jakarta_sans_medium"
                         android:paddingHorizontal="40dp"
                         android:paddingVertical="16dp"
-                        android:text="Angoora"
+                        android:text="Anggora"
                         android:textAlignment="center"
                         android:textColor="@drawable/text_selector"
                         android:textSize="11sp" />

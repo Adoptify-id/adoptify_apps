@@ -28,6 +28,7 @@ import com.example.core.utils.SessionViewModel
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -56,12 +57,14 @@ class UploadPickupActivity : BaseActivity() {
     private var token: String? = null
     private var reqId: Int? = null
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadPickupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         observeData()
         uploadPickupResult()
         setupView()
@@ -89,13 +92,14 @@ class UploadPickupActivity : BaseActivity() {
     private fun uploadPickupResult() {
         fosterViewModel.updatePickup.observe(this) {
             when (it) {
-                is Resource.Loading -> {
-                    showLoading(true)
-                }
-
+                is Resource.Loading -> { showLoading(true) }
                 is Resource.Success -> {
                     showLoading(false)
                     handleSuccess()
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_upload_proof_pickup")
+                    firebaseAnalytics.logEvent("upload_proof_pickup", bundle)
                 }
 
                 is Resource.Error -> {

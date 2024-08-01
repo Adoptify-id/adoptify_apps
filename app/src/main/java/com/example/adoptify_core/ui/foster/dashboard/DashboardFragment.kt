@@ -34,6 +34,7 @@ import com.example.core.domain.model.ListPetItem
 import com.example.core.ui.FosterItemAdapter
 import com.example.core.utils.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
@@ -74,6 +75,7 @@ class DashboardFragment : Fragment() {
 
     private lateinit var startForResult: ActivityResultLauncher<Intent>
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,6 +99,7 @@ class DashboardFragment : Fragment() {
             }
         }
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         setupView()
         initData()
         getToken()
@@ -306,6 +309,11 @@ class DashboardFragment : Fragment() {
             intent.putExtra("TOKEN", token)
             intent.putExtra("USER_ID", userId)
             intent.putExtra("TRANSITION_NAME", imageView.transitionName)
+
+            val bundle = Bundle()
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_detail_pet_foster")
+            firebaseAnalytics.logEvent("navigate_to_detail_pet_foster", bundle)
 
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 requireActivity(),

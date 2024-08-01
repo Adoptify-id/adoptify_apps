@@ -7,17 +7,22 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
-import android.view.View
+import android.view.LayoutInflater
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
@@ -25,10 +30,14 @@ import com.example.adoptify_core.databinding.ActivityEditFosterBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
 import com.example.adoptify_core.ui.foster.FosterActivity
 import com.example.adoptify_core.ui.foster.FosterViewModel
+import com.example.adoptify_core.ui.foster.submission.SubmissionFosterActivity
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.PetAdoptItem
+import com.example.core.utils.convertUrlToFile
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
+import com.google.firebase.analytics.FirebaseAnalytics
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
@@ -45,13 +54,20 @@ class EditFosterActivity : BaseActivity() {
     private var userId by Delegates.notNull<Int>()
 
     private var currentUriImage: Uri? = null
+    private var lastUpdatedData = PetAdoptItem()
+    private var progressDialog: Dialog? = null
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        currentUriImage = it
-        try {
-            binding.previewImage.setImageURI(currentUriImage)
-        } catch (e: Exception) {
-            Log.d("EditPetActivity", "error: ${e.message.toString()}")
+        if (it != null) {
+            currentUriImage = it
+            try {
+                binding.previewImage.setImageURI(currentUriImage)
+                validateForm()
+            } catch (e: Exception) {
+                Log.d("EditPetActivity", "error: ${e.message.toString()}")
+            }
         }
     }
 
@@ -61,7 +77,9 @@ class EditFosterActivity : BaseActivity() {
         binding = ActivityEditFosterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         setupListener()
+        validateForm()
         setupView()
         initData()
         getDetail()
@@ -69,8 +87,29 @@ class EditFosterActivity : BaseActivity() {
     }
 
     private fun setupView() {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         binding.apply {
-            binding.headerFoster.txtHeader.text = "Edit Pet"
+            headerFoster.apply {
+                txtHeader.text = "Edit Pet"
+                btnPengajuan.setOnClickListener {
+                    startActivity(Intent(this@EditFosterActivity, SubmissionFosterActivity::class.java), options.toBundle())
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_submission_foster")
+                    firebaseAnalytics.logEvent("navigate_to_submission_foster", bundle)
+                }
+                btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+            }
+            nameEditText.addTextChangedListener(textWatcher)
+            descEditText.addTextChangedListener(textWatcher)
+            ageEditText.addTextChangedListener(textWatcher)
+            radioCategory.setOnCheckedChangeListener { _, _ -> validateForm() }
+            radioRas.setOnCheckedChangeListener { _, _ -> validateForm() }
+            radioGender.setOnCheckedChangeListener { _, _ -> validateForm() }
         }
     }
 
@@ -131,8 +170,7 @@ class EditFosterActivity : BaseActivity() {
                     showLoading(false)
                     it.data.data?.map {
                         binding.apply {
-                            val imageUrl =
-                                "https://storage.googleapis.com/bucket-adoptify/imagesUser/${it?.fotoPet}"
+                            val imageUrl = "https://storage.googleapis.com/bucket-adoptify/imagesPet/${it?.fotoPet}"
                             nameEditText.setText(it?.namePet)
                             ageEditText.setText(it?.umur.toString())
                             descEditText.setText(it?.descPet)
@@ -164,6 +202,16 @@ class EditFosterActivity : BaseActivity() {
                                 getString(R.string.bitchon_frise) -> radioRasPet5.isChecked = true
                             }
 
+                            lastUpdatedData = PetAdoptItem(
+                                namePet = it?.namePet,
+                                umur = it?.umur,
+                                descPet = it?.descPet,
+                                fotoPet = it?.fotoPet,
+                                kategori = it?.kategori,
+                                gender = it?.gender,
+                                ras = it?.ras
+                            )
+
                         }
                     }
                 }
@@ -175,7 +223,6 @@ class EditFosterActivity : BaseActivity() {
             }
         }
     }
-
 
     private fun updateHandler() {
         binding.apply {
@@ -199,27 +246,64 @@ class EditFosterActivity : BaseActivity() {
             val name = nameEditText.text.toString()
             val age = ageEditText.text.toString()
             val desc = descEditText.text.toString()
-            val image = currentUriImage?.let {
-                uriToFile(
-                    it,
-                    this@EditFosterActivity
-                ).reduceImageFile()
-            }?.path
+            lifecycleScope.launch {
+                val imageFile = if (currentUriImage != null) {
+                    uriToFile(currentUriImage!!, this@EditFosterActivity).reduceImageFile().path
+                } else {
+                    lastUpdatedData.fotoPet?.let {
+                        val imageUrl = "https://storage.googleapis.com/bucket-adoptify/imagesPet/$it"
+                        convertUrlToFile(this@EditFosterActivity,imageUrl)?.path ?: it
+                    }
+                }
+                val finalImageFile = imageFile ?: ""
 
-            val data = PetAdoptItem(
-                fotoPet = image,
-                umur = age.toInt(),
-                gender = gender,
-                ras = rasPet,
-                descPet = desc,
-                namePet = name,
-                kategori = categoryPet,
-                userId = userId
-            )
+                val data = PetAdoptItem(
+                    fotoPet = finalImageFile,
+                    umur = age.toInt(),
+                    gender = gender,
+                    ras = rasPet,
+                    descPet = desc,
+                    namePet = name,
+                    kategori = categoryPet,
+                    userId = userId
+                )
 
-            fosterViewModel.updatePetAdopt(token, petId, data)
-
+                fosterViewModel.updatePetAdopt(token, petId, data)
+            }
         }
+    }
+
+    private fun validateForm() {
+        binding.apply {
+            val isRadioCategorySelected = radioCategory.checkedRadioButtonId != -1
+            val isRadioRasSelected = radioRas.checkedRadioButtonId != -1
+            val isRadioGenderSelected = radioGender.checkedRadioButtonId != -1
+            val namePet = nameEditText.text.toString()
+            val agePet = ageEditText.text.toString()
+            val descPet = descEditText.text.toString()
+
+            val selectedCategory = if (isRadioCategorySelected) findViewById<RadioButton>(radioCategory.checkedRadioButtonId).text.toString() else null
+            val selectedRas = if (isRadioRasSelected) findViewById<RadioButton>(radioRas.checkedRadioButtonId).text.toString() else null
+            val selectedGender = if (isRadioGenderSelected) findViewById<RadioButton>(radioGender.checkedRadioButtonId).text.toString() else null
+
+            val isNameChanged = namePet != lastUpdatedData.namePet && namePet.isNotEmpty()
+            val isAgeChanged = agePet != lastUpdatedData.umur.toString() && agePet.isNotEmpty()
+            val isDescChanged = descPet != lastUpdatedData.descPet && descPet.isNotEmpty()
+            val isImageChanged = currentUriImage != null
+            val isCategoryChanged = selectedCategory != lastUpdatedData.kategori && isRadioCategorySelected
+            val isRasChanged = selectedRas != lastUpdatedData.ras && isRadioRasSelected
+            val isGenderChanged = selectedGender != lastUpdatedData.gender && isRadioGenderSelected
+
+            val isFormValid = isNameChanged || isAgeChanged || isDescChanged || isImageChanged || isCategoryChanged || isRasChanged || isGenderChanged
+            btnSave.isEnabled = isFormValid
+            btnSave.backgroundTintList = ContextCompat.getColorStateList(this@EditFosterActivity, if (isFormValid) R.color.primary_color_foster else R.color.btn_disabled)
+        }
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(s: Editable?) { validateForm() }
     }
 
     private fun updateResult() {
@@ -234,9 +318,13 @@ class EditFosterActivity : BaseActivity() {
                     popUpDialog(
                         "Yeiy!",
                         "Pengeditan data berhasil",
-                        "Selamat! Data Anda telah berhasil diperbarui. Perubahan yang Anda lakukan telah disimpan dengan sukses.\n",
+                        "Selamat! Data hewan Anda telah berhasil diperbarui. Perubahan yang Anda lakukan telah disimpan dengan sukses.",
                         R.drawable.alert_success
                     )
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_edit_pet_adopt")
+                    firebaseAnalytics.logEvent("edit_pet_adopt", bundle)
                     Log.d("UpdatePet", "updateResult: ${it.data}")
                 }
 
@@ -262,8 +350,6 @@ class EditFosterActivity : BaseActivity() {
             setContentView(R.layout.alert_dialog)
 
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            //set width height card
             val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
             val height = WindowManager.LayoutParams.WRAP_CONTENT
             window?.setLayout(width, height)
@@ -273,7 +359,8 @@ class EditFosterActivity : BaseActivity() {
             val descText = dialog.findViewById<TextView>(R.id.desc_alert)
             val subDescText = dialog.findViewById<TextView>(R.id.sub_desc_alert)
             val btnClose = dialog.findViewById<Button>(R.id.btnClose)
-
+            titleText.setTextColor(ContextCompat.getColor(this@EditFosterActivity,R.color.primary_color_foster))
+            btnClose.backgroundTintList = ContextCompat.getColorStateList(this@EditFosterActivity, R.color.primary_color_foster)
             imageView.setImageDrawable(ContextCompat.getDrawable(this@EditFosterActivity, image))
             titleText.text = title
             descText.text = desc
@@ -288,6 +375,39 @@ class EditFosterActivity : BaseActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) progressBarDialog() else dismissProgressDialog()
+    }
+
+    private fun progressBarDialog() {
+        if (progressDialog == null) {
+            progressDialog = Dialog(this).apply {
+                val view =
+                    LayoutInflater.from(this@EditFosterActivity).inflate(R.layout.dialog_progress, null)
+                setContentView(view)
+                setCancelable(false)
+                window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+                progressBar.indeterminateTintList = ContextCompat.getColorStateList(this@EditFosterActivity, R.color.primary_color_foster)
+            }
+        }
+        progressDialog?.show()
+    }
+
+    private fun dismissProgressDialog() {
+        progressDialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
+            }
+        }
+    }
+
+    override fun onPause() {
+        dismissProgressDialog()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        dismissProgressDialog()
+        super.onDestroy()
     }
 }

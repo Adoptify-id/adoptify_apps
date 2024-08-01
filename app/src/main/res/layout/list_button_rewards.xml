@@ -11,8 +11,8 @@
 
         <ImageView
             android:id="@+id/btnKandang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
             android:src="@drawable/ic_kandang"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,8 +32,8 @@
 
         <ImageView
             android:id="@+id/btnMakanan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
             android:src="@drawable/ic_makanan"
             android:layout_marginStart="30dp"
             app:layout_constraintStart_toEndOf="@id/btnKandang"
@@ -54,8 +54,8 @@
 
         <ImageView
             android:id="@+id/btnPetKit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
             android:src="@drawable/ic_pet_kit"
             android:layout_marginStart="30dp"
             app:layout_constraintStart_toEndOf="@id/btnMakanan"
@@ -76,8 +76,8 @@
 
         <ImageView
             android:id="@+id/btnPasir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
             android:src="@drawable/ic_pasir"
             android:layout_marginStart="30dp"
             app:layout_constraintStart_toEndOf="@id/btnPetKit"
@@ -98,8 +98,8 @@
 
         <ImageView
             android:id="@+id/btnRumahKucing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
             android:src="@drawable/ic_rumah_kucing"
             android:layout_marginStart="30dp"
             app:layout_constraintStart_toEndOf="@id/btnPasir"
@@ -120,11 +120,12 @@
 
         <ImageView
             android:id="@+id/btnSekop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
             android:src="@drawable/ic_sekop"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnRumahKucing"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -16,6 +16,7 @@ import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.FragmentHomeBinding
 import com.example.adoptify_core.ui.auth.login.LoginViewModel
 import com.example.adoptify_core.ui.coming.ComingSoonActivity
+import com.example.adoptify_core.ui.main.MainActivity
 import com.example.adoptify_core.ui.main.MainViewModel
 import com.example.adoptify_core.ui.medical.MedicalRecordActivity
 import com.example.adoptify_core.ui.profile.ProfileViewModel
@@ -25,6 +26,7 @@ import com.example.core.data.Resource
 import com.example.core.domain.model.VirtualPetItem
 import com.example.core.ui.VirtualPetAdapter
 import com.example.core.utils.SessionManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
@@ -41,6 +43,8 @@ class HomeFragment : Fragment() {
     private val profileViewModel: ProfileViewModel by viewModel()
     private val sessionManager: SessionManager by inject()
     private val virtualPetViewModel: VirtualPetViewModel by viewModel()
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private var token = ""
     private var virtualPet: List<VirtualPetItem> = listOf()
@@ -59,7 +63,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         initData()
         getToken()
         getUserId()
@@ -67,10 +71,6 @@ class HomeFragment : Fragment() {
         setupListener()
 
         Log.d("MainActivity", "SessionManager initialized: $sessionManager")
-
-        if (isTokenAvailable && isUserIdAvailable) {
-
-        }
 
         homeFragment.swipeRefresh.apply {
             setOnRefreshListener {
@@ -205,7 +205,7 @@ class HomeFragment : Fragment() {
                             .into(homeFragment.imgProfile)
 
                         if (data?.alamat.isNullOrEmpty() || data?.provinsi.isNullOrEmpty()) {
-                            homeFragment.txtLocation.text = "Location not set"
+                            homeFragment.txtLocation.text = "Lokasi tidak disetel"
                         } else {
                             homeFragment.txtLocation.text = "${data?.alamat}, ${data?.provinsi}"
                         }
@@ -248,15 +248,37 @@ class HomeFragment : Fragment() {
             btnBack.setOnClickListener { virtualPetPager.currentItem -= 1 }
             btnMedicalRecord.setOnClickListener {
                 startActivity(Intent(requireContext(), MedicalRecordActivity::class.java), options.toBundle())
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_medical_record")
+                firebaseAnalytics.logEvent("navigate_to_medical_record", bundle)
             }
             btnVirtualPet.setOnClickListener {
                 startActivity(Intent(requireContext(), VirtualPetActivity::class.java), options.toBundle())
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_virtual_pet")
+                firebaseAnalytics.logEvent("navigate_to_virtual_pet", bundle)
             }
             btnMoreRewards.setOnClickListener {
                 startActivity(Intent(requireContext(), ComingSoonActivity::class.java), options.toBundle())
             }
-            cardCat.root.setOnClickListener { }
-            cardDog.root.setOnClickListener { }
+            cardCat.root.setOnClickListener {
+                (activity as? MainActivity)?.navigateToAdopt()
+
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "card_cat_adopt")
+                firebaseAnalytics.logEvent("navigate_to_adopt_fragment", bundle)
+            }
+            cardDog.root.setOnClickListener {
+                (activity as? MainActivity)?.navigateToAdopt()
+
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "card_dog_adopt")
+                firebaseAnalytics.logEvent("navigate_to_adopt_fragment", bundle)
+            }
         }
     }
 
@@ -272,6 +294,10 @@ class HomeFragment : Fragment() {
             intent.putExtra("token", token)
             intent.putExtra("userId", userId)
             startActivity(intent)
+            val bundle = Bundle()
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_virtual_pet")
+            firebaseAnalytics.logEvent("navigate_to_virtual_pet", bundle)
         }
     }
 

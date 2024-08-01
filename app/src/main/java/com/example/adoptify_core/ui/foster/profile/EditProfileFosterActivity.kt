@@ -1,6 +1,5 @@
 package com.example.adoptify_core.ui.foster.profile
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.graphics.Color
@@ -9,6 +8,8 @@ import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -20,6 +21,7 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
@@ -29,10 +31,13 @@ import com.example.adoptify_core.ui.main.MainViewModel
 import com.example.adoptify_core.ui.profile.ProfileViewModel
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.DataUser
+import com.example.core.utils.convertUrlToFile
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 import kotlin.properties.Delegates
 
@@ -46,12 +51,15 @@ class EditProfileFosterActivity : BaseActivity() {
 
     private var currentUriImage: Uri? = null
 
-    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        currentUriImage = it
-        try {
-            binding.imgProfile.setImageURI(currentUriImage)
-        } catch (e: Exception) {
-            Log.d("AddVirtualPetActivity", "error: ${e.message.toString()}")
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            currentUriImage = uri
+            try {
+                binding.imgProfile.setImageURI(currentUriImage)
+                validateForm()
+            } catch (e: Exception) {
+                Log.d("EditProfileActivity", "error: ${e.message.toString()}")
+            }
         }
     }
 
@@ -60,6 +68,7 @@ class EditProfileFosterActivity : BaseActivity() {
     private var userId by Delegates.notNull<Int>()
     private var isTokenAvailable = false
     private var isUserIdAvailable = false
+    private var lastUpdatedData = DataUser()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +78,7 @@ class EditProfileFosterActivity : BaseActivity() {
         setupListener()
         setupView()
         initData()
+        validateForm()
         getToken()
         getUserId()
         updateResult()
@@ -86,12 +96,18 @@ class EditProfileFosterActivity : BaseActivity() {
         binding.apply {
             telpEditText.isEnabled = false
             emailEditText.isEnabled = false
+            nameEditText.addTextChangedListener(textWatcher)
+            autoComplete.addTextChangedListener(textWatcher)
+            dateEditText.addTextChangedListener(textWatcher)
+            addressEditText.addTextChangedListener(textWatcher)
+            provinceEditText.addTextChangedListener(textWatcher)
+            codeEditText.addTextChangedListener(textWatcher)
         }
     }
 
     private fun getToken() {
         loginViewModel.token.observe(this) {
-            when(it) {
+            when (it) {
                 is Resource.Loading -> {}
                 is Resource.Success -> {
                     token = it.data
@@ -101,15 +117,19 @@ class EditProfileFosterActivity : BaseActivity() {
                     }
                     Log.d("EditProfile", "check: $token")
                 }
+
                 is Resource.Error -> {}
             }
         }
     }
 
     private fun getUserId() {
-        mainViewModel.userId.observe(this  ) {
-            when(it) {
-                is Resource.Loading -> { showLoading(true) }
+        mainViewModel.userId.observe(this) {
+            when (it) {
+                is Resource.Loading -> {
+                    showLoading(true)
+                }
+
                 is Resource.Success -> {
                     showLoading(false)
                     userId = it.data
@@ -119,6 +139,7 @@ class EditProfileFosterActivity : BaseActivity() {
                     }
                     Log.d("EditProfile", "check: $userId")
                 }
+
                 is Resource.Error -> {
                     showLoading(false)
                     Log.d("EditProfile", "error: ${it.message}")
@@ -130,13 +151,14 @@ class EditProfileFosterActivity : BaseActivity() {
     private fun getDetail() {
         profileViewModel.getDetailUser(token, userId)
         profileViewModel.detail.observe(this) {
-            when(it) {
+            when (it) {
                 is Resource.Loading -> {}
                 is Resource.Success -> {
                     Log.d("ProfileActivity", "data: ${it.data}")
                     it.data.data?.map {
                         binding.apply {
-                            val imageUrl = "https://storage.googleapis.com/bucket-adoptify/imagesUser/${it?.foto}"
+                            val imageUrl =
+                                "https://storage.googleapis.com/bucket-adoptify/imagesUser/${it?.foto}"
                             Log.d("Profile", "getDetailUser: ${it?.foto}")
                             nameEditText.setText(it?.fullName)
                             autoComplete.setText(it?.gender)
@@ -150,9 +172,21 @@ class EditProfileFosterActivity : BaseActivity() {
                                 .load(imageUrl)
                                 .placeholder(R.drawable.dummy_profile)
                                 .into(imgProfile)
+
+                            lastUpdatedData = DataUser(
+                                fullName = it?.fullName,
+                                gender = it?.gender,
+                                tglLahir = it?.tglLahir,
+                                alamat = it?.alamat,
+                                provinsi = it?.provinsi,
+                                kodePos = it?.kodePos,
+                                userId = userId,
+                                foto = it?.foto
+                            )
                         }
                     }
                 }
+
                 is Resource.Error -> {
                     Log.d("ProfileActivity", "error: ${it.message}")
                 }
@@ -174,7 +208,6 @@ class EditProfileFosterActivity : BaseActivity() {
     }
 
 
-
     private fun updateHandler() {
         binding.apply {
             val name = nameEditText.text.toString()
@@ -183,48 +216,102 @@ class EditProfileFosterActivity : BaseActivity() {
             val province = provinceEditText.text.toString()
             val date = dateEditText.text.toString()
             val code = codeEditText.text.toString()
-            val imageFile =
-                currentUriImage?.let { uriToFile(it, this@EditProfileFosterActivity).reduceImageFile() }
-
-            val data = DataUser(
-                fullName = name,
-                gender = gender,
-                tglLahir = date,
-                alamat = address,
-                provinsi = province,
-                kodePos = code,
-                userId = userId,
-                foto = imageFile.toString()
-            )
-
-            profileViewModel.updateProfile(token, userId, data)
+            lifecycleScope.launch {
+                val imageFile = if (currentUriImage != null) {
+                    uriToFile(currentUriImage!!, this@EditProfileFosterActivity).reduceImageFile().path
+                } else {
+                    lastUpdatedData.foto?.let {
+                        val imageUrl = "https://storage.googleapis.com/bucket-adoptify/imagesUser/$it"
+                        convertUrlToFile(this@EditProfileFosterActivity,imageUrl)?.path ?: it
+                    }
+                }
+                val finalImageFile = imageFile ?: ""
+                val data = DataUser(
+                    fullName = name,
+                    gender = gender,
+                    tglLahir = date,
+                    alamat = address,
+                    provinsi = province,
+                    kodePos = code,
+                    userId = userId,
+                    foto = finalImageFile
+                )
+                profileViewModel.updateProfile(token, userId, data)
+            }
         }
     }
 
     private fun updateResult() {
         profileViewModel.result.observe(this) {
-            when(it) {
-                is Resource.Loading -> { showLoading(true) }
+            when (it) {
+                is Resource.Loading -> {
+                    showLoading(true)
+                }
+
                 is Resource.Success -> {
                     showLoading(false)
                     Log.d("UpdateProfile", "result: ${it.data}")
-                    popUpDialog("Yeiy!", "Pengeditan profil berhasil", "Selamat! Profil Anda telah berhasil diperbarui. Perubahan yang Anda lakukan telah disimpan dengan sukses",R.drawable.alert_success)
+                    popUpDialog(
+                        "Yeiy!",
+                        "Pengeditan profil berhasil",
+                        "Selamat! Profil Anda telah berhasil diperbarui. Perubahan yang Anda lakukan telah disimpan dengan sukses",
+                        R.drawable.alert_success
+                    )
                 }
+
                 is Resource.Error -> {
                     showLoading(false)
-                    popUpDialog("Yah!", "Pengeditan profil gagal", it.message,R.drawable.alert_failed)
+                    popUpDialog(
+                        "Yah!",
+                        "Pengeditan profil gagal",
+                        it.message,
+                        R.drawable.alert_failed
+                    )
                     Log.d("UpdateProfile", "error: ${it.message}")
                 }
             }
         }
     }
 
-    @SuppressLint("NewApi")
+    private fun validateForm() {
+        binding.apply {
+            val name = nameEditText.text.toString()
+            val gender = autoComplete.text.toString()
+            val date = dateEditText.text.toString()
+            val address = addressEditText.text.toString()
+            val province = provinceEditText.text.toString()
+            val code = codeEditText.text.toString()
+
+            val isNameChanged = name != lastUpdatedData.fullName && name.isNotEmpty()
+            val isGenderChanged = gender != lastUpdatedData.gender && gender.isNotEmpty()
+            val isDateChanged = date != lastUpdatedData.tglLahir && date.isNotEmpty()
+            val isAddressChanged = address != lastUpdatedData.alamat && address.isNotEmpty()
+            val isProvinceChanged = province != lastUpdatedData.provinsi && province.isNotEmpty()
+            val isCodeChanged = code != lastUpdatedData.kodePos && code.isNotEmpty()
+            val isImageChanged = currentUriImage != null
+
+            val isFormValid = isImageChanged || isNameChanged || isGenderChanged || isDateChanged || isAddressChanged || isProvinceChanged || isCodeChanged
+            btnSave.isEnabled = isFormValid
+            btnSave.backgroundTintList = ContextCompat.getColorStateList(this@EditProfileFosterActivity, if (isFormValid) R.color.primary_color_foster else R.color.btn_disabled)
+        }
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(s: Editable?) { validateForm() }
+    }
+
     private fun showCalendar() {
         val calendar = Calendar.getInstance()
 
+        if (valueDate.isNotEmpty()) {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            calendar.time = dateFormat.parse(valueDate) ?: Date()
+        }
+
         val dialogDatePicker = DatePickerDialog(
-            this, {DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+            this, { DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(year, monthOfYear, dayOfMonth)
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -239,16 +326,13 @@ class EditProfileFosterActivity : BaseActivity() {
         dialogDatePicker.show()
     }
 
-    private fun popUpDialog(title: String, desc: String, subDesc: String ,image: Int) {
+    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {
         val dialog = Dialog(this)
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)
             setContentView(R.layout.alert_dialog)
-
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            //set width height card
             val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
             val height = WindowManager.LayoutParams.WRAP_CONTENT
             window?.setLayout(width, height)
@@ -258,8 +342,14 @@ class EditProfileFosterActivity : BaseActivity() {
             val descText = dialog.findViewById<TextView>(R.id.desc_alert)
             val subDescText = dialog.findViewById<TextView>(R.id.sub_desc_alert)
             val btnClose = dialog.findViewById<Button>(R.id.btnClose)
-
-            imageView.setImageDrawable(ContextCompat.getDrawable(this@EditProfileFosterActivity, image))
+            titleText.setTextColor(ContextCompat.getColor(this@EditProfileFosterActivity,R.color.primary_color_foster))
+            btnClose.backgroundTintList = ContextCompat.getColorStateList(this@EditProfileFosterActivity, R.color.primary_color_foster)
+            imageView.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this@EditProfileFosterActivity,
+                    image
+                )
+            )
             titleText.text = title
             descText.text = desc
             subDescText.text = subDesc

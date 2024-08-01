@@ -7,9 +7,28 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:205778539738:android:df9736a29ab6ee24f781e3",
+        "mobilesdk_app_id": "1:205778539738:android:e2a179c3914719abf781e3",
         "android_client_info": {
           "package_name": "com.adoptify_core.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOSuIR-5-cMEvSDUpWW2mW8VZ8sgO1MLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205778539738:android:df9736a29ab6ee24f781e3",
+        "android_client_info": {
+          "package_name": "com.example.adoptify_core"
         }
       },
       "oauth_client": [],

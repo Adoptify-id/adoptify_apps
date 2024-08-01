@@ -50,14 +50,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ic_foster"
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:layout_marginStart="35dp"
             android:layout_marginTop="35dp"
-            android:background="@drawable/background_image_foster"
             android:src="@drawable/ic_foster"
+            app:shapeAppearanceOverlay="@style/AddedImageVirtualPet"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image_pet" />
 
@@ -86,7 +86,7 @@
 
         <TextView
             android:id="@+id/txtFosterName"
-            android:layout_width="wrap_content"
+            android:layout_width="95dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:fontFamily="@font/plus_jakarta_sans_regular"
@@ -144,7 +144,7 @@
 
         <TextView
             android:id="@+id/txtLocation"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/plus_jakarta_sans_semibold"
@@ -364,7 +364,7 @@
             android:textColor="@color/primaryColor"
             android:layout_marginTop="2dp"
             android:layout_marginStart="5dp"
-            android:text="50"
+            android:text="25"
             app:layout_constraintStart_toEndOf="@id/only"
             app:layout_constraintTop_toBottomOf="@id/fee"/>
 

@@ -36,6 +36,7 @@ import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.PetAdoptItem
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
@@ -59,12 +60,14 @@ class AddPetFragment : Fragment() {
         currentUriImage = it
         try {
             addPetFragment.previewImage.setImageURI(currentUriImage)
+            validateForm()
         } catch (e: Exception) {
-            Log.d("AddVirtualPetActivity", "error: ${e.message.toString()}")
+            Log.d("AddPetFragment", "error: ${e.message.toString()}")
         }
     }
 
     private lateinit var token: String
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var userId by Delegates.notNull<Int>()
 
     override fun onCreateView(
@@ -78,6 +81,7 @@ class AddPetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         setupView()
         validateForm()
         initData()
@@ -91,24 +95,24 @@ class AddPetFragment : Fragment() {
         mainViewModel.getUserId()
         loginViewModel.getRoleId()
         loginViewModel.getSession()
-
     }
-
 
     private fun setupView() {
         addPetFragment.apply {
             nameEditText.addTextChangedListener(textWatcher)
             ageEditText.addTextChangedListener(textWatcher)
             descEditText.addTextChangedListener(textWatcher)
+            radioCategory.setOnCheckedChangeListener { _, _ -> validateForm() }
+            radioRas.setOnCheckedChangeListener { _, _ -> validateForm() }
+            radioGender.setOnCheckedChangeListener { _, _ -> validateForm() }
+
+            headerFoster.btnBack.visibility = View.GONE
         }
     }
 
     //text watcher for edit text
     private val textWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            validateForm()
-        }
-
+        override fun afterTextChanged(s: Editable?) { validateForm() }
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
@@ -118,24 +122,21 @@ class AddPetFragment : Fragment() {
             val name = nameEditText.text.toString()
             val age = ageEditText.text.toString()
             val desc = descEditText.text.toString()
+            val isRadioCategorySelected = radioCategory.checkedRadioButtonId != -1
+            val isRadioRasSelected = radioRas.checkedRadioButtonId != -1
+            val isRadioGenderSelected = radioGender.checkedRadioButtonId != -1
+            val imagePet = currentUriImage != null
 
-            val isFormValid = name.isNotEmpty() && age.isNotEmpty() && desc.isNotEmpty()
+            val isFormValid = name.isNotEmpty() && age.isNotEmpty() && desc.isNotEmpty() && isRadioCategorySelected && isRadioGenderSelected && isRadioRasSelected && imagePet
             btnSave.isEnabled = isFormValid
-            btnSave.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    if (isFormValid) R.color.primary_color_foster else R.color.btn_disabled
-                )
-            )
+            btnSave.backgroundTintList = ContextCompat.getColorStateList(requireContext(), if (isFormValid) R.color.primary_color_foster else R.color.btn_disabled)
         }
     }
 
     private fun getToken() {
         loginViewModel.token.observe(viewLifecycleOwner) {
             when (it) {
-                is Resource.Loading -> {
-                    showLoading(true)
-                }
+                is Resource.Loading -> { showLoading(true) }
 
                 is Resource.Success -> {
                     token = it.data
@@ -151,9 +152,7 @@ class AddPetFragment : Fragment() {
     private fun getUserId() {
         mainViewModel.userId.observe(viewLifecycleOwner) {
             when (it) {
-                is Resource.Loading -> {
-                    showLoading(true)
-                }
+                is Resource.Loading -> { showLoading(true) }
 
                 is Resource.Success -> {
                     userId = it.data
@@ -217,6 +216,10 @@ class AddPetFragment : Fragment() {
                     popUpDialog("Yeiy!", "Penambahan data berhasil", "Selamat! Data hewan peliharaan Anda telah berhasil ditambahkan. Anda kini dapat melihat dan mengelola informasi hewan peliharaan" ,R.drawable.alert_success)
                     clearEditText()
                     (activity as? FosterActivity)?.switchTab(0)
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_add_pet_adopt")
+                    firebaseAnalytics.logEvent("submit_pet_adopt", bundle)
                     Log.d("AddPetFragment", "result: ${it.data}")
                 }
 
@@ -259,7 +262,13 @@ class AddPetFragment : Fragment() {
 
             btnSave.setOnClickListener { addPetHandler() }
 
-            headerFoster.btnPengajuan.setOnClickListener { startActivity(Intent(requireContext(), SubmissionFosterActivity::class.java), options.toBundle()) }
+            headerFoster.btnPengajuan.setOnClickListener {
+                startActivity(Intent(requireContext(), SubmissionFosterActivity::class.java), options.toBundle())
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_submission_foster")
+                firebaseAnalytics.logEvent("navigate_to_submission_foster", bundle)
+            }
         }
     }
 
@@ -274,9 +283,6 @@ class AddPetFragment : Fragment() {
             setCancelable(false)
             setContentView(R.layout.alert_dialog)
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-
-            //set width height card
             val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
             val height = WindowManager.LayoutParams.WRAP_CONTENT
             window?.setLayout(width, height)
@@ -286,7 +292,8 @@ class AddPetFragment : Fragment() {
             val descText = dialog.findViewById<TextView>(R.id.desc_alert)
             val subDescText = dialog.findViewById<TextView>(R.id.sub_desc_alert)
             val btnClose = dialog.findViewById<Button>(R.id.btnClose)
-
+            titleText.setTextColor(ContextCompat.getColor(requireContext(),R.color.primary_color_foster))
+            btnClose.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.primary_color_foster)
             imageView.setImageDrawable(ContextCompat.getDrawable(requireContext(), image))
             titleText.text = title
             descText.text = desc

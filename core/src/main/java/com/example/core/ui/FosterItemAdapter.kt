@@ -31,10 +31,11 @@ class FosterItemAdapter(private val items: List<ListPetItem>, private val onItem
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataAdopt) {
             binding.apply {
-                namePet.text = data.namePet.split(" ").joinToString(separator = " ") { it.capitalize() }
+                namePet.text = data.namePet?.split(" ")?.joinToString(separator = " ") { it.capitalize() }
                 genderPet.text = data.gender
                 agePet.text = "${data.umur} Bulan"
                 rasPet.text = data.ras
+                txtLocation.text = if (data.alamat.isNullOrEmpty() || data.provinsi.isNullOrEmpty()) "Lokasi tidak disetel" else "${data.alamat}, ${data.provinsi}"
                 Glide.with(itemView.context)
                     .load("https://storage.googleapis.com/bucket-adoptify/imagesPet/${data.fotoPet}")
                     .placeholder(R.drawable.adopt_virtual_dog)

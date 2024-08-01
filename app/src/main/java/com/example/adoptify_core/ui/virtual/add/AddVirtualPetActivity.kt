@@ -29,6 +29,7 @@ import com.example.core.domain.model.AddVirtualPetItem
 import com.example.core.utils.SessionViewModel
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -44,6 +45,7 @@ class AddVirtualPetActivity : BaseActivity() {
         currentUriImage = it
         try {
             binding.previewImage.setImageURI(currentUriImage)
+            validateForm()
         } catch (e: Exception) {
             Log.d("AddVirtualPetActivity", "error: ${e.message.toString()}")
         }
@@ -52,12 +54,14 @@ class AddVirtualPetActivity : BaseActivity() {
     private val sessionViewModel: SessionViewModel by viewModel()
     private var token: String? = null
     private var userId: Int? = null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddVirtualPetBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         observeData()
         setupView()
         setupListener()
@@ -73,7 +77,6 @@ class AddVirtualPetActivity : BaseActivity() {
     private fun setupListener() {
         binding.apply {
             btnAdd.setOnClickListener { galleryLauncher.launch("image/*") }
-
             radioCat.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     radioRasPet1.text = getString(R.string.anggora)
@@ -93,24 +96,35 @@ class AddVirtualPetActivity : BaseActivity() {
                     radioRasPet5.text = getString(R.string.bitchon_frise)
                 }
             }
-
             btnSave.setOnClickListener { virtualPetHandler() }
             header.btnBack.setOnClickListener {  onBackPressedDispatcher.onBackPressed() }
         }
     }
 
     private fun setupView() {
-        binding.header.txtBookmark.text = resources.getString(R.string.virtual_pet)
-        binding.nameEditText.addTextChangedListener(textWatcher)
-        binding.ageEditText.addTextChangedListener(textWatcher)
+        binding.apply {
+            header.txtBookmark.text = resources.getString(R.string.virtual_pet)
+            nameEditText.addTextChangedListener(textWatcher)
+            ageEditText.addTextChangedListener(textWatcher)
+            weightEditText.addTextChangedListener(textWatcher)
+            radioCategory.setOnCheckedChangeListener { _, _ -> validateForm() }
+            radioRas.setOnCheckedChangeListener { _, _ -> validateForm() }
+            radioGender.setOnCheckedChangeListener { _, _ -> validateForm() }
+        }
     }
 
     private fun validateForm() {
         binding.apply {
             val name = nameEditText.text.toString()
-            val age = ageEditText.text.toString()
+            val age = ageEditText.text.toString().takeIf { it.isNotEmpty() }?.toIntOrNull() ?: 0
+            val weight = weightEditText.text.toString().takeIf { it.isNotEmpty() }?.toIntOrNull() ?: 0
+            val image = currentUriImage?.let { uriToFile(it, this@AddVirtualPetActivity).reduceImageFile() }?.path
+            val isRadioGroupCategorySelected = radioCategory.checkedRadioButtonId != -1
+            val isRadioRasGroupCategorySelected = radioRas.checkedRadioButtonId != -1
+            val isRadioGenderGroupCategorySelected = radioGender.checkedRadioButtonId != -1
 
-            val isFormValid = name.isNotEmpty() && age.isNotEmpty()
+            val isImageValid = image != null && image.isNotEmpty()
+            val isFormValid = name.isNotEmpty() && age > 0 && weight > 0 && isImageValid && isRadioGroupCategorySelected && isRadioRasGroupCategorySelected && isRadioGenderGroupCategorySelected
             btnSave.isEnabled = isFormValid
             btnSave.setBackgroundColor(
                 ContextCompat.getColor(
@@ -123,7 +137,6 @@ class AddVirtualPetActivity : BaseActivity() {
 
     private fun virtualPetHandler() {
         binding.apply {
-
             val categoryPet =
                 radioCategory.checkedRadioButtonId.takeIf { it != -1 }?.let { radioButtonId ->
                     val radioButton = binding.root.findViewById<RadioButton>(radioButtonId)
@@ -171,14 +184,26 @@ class AddVirtualPetActivity : BaseActivity() {
 
                 is Resource.Success -> {
                     showLoading(false)
+                    popUpDialog(
+                        title = "Yeiy!",
+                        desc = "penambahan data virtual pet berhasil",
+                        subDesc = "Anda telah berhasil menambahkan data virtual pet. Data akan disimpan ke dalam database dan dapat diakses kapan saja. Terima kasih!",
+                        image = R.drawable.alert_success
+                    ) {
+                        setResult(Activity.RESULT_OK)
+                        finish()
+
+                        val bundle = Bundle()
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_submit_add_virtual_pet")
+                        firebaseAnalytics.logEvent("submit_add_virtual_pet", bundle)
+                    }
                     Log.d("AddVirtualPetActivity", "result: ${it.data}")
-                    setResult(Activity.RESULT_OK)
-                    finish()
                 }
 
                 is Resource.Error -> {
                     showLoading(false)
-                    popUpDialog("Yah!", "Penambahan data virtual pet gagal", it.message, R.drawable.alert_failed)
+                    popUpDialog("Yah!", "penambahan data virtual pet gagal", it.message, R.drawable.alert_failed)
                     Log.d("AddVirtualPetActivity", "error: ${it.message}")
                 }
 
@@ -189,12 +214,8 @@ class AddVirtualPetActivity : BaseActivity() {
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-        override fun afterTextChanged(s: Editable?) {
-            validateForm()
-        }
+        override fun afterTextChanged(s: Editable?) { validateForm() }
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -221,15 +242,13 @@ class AddVirtualPetActivity : BaseActivity() {
         }
     }
 
-    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {
+    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int, onDismiss: () -> Unit = {}) {
         val dialog = Dialog(this)
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)
             setContentView(R.layout.alert_dialog)
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            //set width height card
             val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
             val height = WindowManager.LayoutParams.WRAP_CONTENT
             window?.setLayout(width, height)
@@ -244,7 +263,10 @@ class AddVirtualPetActivity : BaseActivity() {
             titleText.text = title
             descText.text = desc
             subDescText.text = subDesc
-            btnClose.setOnClickListener { dismiss() }
+            btnClose.setOnClickListener {
+                dismiss()
+                onDismiss()
+            }
             show()
         }
     }

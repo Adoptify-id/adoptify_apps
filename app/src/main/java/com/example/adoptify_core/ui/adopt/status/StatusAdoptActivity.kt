@@ -37,6 +37,7 @@ import com.example.core.domain.model.DetailSubmissionData
 import com.example.core.utils.SessionViewModel
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -54,6 +55,8 @@ class StatusAdoptActivity : BaseActivity() {
 
     private var progressDialog: Dialog? = null
     private var logoutDialog: Dialog? = null
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private var currentUriImage: Uri? = null
         set(value) {
@@ -82,6 +85,7 @@ class StatusAdoptActivity : BaseActivity() {
         binding = ActivityStatusAdoptBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         observeData()
         updateResult()
         showDetailData()
@@ -270,6 +274,7 @@ class StatusAdoptActivity : BaseActivity() {
             }
             btnNext.setOnClickListener { updateHandler() }
             btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+            btnArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         }
     }
 
@@ -311,6 +316,10 @@ class StatusAdoptActivity : BaseActivity() {
                     showLoading(false)
                     popUpDialog("Yeiy!", "Transaksi adopsi berhasil", "Selamat! Transaksi adopsi berhasil diajukan. Anda kini dapat melihat informasi pengajuan hewan" ,R.drawable.alert_success)
                     Log.d("StatusAdopt", "data: ${it.data}")
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_submit_transaction_adopt")
+                    firebaseAnalytics.logEvent("submit_transaction_adopt", bundle)
                 }
                 is Resource.Error -> {
                     showLoading(false)

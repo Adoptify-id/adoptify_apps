@@ -15,27 +15,26 @@ data class PetAdoptResponse(
 )
 
 data class PetAdoptItem(
-
 	@field:SerializedName("fotoPet")
-	val fotoPet: String?,
+	val fotoPet: String? = null,
 
 	@field:SerializedName("petId")
 	val petId: Int? = null,
 
 	@field:SerializedName("umur")
-	val umur: Int,
+	val umur: Int? = null,
 
 	@field:SerializedName("gender")
-	val gender: String,
+	val gender: String? = null,
 
 	@field:SerializedName("ras")
-	val ras: String,
+	val ras: String? = null,
 
 	@field:SerializedName("descPet")
-	val descPet: String,
+	val descPet: String? = null,
 
 	@field:SerializedName("namePet")
-	val namePet: String,
+	val namePet: String? = null,
 
 	@field:SerializedName("kategori")
 	val kategori: String? = null,
@@ -50,7 +49,7 @@ data class PetAdoptItem(
 	val createdAt: String? = null,
 
 	@field:SerializedName("userId")
-	val userId: Int,
+	val userId: Int? = null,
 
 	@field:SerializedName("fullName")
 	val fullName: String? = null,
@@ -64,4 +63,6 @@ data class PetAdoptItem(
 	@field:SerializedName("provinsi")
 	val provinsi: String? = null,
 
+	@field:SerializedName("foto")
+	val foto: String? = null,
 )

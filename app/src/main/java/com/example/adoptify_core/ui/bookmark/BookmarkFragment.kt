@@ -28,6 +28,7 @@ class BookmarkFragment : Fragment() {
     private val bookmarkFragment get() = _bookmarkFragment!!
 
     private var listFavorite: List<PetEntity> = listOf()
+    private var filteredData: List<PetEntity> = listOf()
     private val bookmarkViewModel: BookmarkViewModel by viewModel()
     private val sessionViewModel: SessionViewModel by viewModel()
 
@@ -87,6 +88,7 @@ class BookmarkFragment : Fragment() {
                     listFavorite = it.data
                     if (listFavorite.isNotEmpty()) {
                         showContent(false)
+                        filteredData = listFavorite.filter { it.isAdopt == false }
                         showRecyclerView()
                     } else {
                         showContent(true)
@@ -104,7 +106,7 @@ class BookmarkFragment : Fragment() {
 
     private fun showRecyclerView() {
         bookmarkFragment.rvFavorite.apply {
-            adapter = FavoriteItemAdapter(listFavorite) { pet, imageView ->
+            adapter = FavoriteItemAdapter(filteredData) { pet, imageView ->
                 val intent = Intent(requireContext(), DetailAdoptActivity::class.java)
                 intent.putExtra("PET_ID", pet.id)
                 intent.putExtra("TOKEN", token)

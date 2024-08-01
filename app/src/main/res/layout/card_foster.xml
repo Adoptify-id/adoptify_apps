@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="370dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="30dp"
+    android:layout_marginHorizontal="30dp"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="20dp">
 
@@ -64,10 +65,11 @@
 
         <LinearLayout
             android:id="@+id/listButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:orientation="horizontal"
+            android:layout_marginHorizontal="25dp"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/foster_id"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,10 +77,10 @@
 
             <Button
                 android:id="@+id/btnProfile"
-                android:layout_width="160dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="40dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="10dp"
                 android:text="Profile"
                 android:drawableLeft="@drawable/ic_profile"
                 android:background="@drawable/background_button_rewards_grey"
@@ -89,7 +91,8 @@
 
             <Button
                 android:id="@+id/btnTransaction"
-                android:layout_width="160dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="40dp"
                 android:text="Transaction"
                 android:drawableLeft="@drawable/ic_transaction_foster"

@@ -1,15 +1,15 @@
 package com.example.adoptify_core.ui.profile
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -20,22 +20,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityEditProfileBinding
-import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.auth.login.LoginViewModel
 import com.example.adoptify_core.ui.main.MainViewModel
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.DataUser
-import com.example.core.utils.ForceLogout
+import com.example.core.utils.convertUrlToFile
 import com.example.core.utils.reduceImageFile
 import com.example.core.utils.uriToFile
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 import kotlin.properties.Delegates
 
@@ -49,12 +50,17 @@ class EditProfileActivity : BaseActivity() {
 
     private var currentUriImage: Uri? = null
 
-    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        currentUriImage = it
-        try {
-            binding.imgProfile.setImageURI(currentUriImage)
-        } catch (e: Exception) {
-            Log.d("AddVirtualPetActivity", "error: ${e.message.toString()}")
+    private var lastUpdatedData = DataUser()
+
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            currentUriImage = uri
+            try {
+                binding.imgProfile.setImageURI(currentUriImage)
+                validateForm()
+            } catch (e: Exception) {
+                Log.d("EditProfileActivity", "error: ${e.message.toString()}")
+            }
         }
     }
 
@@ -72,6 +78,7 @@ class EditProfileActivity : BaseActivity() {
         setupListener()
         setupView()
         initData()
+        validateForm()
         getToken()
         getUserId()
         updateResult()
@@ -90,6 +97,12 @@ class EditProfileActivity : BaseActivity() {
         binding.apply {
             telpEditText.isEnabled = false
             emailEditText.isEnabled = false
+            nameEditText.addTextChangedListener(textWatcher)
+            autoComplete.addTextChangedListener(textWatcher)
+            dateEditText.addTextChangedListener(textWatcher)
+            addressEditText.addTextChangedListener(textWatcher)
+            provinceEditText.addTextChangedListener(textWatcher)
+            codeEditText.addTextChangedListener(textWatcher)
         }
     }
 
@@ -141,7 +154,6 @@ class EditProfileActivity : BaseActivity() {
                     it.data.data?.map {
                         binding.apply {
                             val imageUrl = "https://storage.googleapis.com/bucket-adoptify/imagesUser/${it?.foto}"
-                            Log.d("Profile", "getDetailUser: ${it?.foto}")
                             nameEditText.setText(it?.fullName)
                             autoComplete.setText(it?.gender)
                             dateEditText.setText(it?.tglLahir)
@@ -154,6 +166,17 @@ class EditProfileActivity : BaseActivity() {
                                 .load(imageUrl)
                                 .placeholder(R.drawable.dummy_profile)
                                 .into(imgProfile)
+
+                            lastUpdatedData = DataUser(
+                                fullName = it?.fullName,
+                                gender = it?.gender,
+                                tglLahir = it?.tglLahir,
+                                alamat = it?.alamat,
+                                provinsi = it?.provinsi,
+                                kodePos = it?.kodePos,
+                                userId = userId,
+                                foto = it?.foto
+                            )
                         }
                     }
                 }
@@ -177,7 +200,6 @@ class EditProfileActivity : BaseActivity() {
         }
     }
 
-
     private fun updateHandler() {
         binding.apply {
             val name = nameEditText.text.toString()
@@ -186,22 +208,59 @@ class EditProfileActivity : BaseActivity() {
             val province = provinceEditText.text.toString()
             val date = dateEditText.text.toString()
             val code = codeEditText.text.toString()
-            val imageFile =
-                currentUriImage?.let { uriToFile(it, this@EditProfileActivity).reduceImageFile() }
-
-            val data = DataUser(
-                fullName = name,
-                gender = gender,
-                tglLahir = date,
-                alamat = address,
-                provinsi = province,
-                kodePos = code,
-                userId = userId,
-                foto = imageFile.toString()
-            )
-
-            profileViewModel.updateProfile(token, userId, data)
+            lifecycleScope.launch {
+                val imageFile = if (currentUriImage != null) {
+                    uriToFile(currentUriImage!!, this@EditProfileActivity).reduceImageFile().path
+                } else {
+                    lastUpdatedData.foto?.let {
+                        val imageUrl = "https://storage.googleapis.com/bucket-adoptify/imagesUser/$it"
+                        convertUrlToFile(this@EditProfileActivity,imageUrl)?.path ?: it
+                    }
+                }
+                val finalImageFile = imageFile ?: ""
+                val data = DataUser(
+                    fullName = name,
+                    gender = gender,
+                    tglLahir = date,
+                    alamat = address,
+                    provinsi = province,
+                    kodePos = code,
+                    userId = userId,
+                    foto = finalImageFile
+                )
+                profileViewModel.updateProfile(token, userId, data)
+            }
         }
+    }
+
+
+    private fun validateForm() {
+        binding.apply {
+            val name = nameEditText.text.toString()
+            val gender = autoComplete.text.toString()
+            val date = dateEditText.text.toString()
+            val address = addressEditText.text.toString()
+            val province = provinceEditText.text.toString()
+            val code = codeEditText.text.toString()
+
+            val isNameChanged = name != lastUpdatedData.fullName && name.isNotEmpty()
+            val isGenderChanged = gender != lastUpdatedData.gender && gender.isNotEmpty()
+            val isDateChanged = date != lastUpdatedData.tglLahir && date.isNotEmpty()
+            val isAddressChanged = address != lastUpdatedData.alamat && address.isNotEmpty()
+            val isProvinceChanged = province != lastUpdatedData.provinsi && province.isNotEmpty()
+            val isCodeChanged = code != lastUpdatedData.kodePos && code.isNotEmpty()
+            val isImageChanged = currentUriImage != null
+
+            val isFormValid = isImageChanged || isNameChanged || isGenderChanged || isDateChanged || isAddressChanged || isProvinceChanged || isCodeChanged
+            btnSave.isEnabled = isFormValid
+            btnSave.backgroundTintList = ContextCompat.getColorStateList(this@EditProfileActivity, if (isFormValid) R.color.primaryColor else R.color.btn_disabled)
+        }
+    }
+
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(s: Editable?) { validateForm() }
     }
 
     private fun updateResult() {
@@ -222,9 +281,13 @@ class EditProfileActivity : BaseActivity() {
         }
     }
 
-    @SuppressLint("NewApi")
     private fun showCalendar() {
         val calendar = Calendar.getInstance()
+
+        if (valueDate.isNotEmpty()) {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            calendar.time = dateFormat.parse(valueDate) ?: Date()
+        }
 
         val dialogDatePicker = DatePickerDialog(
             this, {DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
@@ -248,10 +311,7 @@ class EditProfileActivity : BaseActivity() {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)
             setContentView(R.layout.alert_dialog)
-
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            //set width height card
             val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
             val height = WindowManager.LayoutParams.WRAP_CONTENT
             window?.setLayout(width, height)

@@ -1,11 +1,9 @@
 package com.example.adoptify_core.ui.medical.vaksinasi
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -28,9 +26,13 @@ import com.example.adoptify_core.ui.medical.MedicalRecordViewModel
 import com.example.core.data.Resource
 import com.example.core.data.source.remote.response.VaksinasiItem
 import com.example.core.utils.SessionViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 import java.util.Locale
+
 
 class VaksinasiActivity : BaseActivity() {
 
@@ -44,12 +46,13 @@ class VaksinasiActivity : BaseActivity() {
     var vaksinSelected = ""
     private var token: String? = null
     private var userId: Int? = null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVaksinasiBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         binding.header.txtBookmark.text = resources.getString(R.string.vaksinasi)
         observeData()
         setupView()
@@ -181,12 +184,24 @@ class VaksinasiActivity : BaseActivity() {
                 is Resource.Success -> {
                     showLoading(false)
                     Log.d("InsertVaksinasi", "result: ${it.data}")
-                    setResult(RESULT_OK)
-                    finish()
+                    popUpDialog(
+                        title = "Yeiy!",
+                        desc = "penambahan data vaksin berhasil",
+                        subDesc = "Data vaksinasi telah berhasil ditambahkan dan Anda dapat mengakses informasi ini kapan saja. Terima kasih telah menjaga kesehatan hewan anda!",
+                        image = R.drawable.alert_success
+                    ) {
+                        setResult(RESULT_OK)
+                        finish()
+
+                        val bundle = Bundle()
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_submit_vaccination")
+                        firebaseAnalytics.logEvent("submit_vaccination", bundle)
+                    }
                 }
                 is Resource.Error -> {
                     showLoading(false)
-                    popUpDialog("Yah!", "Penambahan data vaksin gagal", it.message, R.drawable.alert_failed)
+                    popUpDialog("Yah!", "penambahan data vaksin gagal", it.message, R.drawable.alert_failed)
                     Log.d("InsertVaksinasi", "error: ${it.message}")
                 }
             }
@@ -194,17 +209,16 @@ class VaksinasiActivity : BaseActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-//        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         if (isLoading) progressBarDialog() else dismissProgressDialog()
     }
 
-    @SuppressLint("NewApi")
+
     private fun showCalendar() {
         val calendar = Calendar.getInstance()
 
         if (valueDate.isNotEmpty()) {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            calendar.time = dateFormat.parse(valueDate)
+            calendar.time = dateFormat.parse(valueDate) ?: Date()
         }
 
         val dialogDatePicker = DatePickerDialog(
@@ -229,8 +243,6 @@ class VaksinasiActivity : BaseActivity() {
             setCancelable(false)
             setContentView(R.layout.dialog_vaksin)
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            //set width height card
             val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
             val height = WindowManager.LayoutParams.WRAP_CONTENT
             window?.setLayout(width, height)
@@ -309,16 +321,13 @@ class VaksinasiActivity : BaseActivity() {
         }
     }
 
-    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {
+    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int, onDismiss: () -> Unit = {}) {
         val dialog = Dialog(this)
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)
             setContentView(R.layout.alert_dialog)
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-
-            //set width height card
             val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
             val height = WindowManager.LayoutParams.WRAP_CONTENT
             window?.setLayout(width, height)
@@ -333,7 +342,10 @@ class VaksinasiActivity : BaseActivity() {
             titleText.text = title
             descText.text = desc
             subDescText.text = subDesc
-            btnClose.setOnClickListener { dismiss() }
+            btnClose.setOnClickListener {
+                dismiss()
+                onDismiss()
+            }
             show()
         }
     }

@@ -33,6 +33,7 @@ import com.example.core.domain.model.DetailSubmissionData
 import com.example.core.utils.ForceLogout
 import com.example.core.utils.SessionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -43,6 +44,7 @@ class DetailSubmissionActivity : BaseActivity() {
 
     private val adoptViewModel: AdoptViewModel by viewModel()
     private val sessionViewModel: SessionViewModel by viewModel()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private var token: String = ""
     private var reqId: Int? = null
@@ -52,6 +54,7 @@ class DetailSubmissionActivity : BaseActivity() {
         binding = ActivityDetailSubmissionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         observeData()
         showDetailData()
         cancelAdoptResult()
@@ -103,6 +106,10 @@ class DetailSubmissionActivity : BaseActivity() {
                 val intent = Intent(this@DetailSubmissionActivity, ReviewFormUserActivity::class.java)
                 intent.putExtra("REQ_ID", data.reqId)
                 intent.putExtra("CATEGORY", data.kategori)
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_review_form")
+                firebaseAnalytics.logEvent("navigate_to_review_form", bundle)
                 startActivity(intent, options.toBundle())
             }
             header.icArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
@@ -120,8 +127,13 @@ class DetailSubmissionActivity : BaseActivity() {
             btnNext.setOnClickListener {
                 val intent = Intent(this@DetailSubmissionActivity, StatusAdoptActivity::class.java)
                 intent.putExtra("REQ_ID", reqId)
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_status_submission")
+                firebaseAnalytics.logEvent("navigate_to_status_submission", bundle)
                 startActivity(intent, options.toBundle())
                 finish()
+
             }
             btnBack.setOnClickListener {
                 val dialog = BottomSheetDialog(this@DetailSubmissionActivity)

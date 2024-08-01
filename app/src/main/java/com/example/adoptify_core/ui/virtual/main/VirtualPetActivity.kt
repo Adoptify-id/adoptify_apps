@@ -29,6 +29,7 @@ import com.example.core.domain.model.VirtualPetItem
 import com.example.core.ui.VirtualPetAdapter
 import com.example.core.utils.ForceLogout
 import com.example.core.utils.SessionViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
@@ -45,12 +46,13 @@ class VirtualPetActivity : BaseActivity() {
     private var token: String? = null
     private var userId: Int? = null
     private lateinit var addVirtualPetLauncher: ActivityResultLauncher<Intent>
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVirtualPetBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         addVirtualPetLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
@@ -89,6 +91,11 @@ class VirtualPetActivity : BaseActivity() {
             btnAdd.setOnClickListener {
                 val intent = Intent(this@VirtualPetActivity, AddVirtualPetActivity::class.java)
                 addVirtualPetLauncher.launch(intent, options)
+
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_add_virtual_pet")
+                firebaseAnalytics.logEvent("navigate_to_add_virtual_pet", bundle)
             }
             header.icArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
             btnNext.setOnClickListener { virtualPetPager.currentItem += 1 }

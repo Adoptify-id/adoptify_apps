@@ -24,6 +24,7 @@ import com.example.core.data.Resource
 import com.example.core.domain.model.DataAdopt
 import com.example.core.utils.ForceLogout
 import com.google.android.material.transition.platform.MaterialContainerTransform
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.properties.Delegates
 
@@ -37,12 +38,14 @@ class DetailFosterActivity : BaseActivity() {
     private var petId by Delegates.notNull<Int>()
     private var userId by Delegates.notNull<Int>()
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailFosterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         val transitionName = intent.getStringExtra("TRANSITION_NAME")
         binding.imagePet.transitionName = transitionName
 
@@ -69,22 +72,33 @@ class DetailFosterActivity : BaseActivity() {
     }
 
     private fun setupView(data: DataAdopt?) {
-        val imageUrl = if (data?.fotoPet == null) {
+        val imagePetUrl = if (data?.fotoPet == null) {
             null
         } else {
             "https://storage.googleapis.com/bucket-adoptify/imagesPet/${data.fotoPet}"
         }
 
+        val imageProfile = if (data?.fotoPet == null) {
+            null
+        } else {
+            " https://storage.googleapis.com/bucket-adoptify/imagesUser/${data.foto}"
+        }
+
         binding.apply {
             Glide.with(this@DetailFosterActivity)
-                .load(imageUrl ?: R.drawable.detail_pet)
+                .load(imagePetUrl ?: R.drawable.detail_pet)
                 .placeholder(R.drawable.detail_pet)
                 .into(imagePet)
 
             namePet.text = data?.namePet?.split(" ")?.joinToString(separator = " ") { it.capitalize() }
             genderPet.text = data?.gender
+            txtLocation.text = if (data?.alamat.isNullOrEmpty() || data?.provinsi.isNullOrEmpty()) "Lokasi tidak disetel" else "${data?.alamat}, ${data?.provinsi}"
             agePet.text = "${data?.umur} bulan"
             rasPet.text = data?.ras
+            Glide.with(this@DetailFosterActivity)
+                .load(imageProfile ?: R.drawable.ic_foster)
+                .placeholder(R.drawable.ic_foster)
+                .into(icFoster)
             txtDescPet.text = data?.descPet
             txtIdPet.text = "#${data?.petId}"
             txtFosterName.text = data?.fullName?.split(" ")?.joinToString(separator = " ") { it.capitalize() } ?: data?.username?.split(" ")?.joinToString { it.capitalize() }
@@ -122,6 +136,10 @@ class DetailFosterActivity : BaseActivity() {
                 intent.putExtra("PET_ID", petId)
                 intent.putExtra("TOKEN", token)
                 intent.putExtra("USER_ID", userId)
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_edit_pet")
+                firebaseAnalytics.logEvent("navigate_to_edit_pet", bundle)
                 startActivity(intent, options.toBundle())
             }
         }

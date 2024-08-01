@@ -37,6 +37,7 @@ import com.example.core.domain.model.DetailItemSubmission
 import com.example.core.utils.ForceLogout
 import com.example.core.utils.SessionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -53,12 +54,14 @@ class DetailSubmissionFosterActivity : BaseActivity() {
 
     private var progressDialog: Dialog? = null
     private var successDialog: BottomSheetDialog? = null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailSubmissionFosterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         observeData()
         showDetailData()
         updateAdoptResult()
@@ -135,10 +138,13 @@ class DetailSubmissionFosterActivity : BaseActivity() {
                     downloadingImage("Kartu Identitas", url, "Kartu Identitas ${data.name}.jpg")
             }
             cardUpload.cardFormulir.setOnClickListener {
-                val intent =
-                    Intent(this@DetailSubmissionFosterActivity, ReviewFormActivity::class.java)
+                val intent = Intent(this@DetailSubmissionFosterActivity, ReviewFormActivity::class.java)
                 intent.putExtra("REQ_ID", data.reqId)
                 intent.putExtra("CATEGORY", data.kategori)
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_review_form_foster")
+                firebaseAnalytics.logEvent("navigate_to_review_form_foster", bundle)
                 startActivity(intent, options.toBundle())
             }
 
@@ -205,6 +211,7 @@ class DetailSubmissionFosterActivity : BaseActivity() {
             if (data.statusReqId == 2 && data.statusPaymentId == 3 && data.statusPickupId == 1) {
                 btnNext.setOnClickListener { fosterViewModel.updateStatusPayment(token, reqId!!, 2) }
                 btnBack.isEnabled = false
+
             } else {
                 btnNext.setOnClickListener {
                     fosterViewModel.updateAdopt(token, data.petId, true)
@@ -219,10 +226,14 @@ class DetailSubmissionFosterActivity : BaseActivity() {
                     val btnCancel = view.findViewById<Button>(R.id.btnCancel)
                     txtConfirm.text = "Apakah anda yakin ingin \nmenolak data adopsi ini?"
                     btnCancel.text = "Tolak"
-                    btnCancel.backgroundTintList = ContextCompat.getColorStateList(
-                        this@DetailSubmissionFosterActivity, R.color.primary_color_foster
-                    )
-                    btnCancel.setOnClickListener { fosterViewModel.updateStatusReq(token, reqId!!, 3) }
+                    btnCancel.backgroundTintList = ContextCompat.getColorStateList(this@DetailSubmissionFosterActivity, R.color.primary_color_foster)
+                    btnCancel.setOnClickListener {
+                        fosterViewModel.updateStatusReq(token, reqId!!, 3)
+                        val bundle = Bundle()
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_reject_adopt")
+                        firebaseAnalytics.logEvent("reject_adopt_user", bundle)
+                    }
                     btnClose.setOnClickListener { dialog.dismiss() }
                     dialog.setCancelable(false)
                     dialog.setContentView(view)
@@ -230,29 +241,28 @@ class DetailSubmissionFosterActivity : BaseActivity() {
                 }
             }
 
-            val status =
-                data.statusReqId == 2 && data.statusPaymentId == 2 && data.statusPickupId == 1 || data.statusPickupId == 2 || data.statusReqId == 3 || data.statusReqId == 4
+            val status = data.statusReqId == 2 && data.statusPaymentId == 2 && data.statusPickupId == 1 || data.statusPickupId == 2 || data.statusReqId == 3 || data.statusReqId == 4
             btnClose.visibility = if (status) View.VISIBLE else View.GONE
-
-            val statusAccepted =
-                data.statusReqId == 2 && data.statusPaymentId == 2 && data.statusPickupId == 1
+            val statusAccepted = data.statusReqId == 2 && data.statusPaymentId == 2 && data.statusPickupId == 1
             if (statusAccepted) {
                 btnClose.text = "Upload Bukti Pickup"
                 btnClose.setOnClickListener {
-                    val intent = Intent(
-                        this@DetailSubmissionFosterActivity,
-                        UploadPickupActivity::class.java
-                    )
+                    val intent = Intent(this@DetailSubmissionFosterActivity, UploadPickupActivity::class.java)
                     intent.putExtra("REQ_ID", data.reqId)
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_upload_proof_pickup")
+                    firebaseAnalytics.logEvent("navigate_to_upload_proof_pickup", bundle)
                     startActivity(intent, options.toBundle())
                 }
             } else if (data.statusPickupId == 2) {
                 btnClose.text = "Lihat Bukti Pickup"
                 btnClose.setOnClickListener {
-                    val intent = Intent(
-                        this@DetailSubmissionFosterActivity,
-                        DetailPickupActivity::class.java
-                    )
+                    val intent = Intent(this@DetailSubmissionFosterActivity, DetailPickupActivity::class.java)
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_see_proof_pickup")
+                    firebaseAnalytics.logEvent("navigate_to_see_proof_pickup", bundle)
                     intent.putExtra("REQ_ID", data.reqId)
                     startActivity(intent, options.toBundle())
                 }
@@ -287,18 +297,17 @@ class DetailSubmissionFosterActivity : BaseActivity() {
     private fun updateStatusReqResult() {
         fosterViewModel.updateStatus.observe(this) {
             when (it) {
-                is Resource.Loading -> {
-                    showLoading(true)
-                }
-
+                is Resource.Loading -> { showLoading(true) }
                 is Resource.Success -> {
                     showLoading(false)
                     val data = it.data.data?.first()
                     val status = if (data?.statusReqId == 3) "menolak" else "menyetujui"
                     handleSuccess(status)
-                    Log.d("DetailSubmissionFoster", "data: ${it.data}")
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_accepted_adopt_pet")
+                    firebaseAnalytics.logEvent("accepted_adopt_pet", bundle)
                 }
-
                 is Resource.Error -> {
                     showLoading(false)
                     Log.d("DetailSubmissionFoster", "error: ${it.message}")
@@ -317,6 +326,10 @@ class DetailSubmissionFosterActivity : BaseActivity() {
                 is Resource.Success -> {
                     showLoading(false)
                     handleSuccess("menyetujui")
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "action")
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_accepted_transaction_pet")
+                    firebaseAnalytics.logEvent("accepted_transaction_pet", bundle)
                     Log.d("UpdateStatusPayment", "data: ${it.data}")
                 }
 

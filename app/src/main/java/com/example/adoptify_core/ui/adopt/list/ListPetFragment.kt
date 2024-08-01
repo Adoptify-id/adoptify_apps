@@ -19,6 +19,7 @@ import com.example.adoptify_core.ui.auth.login.LoginViewModel
 import com.example.core.data.Resource
 import com.example.core.domain.model.DataAdopt
 import com.example.core.ui.PetItemAdapter
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class ListPetFragment : Fragment() {
@@ -35,6 +36,7 @@ class ListPetFragment : Fragment() {
     private var filteredData: List<DataAdopt> = listOf()
 
     private lateinit var startForResult: ActivityResultLauncher<Intent>
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +49,7 @@ class ListPetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
         startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
@@ -91,6 +94,12 @@ class ListPetFragment : Fragment() {
                     imageView,
                     imageView.transitionName
                 )
+
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_detail_pet_adopt")
+                firebaseAnalytics.logEvent("navigate_to_detail_pet_adopt", bundle)
+
                 startForResult.launch(intent, options)
             }
             setHasFixedSize(true)

@@ -80,7 +80,7 @@
         android:id="@+id/ic_age"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/background_type_adopt"
         android:padding="5dp"
@@ -115,7 +115,7 @@
         android:id="@+id/ic_ras"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/background_type_adopt"
         android:padding="5dp"
@@ -137,7 +137,8 @@
 
     <TextView
         android:id="@+id/rasPet"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:fontFamily="@font/plus_jakarta_sans_medium"
         android:text="@string/dummy_ras"

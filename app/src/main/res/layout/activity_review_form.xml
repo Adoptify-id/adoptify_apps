@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="25dp"
-        android:paddingHorizontal="25dp"
+        android:paddingHorizontal="15dp"
         android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/header">
 

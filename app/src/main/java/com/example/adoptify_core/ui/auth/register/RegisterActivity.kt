@@ -16,17 +16,20 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityRegisterBinding
 import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.core.data.Resource
 import com.example.core.domain.model.User
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private val registerViewModel: RegisterViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,29 +37,32 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
         registerResult()
         validateForm()
         setupView()
-
     }
 
     private fun setupView() {
+        val options = ActivityOptionsCompat.makeCustomAnimation(
+            this,
+            R.anim.slide_in_right,
+            R.anim.slide_out_left
+        )
         binding.apply {
-            usernameEditText.addTextChangedListener(textWatcher)
+            usernameEditText.addTextChangedListener(usernameTextWatcher)
             emailEditText.addTextChangedListener(textWatcher)
             telephoneEditText.addTextChangedListener(textWatcher)
             passwordEditText.addTextChangedListener(textWatcher)
             confirmPasswordEditText.addTextChangedListener(textWatcher)
 
-            btnRegister.setOnClickListener { registerHandler() }
+            btnRegister.setOnClickListener {
+                registerHandler()
+            }
             btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
             txtLogin.setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@RegisterActivity,
-                        LoginActivity::class.java
-                    )
-                )
+                startActivity(Intent(this@RegisterActivity, LoginActivity::class.java), options.toBundle())
             }
         }
     }
@@ -81,9 +87,19 @@ class RegisterActivity : AppCompatActivity() {
 
                 is Resource.Success -> {
                     showLoading(false)
-                    it.data.message
-                    startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
-//                    popUpDialog("Yeiy!", "Proses register berhasil", R.drawable.alert_success, intent)
+                    popUpDialog(
+                        title = "Yeiy!",
+                        desc = "register berhasil. Selamat datang",
+                        subDesc = "Anda telah berhasil mendaftar! Sekarang Anda dapat masuk menggunakan akun Anda dan mulai menikmati semua fitur yang tersedia. Selamat berselancar!",
+                        image = R.drawable.alert_success
+                    ) {
+                        startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+
+                        val bundle = Bundle().apply {
+                            putString(FirebaseAnalytics.Param.METHOD, "app_registration")
+                        }
+                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle)
+                    }
                     Log.d("RegisterActivity", "result: ${it.data.message}")
                 }
 
@@ -133,11 +149,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     //text watcher for edit text
-    private val textWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            validateForm()
-        }
-
+    private val usernameTextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {validateForm() }
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             s?.let {
@@ -152,15 +165,19 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int) {
+    private val textWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) { validateForm() }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    }
+
+    private fun popUpDialog(title: String, desc: String, subDesc: String, image: Int, onDismiss: () -> Unit = {}) {
         val dialog = Dialog(this)
         dialog.apply {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setCancelable(false)
             setContentView(R.layout.alert_dialog)
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-            //set width height card
             val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
             val height = WindowManager.LayoutParams.WRAP_CONTENT
             window?.setLayout(width, height)
@@ -175,9 +192,11 @@ class RegisterActivity : AppCompatActivity() {
             titleText.text = title
             descText.text = desc
             subDescText.text = subDesc
-            btnClose.setOnClickListener { dismiss() }
+            btnClose.setOnClickListener {
+                dismiss()
+                onDismiss()
+            }
             show()
         }
     }
-
 }

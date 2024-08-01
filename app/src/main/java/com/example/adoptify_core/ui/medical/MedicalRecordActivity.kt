@@ -23,6 +23,7 @@ import com.example.core.domain.model.MedicalItem
 import com.example.core.domain.model.VaksinasiData
 import com.example.core.ui.MedicalRecordAdapter
 import com.example.core.utils.SessionViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -46,6 +47,7 @@ class MedicalRecordActivity : BaseActivity() {
 
     private lateinit var vaksinasiActivityLauncher: ActivityResultLauncher<Intent>
     private lateinit var medicalActivityLauncher: ActivityResultLauncher<Intent>
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private val combinedData = mutableListOf<ListMedicalItem>()
 
@@ -53,6 +55,8 @@ class MedicalRecordActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMedicalRecordBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         vaksinasiActivityLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -216,10 +220,21 @@ class MedicalRecordActivity : BaseActivity() {
             cardMedical.btnMedical.setOnClickListener {
                 val intent = Intent(this@MedicalRecordActivity, RecordActivity::class.java)
                 medicalActivityLauncher.launch(intent, options)
+
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "menu_medical_checkup_record")
+                firebaseAnalytics.logEvent("navigate_to_medical_checkup_record", bundle)
+
             }
             cardMedical.btnVaksinasi.setOnClickListener {
                 val intent = Intent(this@MedicalRecordActivity, VaksinasiActivity::class.java)
                 vaksinasiActivityLauncher.launch(intent, options)
+
+                val bundle = Bundle()
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "navigation")
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "menu_vaccination_record")
+                firebaseAnalytics.logEvent("navigate_to_vaccination_record", bundle)
             }
 
             icArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }

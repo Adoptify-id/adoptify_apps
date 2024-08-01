@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -19,50 +18,70 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:background="@color/white"
             android:elevation="5dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/white">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/txtPersonalData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/blackText"
-                android:textSize="28sp"
-                android:layout_gravity="center"
-                android:text="Status Pengajuan"
-                android:layout_marginTop="50dp"
-                android:fontFamily="@font/plus_jakarta_sans_extra"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/btnArrowBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/background_back_button_register"
+                    android:contentDescription="@string/button_back"
+                    android:padding="12dp"
+                    android:layout_marginTop="50dp"
+                    android:src="@drawable/ic_back_grey"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtPersonalData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="35dp"
+                    android:fontFamily="@font/plus_jakarta_sans_extra"
+                    android:text="Status Pengajuan"
+                    android:textColor="@color/blackText"
+                    android:textSize="28sp"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintStart_toEndOf="@id/btnArrowBack"
+                    app:layout_constraintTop_toTopOf="@id/btnArrowBack"
+                    app:layout_constraintBottom_toBottomOf="@id/btnArrowBack"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
                 android:id="@+id/status_adopt"
+                layout="@layout/status_bar_adopt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                layout="@layout/status_bar_adopt"
-                android:layout_marginVertical="30dp"
                 android:layout_gravity="center"
-                app:layout_constraintTop_toBottomOf="@id/txtPersonalData"
+                android:layout_marginVertical="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/txtPersonalData" />
         </LinearLayout>
 
         <include
             android:id="@+id/indicator_adopt"
+            layout="@layout/card_status_adopt"
             android:layout_width="match_parent"
             android:layout_height="92dp"
-            android:layout_marginTop="30dp"
-            layout="@layout/card_status_adopt"
-            android:elevation="10dp"
             android:layout_marginHorizontal="30dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="30dp"
+            android:elevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header" />
 
         <TextView
             android:id="@+id/txtTinjauan"
@@ -70,22 +89,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:textSize="16sp"
-            android:textColor="@color/blackText"
             android:text="Tinjauan Pengajuan"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/indicator_adopt"
-            app:layout_constraintTop_toBottomOf="@+id/indicator_adopt"/>
+            app:layout_constraintTop_toBottomOf="@+id/indicator_adopt" />
 
         <include
             android:id="@+id/card_pengajuan"
+            layout="@layout/card_pengajuan"
             android:layout_width="match_parent"
             android:layout_height="215dp"
-            android:layout_marginTop="22dp"
-            layout="@layout/card_pengajuan"
             android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="22dp"
             app:layout_constraintEnd_toEndOf="@id/indicator_adopt"
             app:layout_constraintStart_toStartOf="@id/indicator_adopt"
-            app:layout_constraintTop_toBottomOf="@id/txtTinjauan"/>
+            app:layout_constraintTop_toBottomOf="@id/txtTinjauan" />
 
         <TextView
             android:id="@+id/txtSuratKomitmen"
@@ -93,22 +112,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:textSize="16sp"
-            android:textColor="@color/blackText"
             android:text="Surat Komitmen"
+            android:textColor="@color/blackText"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/card_pengajuan"
-            app:layout_constraintTop_toBottomOf="@+id/card_pengajuan"/>
+            app:layout_constraintTop_toBottomOf="@+id/card_pengajuan" />
 
         <include
             android:id="@+id/card_upload"
+            layout="@layout/card_upload"
             android:layout_width="match_parent"
             android:layout_height="92dp"
-            layout="@layout/card_upload"
-            android:layout_marginTop="20dp"
             android:layout_marginHorizontal="30dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnDownload"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnDownload" />
 
         <Button
             android:id="@+id/btnDownload"
@@ -116,16 +135,16 @@
             android:layout_height="65dp"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="25dp"
-            android:text="Download Surat Komitmen"
+            android:background="@drawable/background_history_card"
             android:drawableLeft="@drawable/ic_surat"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:textSize="16sp"
-            android:background="@drawable/background_history_card"
-            app:backgroundTint="#FFF4CD"
+            android:text="Download Surat Komitmen"
             android:textColor="@color/primaryColor"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="16sp"
+            app:backgroundTint="#FFF4CD"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtSuratKomitmen"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtSuratKomitmen" />
 
         <TextView
             android:id="@+id/txtDescSuratKomitmen"
@@ -133,23 +152,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:textSize="12sp"
-            android:textColor="#8F8F8F"
             android:text="Unggah surat komitmen yang telah ditandatangani diatas\nmaterai Rp 10.000,00 fisik atau digital."
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="#8F8F8F"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_upload"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_upload" />
 
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E0E0E0"
-            android:layout_marginTop="30dp"
             android:layout_marginHorizontal="30dp"
-            app:layout_constraintTop_toBottomOf="@id/txtDescSuratKomitmen"
+            android:layout_marginTop="30dp"
+            android:background="#E0E0E0"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtDescSuratKomitmen" />
 
         <TextView
             android:id="@+id/txtTransfer"
@@ -157,33 +176,33 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:textSize="16sp"
+            android:text="Transfer Service Apps"
             android:textColor="@color/blackText"
-            android:text="Transfer Biaya Adopsi"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/txtSuratKomitmen"
-            app:layout_constraintTop_toBottomOf="@+id/line"/>
+            app:layout_constraintTop_toBottomOf="@+id/line" />
 
         <include
             android:id="@+id/card_transfer"
+            layout="@layout/card_transfer"
             android:layout_width="match_parent"
             android:layout_height="170dp"
-            android:layout_marginTop="22dp"
-            layout="@layout/card_transfer"
             android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="22dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtTransfer"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTransfer" />
 
         <include
             android:id="@+id/card_upload_transfer"
+            layout="@layout/card_upload"
             android:layout_width="match_parent"
             android:layout_height="92dp"
-            layout="@layout/card_upload"
-            android:layout_marginTop="20dp"
             android:layout_marginHorizontal="30dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_transfer"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_transfer" />
 
         <TextView
             android:id="@+id/txtDescTransfer"
@@ -191,67 +210,67 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:textSize="12sp"
-            android:textColor="#8F8F8F"
             android:text="Unggah bukti transaksi dengan nominal yang telah diten-\ntukan oleh sistem sebagai biaya dari layanan aplikasi."
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="#8F8F8F"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_upload_transfer"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_upload_transfer" />
 
         <Button
             android:id="@+id/btnBack"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:text="@string/back"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="30dp"
-            app:backgroundTint="#E2E2E2"
-            android:textColor="#979797"
-            android:fontFamily="@font/plus_jakarta_sans_bold"
             android:background="@drawable/background_back_button_adopt"
+            android:fontFamily="@font/plus_jakarta_sans_bold"
+            android:text="@string/back"
+            android:textColor="#979797"
+            app:backgroundTint="#E2E2E2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnNext"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtDescTransfer"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/txtDescTransfer" />
 
         <Button
             android:id="@+id/btnNext"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:text="Lanjutkan"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
-            app:backgroundTint="@color/primaryColor"
             android:layout_marginBottom="30dp"
-            android:textColor="@color/white"
             android:background="@drawable/background_next_button_adopt"
             android:fontFamily="@font/plus_jakarta_sans_bold"
-            app:layout_constraintStart_toEndOf="@id/btnBack"
+            android:text="Lanjutkan"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/primaryColor"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtDescTransfer"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintTop_toBottomOf="@id/txtDescTransfer" />
 
         <Button
             android:id="@+id/btnClose"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:text="Tutup"
             android:layout_marginStart="30dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="30dp"
-            android:textSize="13sp"
-            android:textColor="@color/white"
-            android:visibility="gone"
             android:background="@drawable/background_next_button_adopt"
             android:fontFamily="@font/plus_jakarta_sans_bold"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="Tutup"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtDescTransfer"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtDescTransfer" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

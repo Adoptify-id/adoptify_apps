@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="370dp"
+    android:layout_width="match_parent"
+    android:layout_marginHorizontal="30dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     app:cardBackgroundColor="@color/white"
@@ -65,9 +66,10 @@
 
         <LinearLayout
             android:id="@+id/list_button"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
+            android:layout_marginHorizontal="25dp"
             android:orientation="horizontal"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,10 +78,10 @@
 
             <Button
                 android:id="@+id/btnReward"
-                android:layout_width="160dp"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/background_button_rewards_grey"
                 android:drawableLeft="@drawable/ic_rewards_purple"
                 android:fontFamily="@font/plus_jakarta_sans_medium"
@@ -90,7 +92,8 @@
 
             <Button
                 android:id="@+id/btnTransaction"
-                android:layout_width="160dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="40dp"
                 android:background="@drawable/background_button_rewards_grey"
                 android:drawableLeft="@drawable/ic_transaction"

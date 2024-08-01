@@ -21,9 +21,9 @@
 
         <ImageView
             android:id="@+id/virtual_dog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/card_dog"
+            android:layout_width="95dp"
+            android:layout_height="130dp"
+            android:src="@drawable/card_dog_hd"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 

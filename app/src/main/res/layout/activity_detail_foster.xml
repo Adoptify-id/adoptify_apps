@@ -16,7 +16,7 @@
             android:id="@+id/image_pet"
             android:layout_width="match_parent"
             android:layout_height="330dp"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@drawable/detail_pet"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,13 +35,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ic_foster"
             android:layout_width="85dp"
+            app:shapeAppearanceOverlay="@style/AddedImageVirtualPet"
             android:layout_height="85dp"
             android:layout_marginStart="35dp"
             android:layout_marginTop="35dp"
-            android:background="@drawable/background_image_foster"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_foster"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image_pet" />
@@ -71,7 +72,7 @@
 
         <TextView
             android:id="@+id/txtFosterName"
-            android:layout_width="wrap_content"
+            android:layout_width="95dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:fontFamily="@font/plus_jakarta_sans_regular"
@@ -129,7 +130,7 @@
 
         <TextView
             android:id="@+id/txtLocation"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/plus_jakarta_sans_semibold"
