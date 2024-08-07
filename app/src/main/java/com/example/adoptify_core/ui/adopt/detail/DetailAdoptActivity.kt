@@ -1,9 +1,16 @@
 package com.example.adoptify_core.ui.adopt.detail
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import com.bumptech.glide.Glide
 import com.example.adoptify_core.BaseActivity
@@ -16,6 +23,7 @@ import com.example.adoptify_core.ui.bookmark.BookmarkViewModel
 import com.example.core.data.Resource
 import com.example.core.domain.model.DataAdopt
 import com.example.core.utils.DataMapper
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -33,6 +41,8 @@ class DetailAdoptActivity : BaseActivity() {
     private var currentData: DataAdopt? = null
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+    private var isErrorDialogShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +50,7 @@ class DetailAdoptActivity : BaseActivity() {
         setContentView(binding.root)
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        shimmerFrameLayout = binding.shimmerLayout
         val transitionName = intent.getStringExtra("TRANSITION_NAME")
         binding.imagePet.transitionName = transitionName
 
@@ -83,10 +94,10 @@ class DetailAdoptActivity : BaseActivity() {
         } else {
             "https://storage.googleapis.com/bucket-adoptify/imagesPet/${data.fotoPet}"
         }
-        val imageProfile = if (data?.fotoPet == null) {
+        val imageProfile = if (data?.foto == null) {
             null
         } else {
-            " https://storage.googleapis.com/bucket-adoptify/imagesUser/${data.foto}"
+            "https://storage.googleapis.com/bucket-adoptify/imagesUser/${data.foto}"
         }
 
         binding.apply {
@@ -95,10 +106,9 @@ class DetailAdoptActivity : BaseActivity() {
                 .placeholder(R.drawable.detail_pet)
                 .into(imagePet)
 
-            namePet.text =
-                data?.namePet?.split(" ")?.joinToString(separator = " ") { it.capitalize() }
+            namePet.text = data?.namePet?.split(" ")?.joinToString(separator = " ") { it.capitalize() }
             genderPet.text = data?.gender
-            agePet.text = "${data?.umur} bulan"
+            agePet.text = if (data?.ageType.isNullOrEmpty()) "${data?.umur} Bulan" else "${data?.umur} ${data?.ageType}"
             rasPet.text = data?.ras
             txtDescPet.text = data?.descPet
             txtIdPet.text = "#${data?.petId}"
@@ -147,6 +157,9 @@ class DetailAdoptActivity : BaseActivity() {
 
                 is Resource.Error -> {
                     showLoading(false)
+                    if (it.message.contains("Tidak ada koneksi internet.", ignoreCase = true)) {
+                        showError(it.message)
+                    }
                     Log.d("DetailAdopt", "error: ${it.message}")
                 }
             }
@@ -158,8 +171,6 @@ class DetailAdoptActivity : BaseActivity() {
             icArrowBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
             icFavorite.setOnClickListener {
                 isFavorite = !isFavorite
-
-
                 val changeDrawable = if (isFavorite) R.drawable.ic_love else R.drawable.ic_love_grey
                 binding.icFavorite.setImageResource(changeDrawable)
                 currentData.let {
@@ -170,6 +181,10 @@ class DetailAdoptActivity : BaseActivity() {
                         gender = it.gender,
                         umur = it.umur,
                         ras = it.ras,
+                        alamat = it.alamat,
+                        provinsi = it.provinsi,
+                        isAdopt = it.isAdopt,
+                        ageType = it.ageType
                     )
                     val data = DataMapper.petsEntityToPets(pets, isFavorite)
                     if (isFavorite) {
@@ -187,7 +202,43 @@ class DetailAdoptActivity : BaseActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) {
+            shimmerFrameLayout.startShimmer()
+            shimmerFrameLayout.visibility = View.VISIBLE
+            binding.contentDetail.visibility = View.GONE
+        } else {
+            shimmerFrameLayout.stopShimmer()
+            shimmerFrameLayout.visibility = View.GONE
+            binding.contentDetail.visibility = View.VISIBLE
+        }
     }
 
+    private fun showError(message: String) {
+        if (isErrorDialogShown) return
+        val dialog = Dialog(this)
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.network_error_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+            val descText = dialog.findViewById<TextView>(R.id.desc)
+            val btnClose = dialog.findViewById<Button>(R.id.btnRetry)
+            descText.text = message
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+                isErrorDialogShown = false
+                retryFetchingData()
+            }
+            show()
+        }
+        isErrorDialogShown = true
+    }
+
+    private fun retryFetchingData() {
+        showLoading(true)
+        adoptViewModel.getDetailPet(token, petId!!)
+    }
 }

@@ -11,7 +11,7 @@ data class VaksinasiData(
     val name: String,
     val kesehatan: String,
     val descKesehatan: String,
-    val beratPet: Int,
+    val beratPet: Float,
     val info: String,
     val klinikName: String,
     val dokterName: String,

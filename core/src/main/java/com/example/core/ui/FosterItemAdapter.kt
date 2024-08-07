@@ -33,7 +33,7 @@ class FosterItemAdapter(private val items: List<ListPetItem>, private val onItem
             binding.apply {
                 namePet.text = data.namePet?.split(" ")?.joinToString(separator = " ") { it.capitalize() }
                 genderPet.text = data.gender
-                agePet.text = "${data.umur} Bulan"
+                agePet.text =  if (data.ageType.isNullOrEmpty()) "${data.umur} Bulan" else "${data.umur} ${data.ageType}"
                 rasPet.text = data.ras
                 txtLocation.text = if (data.alamat.isNullOrEmpty() || data.provinsi.isNullOrEmpty()) "Lokasi tidak disetel" else "${data.alamat}, ${data.provinsi}"
                 Glide.with(itemView.context)

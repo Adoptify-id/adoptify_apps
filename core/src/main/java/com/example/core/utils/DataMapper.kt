@@ -243,6 +243,7 @@ object DataMapper {
         requestBodyMap["descPet"] = data.descPet!!.toRequestBody()
         requestBodyMap["kategori"] = data.kategori!!.toRequestBody()
         requestBodyMap["userId"] = data.userId.toString().toRequestBody()
+        requestBodyMap["ageType"] = data.ageType!!.toRequestBody()
 
         data.fotoPet?.let {
             val file = File(it)
@@ -272,7 +273,25 @@ object DataMapper {
                 createdAt = it.createdAt,
                 userId = it.userId,
                 alamat = it.alamat,
-                provinsi = it.provinsi
+                provinsi = it.provinsi,
+                ageType = it.ageType
+            )
+        }
+
+    fun dataAdoptToPetEntity(data: List<DataAdopt>, isFavorite: Boolean): List<PetEntity> =
+        data.map {
+            PetEntity(
+                id = it.petId!!,
+                namePet = it.namePet!!,
+                gender = it.gender!!,
+                age = it.umur!!,
+                ras = it.ras!!,
+                fotoPet = it.fotoPet!!,
+                isAdopt = it.isAdopt,
+                isFavorite = isFavorite,
+                address = it.alamat,
+                province = it.provinsi,
+                ageType = it.ageType
             )
         }
 
@@ -294,7 +313,8 @@ object DataMapper {
                 isAdopt = it.isAdopt,
                 alamat = it.alamat,
                 provinsi = it.provinsi,
-                foto = it.foto
+                foto = it.foto,
+                ageType = it.ageType
             )
         }
     )
@@ -500,7 +520,10 @@ object DataMapper {
             ras = pet.ras!!,
             fotoPet = pet.fotoPet!!,
             isAdopt = pet.isAdopt,
-            isFavorite = isFavorite
+            isFavorite = isFavorite,
+            address = pet.alamat,
+            province = pet.provinsi,
+            ageType = pet.ageType
         )
     }
 

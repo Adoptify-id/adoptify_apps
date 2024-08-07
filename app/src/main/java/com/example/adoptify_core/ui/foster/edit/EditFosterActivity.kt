@@ -1,8 +1,11 @@
 package com.example.adoptify_core.ui.foster.edit
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
@@ -15,6 +18,8 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.TextView
@@ -110,6 +115,13 @@ class EditFosterActivity : BaseActivity() {
             radioCategory.setOnCheckedChangeListener { _, _ -> validateForm() }
             radioRas.setOnCheckedChangeListener { _, _ -> validateForm() }
             radioGender.setOnCheckedChangeListener { _, _ -> validateForm() }
+
+            //add drawable right txtAge
+            val drawable = resources.getDrawable(R.drawable.ic_arrow_down, null) as BitmapDrawable
+            val bitmap = Bitmap.createScaledBitmap(drawable.bitmap, 12, 9, true)
+            val resizedDrawable = BitmapDrawable(resources, bitmap)
+            resizedDrawable.setBounds(0, 0, resizedDrawable.intrinsicWidth, resizedDrawable.intrinsicHeight)
+            txtAge.setCompoundDrawablesWithIntrinsicBounds(null, null, resizedDrawable, null)
         }
     }
 
@@ -138,6 +150,29 @@ class EditFosterActivity : BaseActivity() {
             }
 
             btnSave.setOnClickListener { updateHandler() }
+            txtAge.setOnClickListener { showDropdown() }
+        }
+    }
+
+    private fun showDropdown() {
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.dropdown_menu_layout, null)
+        val width = binding.txtAge.width
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true
+
+        val popupWindow = PopupWindow(view, width, height, focusable)
+        popupWindow.setBackgroundDrawable(ColorDrawable())
+        popupWindow.showAsDropDown(binding.txtAge, 0, 10)
+
+        view.findViewById<TextView>(R.id.tahun).setOnClickListener {
+            binding.txtAge.text = "Tahun"
+            popupWindow.dismiss()
+        }
+
+        view.findViewById<TextView>(R.id.bulan).setOnClickListener {
+            binding.txtAge.text = "Bulan"
+            popupWindow.dismiss()
         }
     }
 
@@ -174,6 +209,7 @@ class EditFosterActivity : BaseActivity() {
                             nameEditText.setText(it?.namePet)
                             ageEditText.setText(it?.umur.toString())
                             descEditText.setText(it?.descPet)
+                            txtAge.text = it?.ageType
                             Glide.with(this@EditFosterActivity)
                                 .load(imageUrl)
                                 .placeholder(R.drawable.ic_preview_image)
@@ -209,7 +245,8 @@ class EditFosterActivity : BaseActivity() {
                                 fotoPet = it?.fotoPet,
                                 kategori = it?.kategori,
                                 gender = it?.gender,
-                                ras = it?.ras
+                                ras = it?.ras,
+                                ageType = it?.ageType
                             )
 
                         }
@@ -246,6 +283,7 @@ class EditFosterActivity : BaseActivity() {
             val name = nameEditText.text.toString()
             val age = ageEditText.text.toString()
             val desc = descEditText.text.toString()
+            val ageType = txtAge.text.toString()
             lifecycleScope.launch {
                 val imageFile = if (currentUriImage != null) {
                     uriToFile(currentUriImage!!, this@EditFosterActivity).reduceImageFile().path
@@ -265,7 +303,8 @@ class EditFosterActivity : BaseActivity() {
                     descPet = desc,
                     namePet = name,
                     kategori = categoryPet,
-                    userId = userId
+                    userId = userId,
+                    ageType = ageType
                 )
 
                 fosterViewModel.updatePetAdopt(token, petId, data)
@@ -281,6 +320,7 @@ class EditFosterActivity : BaseActivity() {
             val namePet = nameEditText.text.toString()
             val agePet = ageEditText.text.toString()
             val descPet = descEditText.text.toString()
+            val ageType = txtAge.text.toString()
 
             val selectedCategory = if (isRadioCategorySelected) findViewById<RadioButton>(radioCategory.checkedRadioButtonId).text.toString() else null
             val selectedRas = if (isRadioRasSelected) findViewById<RadioButton>(radioRas.checkedRadioButtonId).text.toString() else null
@@ -290,11 +330,12 @@ class EditFosterActivity : BaseActivity() {
             val isAgeChanged = agePet != lastUpdatedData.umur.toString() && agePet.isNotEmpty()
             val isDescChanged = descPet != lastUpdatedData.descPet && descPet.isNotEmpty()
             val isImageChanged = currentUriImage != null
+            val isAgeTypeChanged = ageType != lastUpdatedData.ageType && ageType.isNotEmpty()
             val isCategoryChanged = selectedCategory != lastUpdatedData.kategori && isRadioCategorySelected
             val isRasChanged = selectedRas != lastUpdatedData.ras && isRadioRasSelected
             val isGenderChanged = selectedGender != lastUpdatedData.gender && isRadioGenderSelected
 
-            val isFormValid = isNameChanged || isAgeChanged || isDescChanged || isImageChanged || isCategoryChanged || isRasChanged || isGenderChanged
+            val isFormValid = isNameChanged || isAgeChanged || isDescChanged || isImageChanged || isCategoryChanged || isRasChanged || isGenderChanged || isAgeTypeChanged
             btnSave.isEnabled = isFormValid
             btnSave.backgroundTintList = ContextCompat.getColorStateList(this@EditFosterActivity, if (isFormValid) R.color.primary_color_foster else R.color.btn_disabled)
         }

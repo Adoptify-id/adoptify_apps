@@ -48,16 +48,17 @@ class BookmarkFragment : Fragment() {
 
         bookmarkFragment.header.txtBookmark.text = requireActivity().getString(R.string.saved)
 
-        startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data: Intent? = result.data
-                val petId = data?.getIntExtra("PET_ID", -1) ?: return@registerForActivityResult
-                val position = listFavorite.indexOfFirst { it.id == petId }
-                if (position != -1) {
-                    bookmarkFragment.rvFavorite.scrollToPosition(position)
+        startForResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val data: Intent? = result.data
+                    val petId = data?.getIntExtra("PET_ID", -1) ?: return@registerForActivityResult
+                    val position = listFavorite.indexOfFirst { it.id == petId }
+                    if (position != -1) {
+                        bookmarkFragment.rvFavorite.scrollToPosition(position)
+                    }
                 }
             }
-        }
 
         observeData()
         setupView()
@@ -68,14 +69,6 @@ class BookmarkFragment : Fragment() {
         sessionViewModel.token.observe(viewLifecycleOwner) {
             token = it
         }
-    }
-
-    private fun setupView() {
-        bookmarkFragment.header.btnShortcut.visibility = View.GONE
-        bookmarkViewModel.getFavoritePet()
-    }
-
-    private fun getFavorite() {
         bookmarkViewModel.favorite.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
@@ -102,6 +95,15 @@ class BookmarkFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setupView() {
+        bookmarkFragment.header.btnShortcut.visibility = View.GONE
+        getFavorite()
+    }
+
+    private fun getFavorite() {
+        bookmarkViewModel.getFavoritePet()
     }
 
     private fun showRecyclerView() {

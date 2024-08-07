@@ -119,7 +119,7 @@ class VaksinasiActivity : BaseActivity() {
             val name = namePetEditText.text.toString()
             val kesehatan = conditionPetEditText.text.toString()
             val descKesehatan = descPetEditText.text.toString()
-            val beratPet = weightPetEditText.text.toString().takeIf { it.isNotEmpty() }?.toIntOrNull() ?: 0
+            val beratPet = weightPetEditText.text.toString().takeIf { it.isNotEmpty() }?.toFloatOrNull() ?: 0f
             val info = addInfoEditText.text.toString()
             val klinikName = nameClinicEditText.text.toString()
             val doctorName = nameDoctorEditText.text.toString()
@@ -153,16 +153,16 @@ class VaksinasiActivity : BaseActivity() {
             val name = namePetEditText.text.toString()
             val kesehatan = conditionPetEditText.text.toString()
             val descKesehatan = descPetEditText.text.toString()
-            val beratPet = weightPetEditText.text.toString().takeIf { it.isNotEmpty() }?.toIntOrNull() ?: 0
+            val beratPet = weightPetEditText.text.toString()
             val info = addInfoEditText.text.toString()
             val klinikName = nameClinicEditText.text.toString()
             val doctorName = nameDoctorEditText.text.toString()
             val alamat = addressClinicEditText.text.toString()
-            val tanggal = valueDate
+            val tanggal = valueDate.isNotEmpty()
             val jenisVaksin = vaksinSelected
             val catatan = medicalEditText.text.toString()
 
-            val isFormValid = name.isNotEmpty() && kesehatan.isNotEmpty() && descKesehatan.isNotEmpty() && beratPet > 0 && info.isNotEmpty() && klinikName.isNotEmpty() && doctorName.isNotEmpty() && alamat.isNotEmpty() && tanggal.isNotEmpty() && jenisVaksin.isNotEmpty() && catatan.isNotEmpty() && isRadioGroupCategorySelected
+            val isFormValid = name.isNotEmpty() && kesehatan.isNotEmpty() && descKesehatan.isNotEmpty() && beratPet.isNotEmpty() && info.isNotEmpty() && klinikName.isNotEmpty() && doctorName.isNotEmpty() && alamat.isNotEmpty() && tanggal && jenisVaksin.isNotEmpty() && catatan.isNotEmpty() && isRadioGroupCategorySelected
             btnSave.isEnabled = isFormValid
             btnSave.backgroundTintList = ContextCompat.getColorStateList(
                 this@VaksinasiActivity,
@@ -187,7 +187,7 @@ class VaksinasiActivity : BaseActivity() {
                     popUpDialog(
                         title = "Yeiy!",
                         desc = "penambahan data vaksin berhasil",
-                        subDesc = "Data vaksinasi telah berhasil ditambahkan dan Anda dapat mengakses informasi ini kapan saja. Terima kasih telah menjaga kesehatan hewan anda!",
+                        subDesc = "Data vaksinasi telah berhasil ditambahkan dan Anda dapat mengakses informasi ini kapan saja",
                         image = R.drawable.alert_success
                     ) {
                         setResult(RESULT_OK)
@@ -228,6 +228,7 @@ class VaksinasiActivity : BaseActivity() {
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val formattedDate = dateFormat.format(selectedDate.time)
                 valueDate = formattedDate
+                validateForm()
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),

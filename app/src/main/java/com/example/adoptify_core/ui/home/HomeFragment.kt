@@ -1,12 +1,19 @@
 package com.example.adoptify_core.ui.home
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
@@ -53,6 +60,8 @@ class HomeFragment : Fragment() {
     private var isTokenAvailable = false
     private var isUserIdAvailable = false
 
+    private var isErrorDialogShown = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -74,6 +83,7 @@ class HomeFragment : Fragment() {
 
         homeFragment.swipeRefresh.apply {
             setOnRefreshListener {
+                showLoading(true)
                 getToken()
                 getUserId()
             }
@@ -94,7 +104,6 @@ class HomeFragment : Fragment() {
                 is Resource.Success -> {
                     token = it.data
                     isTokenAvailable = true
-                    homeFragment.swipeRefresh.isRefreshing = false
                     if (isTokenAvailable && isUserIdAvailable) {
                         getVirtualPet()
                         getProfileUser()
@@ -104,23 +113,20 @@ class HomeFragment : Fragment() {
 
                 is Resource.Error -> {}
             }
+            homeFragment.swipeRefresh.isRefreshing = false
         }
     }
 
     private fun getName() {
         mainViewModel.name.observe(viewLifecycleOwner) {
             when (it) {
-                is Resource.Loading -> {
-                    showLoading(true)
-                }
-
+                is Resource.Loading -> { showLoading(true) }
                 is Resource.Success -> {
                     showLoading(false)
                     val name = it.data.split(" ").joinToString(separator = " ") { it.capitalize() }
                     homeFragment.txtUsername.text = "Halo, ${name}!"
                     Log.d("Home", "username: $name")
                 }
-
                 is Resource.Error -> {
                     Log.d("Home", "error: ${it.message}")
                 }
@@ -131,15 +137,11 @@ class HomeFragment : Fragment() {
     private fun getUserId() {
         mainViewModel.userId.observe(viewLifecycleOwner) {
             when (it) {
-                is Resource.Loading -> {
-                    showLoading(true)
-                }
-
+                is Resource.Loading -> { showLoading(true) }
                 is Resource.Success -> {
                     showLoading(false)
                     userId = it.data
                     isUserIdAvailable = true
-                    homeFragment.swipeRefresh.isRefreshing = false
                     if (isTokenAvailable && isUserIdAvailable) {
                         getVirtualPet()
                         getProfileUser()
@@ -151,6 +153,7 @@ class HomeFragment : Fragment() {
                     Log.d("Home", "error: ${it.message}")
                 }
             }
+            homeFragment.swipeRefresh.isRefreshing = false
         }
     }
 
@@ -180,6 +183,9 @@ class HomeFragment : Fragment() {
                 is Resource.Error -> {
                     showLoading(false)
                     showContent(true)
+                    if (it.message.contains("Tidak ada koneksi internet.", ignoreCase = true)) {
+                        showError(it.message)
+                    }
                     Log.d("HomeFragment", "error: ${it.message}")
                 }
             }
@@ -190,10 +196,7 @@ class HomeFragment : Fragment() {
         profileViewModel.getDetailUser(token, userId)
         profileViewModel.detail.observe(viewLifecycleOwner) {
             when (it) {
-                is Resource.Loading -> {
-                    showLoading(true)
-                }
-
+                is Resource.Loading -> { showLoading(true) }
                 is Resource.Success -> {
                     showLoading(false)
                     it.data.data?.map { data ->
@@ -211,10 +214,7 @@ class HomeFragment : Fragment() {
                         }
                     }
                 }
-
-                is Resource.Error -> {
-                    showLoading(false)
-                }
+                is Resource.Error -> { showLoading(false) }
             }
         }
     }
@@ -283,12 +283,19 @@ class HomeFragment : Fragment() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        homeFragment.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if(isLoading) {
+            homeFragment.shimmerLayout?.startShimmer()
+            homeFragment.shimmerLayout?.visibility = View.VISIBLE
+            homeFragment.contentLayout?.visibility = View.GONE
+        } else {
+            homeFragment.shimmerLayout?.stopShimmer()
+            homeFragment.shimmerLayout?.visibility = View.GONE
+            homeFragment.contentLayout?.visibility = View.VISIBLE
+        }
     }
 
     private fun showContent(isShowing: Boolean) {
         homeFragment.contentNull.layout.visibility = if (isShowing) View.VISIBLE else View.GONE
-
         homeFragment.contentNull.btnClose.setOnClickListener {
             val intent = Intent(requireContext(), VirtualPetActivity::class.java)
             intent.putExtra("token", token)
@@ -301,10 +308,39 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun retryFetchingData() {
+        showLoading(true)
+        profileViewModel.getDetailUser(token, userId)
+        virtualPetViewModel.getVirtualPet(token, userId)
+    }
+
+    private fun showError(message: String) {
+        if (isErrorDialogShown) return
+        val dialog = Dialog(requireContext())
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.network_error_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+            val descText = dialog.findViewById<TextView>(R.id.desc)
+            val btnClose = dialog.findViewById<Button>(R.id.btnRetry)
+            descText.text = message
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+                isErrorDialogShown = false
+                retryFetchingData()
+            }
+            show()
+        }
+        isErrorDialogShown = true
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _homeFragment = null
     }
-
 
 }

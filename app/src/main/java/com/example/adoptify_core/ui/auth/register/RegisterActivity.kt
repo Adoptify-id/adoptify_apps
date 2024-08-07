@@ -69,10 +69,10 @@ class RegisterActivity : AppCompatActivity() {
 
 
     private fun registerHandler() {
-        val username = binding.usernameEditText.text.toString()
-        val email = binding.emailEditText.text.toString()
-        val phone = binding.telephoneEditText.text.toString()
-        val password = binding.confirmPasswordEditText.text.toString()
+        val username = binding.usernameEditText.text.toString().trim()
+        val email = binding.emailEditText.text.toString().trim()
+        val phone = binding.telephoneEditText.text.toString().trim()
+        val password = binding.confirmPasswordEditText.text.toString().trim()
         val data = User(username, email, phone, password)
 
         registerViewModel.registerUser(data)
@@ -123,11 +123,11 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun validateForm() {
         binding.apply {
-            val username = usernameEditText.text.toString()
-            val email = emailEditText.text.toString()
-            val telp = telephoneEditText.text.toString()
-            val password = passwordEditText.text.toString()
-            val confirmPassword = confirmPasswordEditText.text.toString()
+            val username = usernameEditText.text.toString().trim()
+            val email = emailEditText.text.toString().trim()
+            val telp = telephoneEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
+            val confirmPassword = confirmPasswordEditText.text.toString().trim()
 
             val isPasswordValid = password == confirmPassword
             val isEmailValid = email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
@@ -136,15 +136,9 @@ class RegisterActivity : AppCompatActivity() {
                 emailEditText.error = "Enter a valid email address"
             }
 
-            val isFormValid =
-                username.isNotEmpty() && isEmailValid && telp.isNotEmpty() && isPasswordValid
+            val isFormValid = username.isNotEmpty() && isEmailValid && telp.isNotEmpty() && isPasswordValid
             btnRegister.isEnabled = isFormValid
-            btnRegister.setBackgroundColor(
-                ContextCompat.getColor(
-                    this@RegisterActivity,
-                    if (isFormValid) R.color.primaryColor else R.color.btn_disabled
-                )
-            )
+            btnRegister.backgroundTintList = ContextCompat.getColorStateList(this@RegisterActivity, if (isFormValid) R.color.primaryColor else R.color.btn_disabled)
         }
     }
 

@@ -1,10 +1,18 @@
 package com.example.adoptify_core.ui.foster.profile
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -29,6 +37,7 @@ class DetailProfileFosterActivity : BaseActivity() {
     private var userId by Delegates.notNull<Int>()
 
     private lateinit var editActivityLauncher: ActivityResultLauncher<Intent>
+    private var isErrorDialogShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +64,7 @@ class DetailProfileFosterActivity : BaseActivity() {
 
         binding.apply {
             nameEditText.isEnabled = false
-            autoComplete.isEnabled = false
+            genderEditText.isEnabled = false
             dateEditText.isEnabled = false
             telpEditText.isEnabled = false
             emailEditText.isEnabled = false
@@ -82,15 +91,16 @@ class DetailProfileFosterActivity : BaseActivity() {
     private fun getDetailUser() {
         profileViewModel.detail.observe(this) {
             when(it) {
-                is Resource.Loading -> {}
+                is Resource.Loading -> {showLoading(true)}
                 is Resource.Success -> {
+                    showLoading(false)
                     Log.d("ProfileActivity", "data: ${it.data}")
                     it.data.data?.map {
                         binding.apply {
                             val imageUrl = "https://storage.googleapis.com/bucket-adoptify/imagesUser/${it?.foto}"
                             Log.d("Profile", "getDetailUser: ${it?.foto}")
                             nameEditText.setText(it?.fullName)
-                            autoComplete.setText(it?.gender)
+                            genderEditText.setText(it?.gender)
                             dateEditText.setText(it?.tglLahir)
                             telpEditText.setText(it?.noTelp)
                             emailEditText.setText(it?.email)
@@ -105,10 +115,46 @@ class DetailProfileFosterActivity : BaseActivity() {
                     }
                 }
                 is Resource.Error -> {
+                    showLoading(false)
+                    if (it.message.contains("Tidak ada koneksi internet.", ignoreCase = true)) {
+                        showError(it.message)
+                    }
                     Log.d("ProfileActivity", "error: ${it.message}")
                 }
             }
         }
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showError(message: String) {
+        if (isErrorDialogShown) return
+        val dialog = Dialog(this)
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.network_error_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+            val descText = dialog.findViewById<TextView>(R.id.desc)
+            val btnClose = dialog.findViewById<Button>(R.id.btnRetry)
+            descText.text = message
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+                isErrorDialogShown = false
+                retryFetchingData()
+            }
+            show()
+        }
+        isErrorDialogShown = true
+    }
+
+    private fun retryFetchingData() {
+        showLoading(true)
+        profileViewModel.getDetailUser(token, userId)
+    }
 }

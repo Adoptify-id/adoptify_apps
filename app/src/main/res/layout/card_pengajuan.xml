@@ -126,6 +126,7 @@
         android:textSize="12sp"
         android:layout_marginEnd="20dp"
         android:maxLines="1"
+        android:maxLength="20"
         app:layout_constraintTop_toTopOf="@id/txtKode"
         app:layout_constraintBottom_toBottomOf="@id/txtKode"
         android:fontFamily="@font/plus_jakarta_sans_regular"

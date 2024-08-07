@@ -68,23 +68,18 @@ class LoginActivity : AppCompatActivity() {
 
     private fun validateForm() {
         binding.apply {
-            val username = usernameEditText.text.toString()
-            val password = passwordEditText.text.toString()
+            val username = usernameEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
 
             val isFormValid = username.isNotEmpty() && password.isNotEmpty()
             btnLogin.isEnabled = isFormValid
-            btnLogin.setBackgroundColor(
-                ContextCompat.getColor(
-                    this@LoginActivity,
-                    if (isFormValid) R.color.primaryColor else R.color.btn_disabled
-                )
-            )
+            btnLogin.backgroundTintList = ContextCompat.getColorStateList(this@LoginActivity, if (isFormValid) R.color.primaryColor else R.color.btn_disabled)
         }
     }
 
     private fun loginHandler() {
-        val username = binding.usernameEditText.text.toString()
-        val password = binding.passwordEditText.text.toString()
+        val username = binding.usernameEditText.text.toString().trim()
+        val password = binding.passwordEditText.text.toString().trim()
 
         loginViewModel.loginUser(username, password)
     }
@@ -210,8 +205,6 @@ class LoginActivity : AppCompatActivity() {
             setContentView(R.layout.alert_dialog)
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-
-            //set width height card
             val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
             val height = WindowManager.LayoutParams.WRAP_CONTENT
             window?.setLayout(width, height)

@@ -1,6 +1,9 @@
 package com.example.adoptify_core.ui.profile
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.transition.AutoTransition
@@ -9,7 +12,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
@@ -44,6 +50,7 @@ class ProfileFragment : Fragment() {
 
     private var isTokenAvailable = false
     private var isUserIdAvailable = false
+    private var isErrorDialogShown = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -225,6 +232,35 @@ class ProfileFragment : Fragment() {
         val newVisible = if (isVisible) View.GONE else View.VISIBLE
         TransitionManager.beginDelayedTransition(profileFragment.card.layout, AutoTransition())
         profileFragment.card.listButton.visibility = newVisible
+    }
+
+    private fun showError(message: String) {
+        if (isErrorDialogShown) return
+        val dialog = Dialog(requireContext())
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.network_error_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+            val descText = dialog.findViewById<TextView>(R.id.desc)
+            val btnClose = dialog.findViewById<Button>(R.id.btnRetry)
+            descText.text = message
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+                isErrorDialogShown = false
+                retryFetchingData()
+            }
+            show()
+        }
+        isErrorDialogShown = true
+    }
+
+    private fun retryFetchingData() {
+        showLoading(true)
+        profileViewModel.getDetailUser(token!!, userId!!)
     }
 
     override fun onDestroyView() {

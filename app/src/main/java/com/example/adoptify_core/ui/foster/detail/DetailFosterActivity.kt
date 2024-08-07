@@ -10,19 +10,17 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityDetailFosterBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
-import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.adoptify_core.ui.foster.edit.EditFosterActivity
 import com.example.core.data.Resource
 import com.example.core.domain.model.DataAdopt
-import com.example.core.utils.ForceLogout
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -39,6 +37,8 @@ class DetailFosterActivity : BaseActivity() {
     private var userId by Delegates.notNull<Int>()
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+    private var isErrorDialogShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +46,7 @@ class DetailFosterActivity : BaseActivity() {
         setContentView(binding.root)
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        shimmerFrameLayout = binding.shimmerLayout
         val transitionName = intent.getStringExtra("TRANSITION_NAME")
         binding.imagePet.transitionName = transitionName
 
@@ -78,10 +79,10 @@ class DetailFosterActivity : BaseActivity() {
             "https://storage.googleapis.com/bucket-adoptify/imagesPet/${data.fotoPet}"
         }
 
-        val imageProfile = if (data?.fotoPet == null) {
+        val imageProfile = if (data?.foto == null) {
             null
         } else {
-            " https://storage.googleapis.com/bucket-adoptify/imagesUser/${data.foto}"
+            "https://storage.googleapis.com/bucket-adoptify/imagesUser/${data.foto}"
         }
 
         binding.apply {
@@ -93,8 +94,9 @@ class DetailFosterActivity : BaseActivity() {
             namePet.text = data?.namePet?.split(" ")?.joinToString(separator = " ") { it.capitalize() }
             genderPet.text = data?.gender
             txtLocation.text = if (data?.alamat.isNullOrEmpty() || data?.provinsi.isNullOrEmpty()) "Lokasi tidak disetel" else "${data?.alamat}, ${data?.provinsi}"
-            agePet.text = "${data?.umur} bulan"
+            agePet.text = if (data?.ageType.isNullOrEmpty()) "${data?.umur} Bulan" else "${data?.umur} ${data?.ageType}"
             rasPet.text = data?.ras
+            txtIdPet.text = data?.petId.toString()
             Glide.with(this@DetailFosterActivity)
                 .load(imageProfile ?: R.drawable.ic_foster)
                 .placeholder(R.drawable.ic_foster)
@@ -117,6 +119,9 @@ class DetailFosterActivity : BaseActivity() {
                 }
                 is Resource.Error -> {
                     showLoading(false)
+                    if (it.message.contains("Tidak ada koneksi internet.", ignoreCase = true)) {
+                        showError(it.message)
+                    }
                     Log.d("DetailAdopt", "error: ${it.message}")
                 }
             }
@@ -146,7 +151,43 @@ class DetailFosterActivity : BaseActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) {
+            shimmerFrameLayout.startShimmer()
+            shimmerFrameLayout.visibility = View.VISIBLE
+            binding.contentDetail.visibility = View.GONE
+        } else {
+            shimmerFrameLayout.stopShimmer()
+            shimmerFrameLayout.visibility = View.GONE
+            binding.contentDetail.visibility = View.VISIBLE
+        }
     }
 
+    private fun showError(message: String) {
+        if (isErrorDialogShown) return
+        val dialog = Dialog(this)
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.network_error_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+            val descText = dialog.findViewById<TextView>(R.id.desc)
+            val btnClose = dialog.findViewById<Button>(R.id.btnRetry)
+            descText.text = message
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+                isErrorDialogShown = false
+                retryFetchingData()
+            }
+            show()
+        }
+        isErrorDialogShown = true
+    }
+
+    private fun retryFetchingData() {
+        showLoading(true)
+        adoptViewModel.getDetailPet(token, petId)
+    }
 }

@@ -30,7 +30,7 @@ data class VaksinasiItem(
     val descKesehatan: String,
 
     @field:SerializedName("beratPet")
-    val beratPet: Int,
+    val beratPet: Float,
 
     @field:SerializedName("info")
     val info: String,

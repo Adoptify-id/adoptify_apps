@@ -12,7 +12,7 @@ data class VirtualPetItem(
     val ras_pet: String,
     val category: String,
     val photo_pet: String,
-    val berat_pet: Int,
+    val berat_pet: Float,
     val user_id: Int? = null
 )
 

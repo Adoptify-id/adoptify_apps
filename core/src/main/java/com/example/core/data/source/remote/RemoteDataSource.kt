@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
+import java.io.IOException
 
 class RemoteDataSource(
     private val apiService: ApiService,
@@ -54,6 +55,10 @@ class RemoteDataSource(
                 Log.e("Register", "Error : $errorMessage")
                 emit(ApiResponse.Error(errorMessage))
             }
+        } catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -73,6 +78,10 @@ class RemoteDataSource(
                     Log.e("Login", "Error : ${e.message.toString()}")
                     emit(ApiResponse.Error(errorMessage))
                 }
+            }catch (e: IOException) {
+                emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -84,8 +93,6 @@ class RemoteDataSource(
                 emit(ApiResponse.Success(response.virtualPet))
             } catch (e: HttpException) {
                 if (e.code() == 401) {
-//                    localDataSource.deleteSession()
-//                    ForceLogout.logoutLiveData.postValue(Unit)
                     val errorMessage = "Unauthorized User"
                     emit(ApiResponse.Error(errorMessage))
                 } else {
@@ -94,6 +101,10 @@ class RemoteDataSource(
                     Log.d("VirtualPet", "result: $errorMessage")
                     emit(ApiResponse.Error(errorMessage))
                 }
+            }catch (e: IOException) {
+                emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -115,6 +126,10 @@ class RemoteDataSource(
                 Log.d("VirtualPet", "result: $errorMessage")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -134,6 +149,10 @@ class RemoteDataSource(
                     Log.d("Vaksinasi", "result: $errorMessage")
                     emit(ApiResponse.Error(errorMessage))
                 }
+            }catch (e: IOException) {
+                emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -155,6 +174,10 @@ class RemoteDataSource(
                 Log.d("InserVaksinasi", "result: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -177,6 +200,10 @@ class RemoteDataSource(
                 Log.d("UpdateProfil", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -194,6 +221,10 @@ class RemoteDataSource(
                 Log.d("DetailProfile", "error: $errorMessage")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -212,6 +243,10 @@ class RemoteDataSource(
                     Log.d("MedicalRecord", "error: $errorMessage")
                     emit(ApiResponse.Error(errorMessage))
                 }
+            }catch (e: IOException) {
+                emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -233,13 +268,17 @@ class RemoteDataSource(
                 Log.d("MedicalRecord", "error: ${e.message.toString()} ")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
     suspend fun insertPetAdopt(
         token: String,
         data: PetAdoptItem
-    ): Flow<ApiResponse<AddPetAdoptResponse>> = flow<ApiResponse<AddPetAdoptResponse>> {
+    ): Flow<ApiResponse<AddPetAdoptResponse>> = flow {
         try {
             val pet = DataMapper.petAdoptItemMap(data)
             val response = apiService.insertPetAdopt("Bearer $token", pet)
@@ -254,6 +293,10 @@ class RemoteDataSource(
                 Log.d("PetAdopt", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -271,6 +314,10 @@ class RemoteDataSource(
                 Log.d("ListPet", "error: $errorMessage")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -289,6 +336,10 @@ class RemoteDataSource(
                     Log.d("DetailPet", "error: $errorMessage")
                     emit(ApiResponse.Error(errorMessage))
                 }
+            }catch (e: IOException) {
+                emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -311,6 +362,10 @@ class RemoteDataSource(
                 Log.d("UpdatePet", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -329,6 +384,10 @@ class RemoteDataSource(
                     Log.d("ListPet", "error: $errorMessage")
                     emit(ApiResponse.Error(errorMessage))
                 }
+            }catch (e: IOException) {
+                emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -347,6 +406,10 @@ class RemoteDataSource(
                 Log.d("Auth", "error: $errorMessage")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -366,6 +429,10 @@ class RemoteDataSource(
                     Log.d("FormAdopt", "error: ${e.message.toString()}")
                     emit(ApiResponse.Error(errorMessage))
                 }
+            }catch (e: IOException) {
+                emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -386,6 +453,10 @@ class RemoteDataSource(
                 Log.d("ListSubmissionPet", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -406,6 +477,10 @@ class RemoteDataSource(
                 Log.d("DetailSubmissionPet", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -426,6 +501,10 @@ class RemoteDataSource(
                 Log.d("DetailSubmissionPet", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -447,6 +526,10 @@ class RemoteDataSource(
                     Log.d("DetailSubmissionPet", "error: ${e.message.toString()}")
                     emit(ApiResponse.Error(errorMessage))
                 }
+            }catch (e: IOException) {
+                emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
             }
         }.flowOn(Dispatchers.IO)
 
@@ -468,6 +551,10 @@ class RemoteDataSource(
                 Log.d("DetailSubmissionPet", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -489,6 +576,10 @@ class RemoteDataSource(
                 Log.d("DetailSubmissionPet", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -511,6 +602,10 @@ class RemoteDataSource(
                 Log.d("DetailSubmissionPet", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -533,6 +628,10 @@ class RemoteDataSource(
                 Log.d("UpdateStatusPayment", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -555,6 +654,10 @@ class RemoteDataSource(
                 Log.d("UpdateStatusPayment", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -576,6 +679,10 @@ class RemoteDataSource(
                 Log.d("UpdateStatusPayment", "error: ${e.message.toString()}")
                 emit(ApiResponse.Error(errorMessage))
             }
+        }catch (e: IOException) {
+            emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+        } catch (e: Exception) {
+            emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -594,6 +701,10 @@ class RemoteDataSource(
                     Log.d("FormDetail", "error: ${e.message.toString()}")
                     emit(ApiResponse.Error(errorMessage))
                 }
+            }catch (e: IOException) {
+                emit(ApiResponse.Error("Tidak ada koneksi internet. Silakan coba lagi."))
+            } catch (e: Exception) {
+                emit(ApiResponse.Error("Terjadi kesalahan. Silakan coba lagi."))
             }
         }.flowOn(Dispatchers.IO)
 }

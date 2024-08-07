@@ -117,7 +117,7 @@ class AddVirtualPetActivity : BaseActivity() {
         binding.apply {
             val name = nameEditText.text.toString()
             val age = ageEditText.text.toString().takeIf { it.isNotEmpty() }?.toIntOrNull() ?: 0
-            val weight = weightEditText.text.toString().takeIf { it.isNotEmpty() }?.toIntOrNull() ?: 0
+            val weight = weightEditText.text.toString().takeIf { it.isNotEmpty() }?.toFloatOrNull() ?: 0f
             val image = currentUriImage?.let { uriToFile(it, this@AddVirtualPetActivity).reduceImageFile() }?.path
             val isRadioGroupCategorySelected = radioCategory.checkedRadioButtonId != -1
             val isRadioRasGroupCategorySelected = radioRas.checkedRadioButtonId != -1
@@ -126,12 +126,7 @@ class AddVirtualPetActivity : BaseActivity() {
             val isImageValid = image != null && image.isNotEmpty()
             val isFormValid = name.isNotEmpty() && age > 0 && weight > 0 && isImageValid && isRadioGroupCategorySelected && isRadioRasGroupCategorySelected && isRadioGenderGroupCategorySelected
             btnSave.isEnabled = isFormValid
-            btnSave.setBackgroundColor(
-                ContextCompat.getColor(
-                    this@AddVirtualPetActivity,
-                    if (isFormValid) R.color.primaryColor else R.color.btn_disabled
-                )
-            )
+            btnSave.backgroundTintList = ContextCompat.getColorStateList(this@AddVirtualPetActivity, if (isFormValid) R.color.primaryColor else R.color.btn_disabled)
         }
     }
 
@@ -156,9 +151,8 @@ class AddVirtualPetActivity : BaseActivity() {
 
             val namePet = nameEditText.text.toString()
             val agePet = ageEditText.text.toString()
-            val beratPet = weightEditText.text.toString()
-            val imageFile =
-                currentUriImage?.let { uriToFile(it, this@AddVirtualPetActivity).reduceImageFile() }?.path
+            val beratPet = weightEditText.text.toString().takeIf { it.isNotEmpty() }?.toFloatOrNull() ?: 0f
+            val imageFile = currentUriImage?.let { uriToFile(it, this@AddVirtualPetActivity).reduceImageFile() }?.path
 
             val item = AddVirtualPetItem(
                 name = namePet,
@@ -167,7 +161,7 @@ class AddVirtualPetActivity : BaseActivity() {
                 ras = rasPet,
                 kategori = categoryPet,
                 fotoPet = imageFile,
-                beratPet = beratPet.toInt(),
+                beratPet = beratPet,
                 user_id = userId
             )
 
@@ -186,8 +180,8 @@ class AddVirtualPetActivity : BaseActivity() {
                     showLoading(false)
                     popUpDialog(
                         title = "Yeiy!",
-                        desc = "penambahan data virtual pet berhasil",
-                        subDesc = "Anda telah berhasil menambahkan data virtual pet. Data akan disimpan ke dalam database dan dapat diakses kapan saja. Terima kasih!",
+                        desc = "tambah data virtual pet sukses",
+                        subDesc = "Anda telah berhasil menambahkan data virtual pet. Data dapat diakses kapan saja. Terima kasih!",
                         image = R.drawable.alert_success
                     ) {
                         setResult(Activity.RESULT_OK)
@@ -203,11 +197,9 @@ class AddVirtualPetActivity : BaseActivity() {
 
                 is Resource.Error -> {
                     showLoading(false)
-                    popUpDialog("Yah!", "penambahan data virtual pet gagal", it.message, R.drawable.alert_failed)
+                    popUpDialog("Yah!", "tambah data virtual pet gagal", it.message, R.drawable.alert_failed)
                     Log.d("AddVirtualPetActivity", "error: ${it.message}")
                 }
-
-                else -> {}
             }
         }
     }

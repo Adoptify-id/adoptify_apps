@@ -347,7 +347,7 @@
                 android:hint="Berat peliharaan"
                 android:textColor="@color/blackText"
                 android:textColorHint="@color/textColorHint"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:padding="12dp"
                 android:textSize="14sp"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -584,6 +584,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="@string/save"
+            android:background="@drawable/background_selected_tab"
             android:layout_marginHorizontal="32dp"
             android:layout_marginTop="45dp"
             app:layout_constraintEnd_toEndOf="parent"

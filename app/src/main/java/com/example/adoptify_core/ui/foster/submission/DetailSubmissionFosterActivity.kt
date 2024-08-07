@@ -36,6 +36,7 @@ import com.example.core.data.Resource
 import com.example.core.domain.model.DetailItemSubmission
 import com.example.core.utils.ForceLogout
 import com.example.core.utils.SessionViewModel
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -55,6 +56,7 @@ class DetailSubmissionFosterActivity : BaseActivity() {
     private var progressDialog: Dialog? = null
     private var successDialog: BottomSheetDialog? = null
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private var isErrorDialogShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +95,9 @@ class DetailSubmissionFosterActivity : BaseActivity() {
 
                 is Resource.Error -> {
                     showLoading(false)
+                    if (it.message.contains("Tidak ada koneksi internet.", ignoreCase = true)) {
+                        showError(it.message)
+                    }
                     Log.d("DetailSubmissionFoster", "error: ${it.message}")
                 }
             }
@@ -403,6 +408,35 @@ class DetailSubmissionFosterActivity : BaseActivity() {
         downloadManager.enqueue(request)
 
         Toast.makeText(this, "Download started...", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showError(message: String) {
+        if (isErrorDialogShown) return
+        val dialog = Dialog(this)
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.network_error_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+            val descText = dialog.findViewById<TextView>(R.id.desc)
+            val btnClose = dialog.findViewById<Button>(R.id.btnRetry)
+            descText.text = message
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+                isErrorDialogShown = false
+                retryFetchingData()
+            }
+            show()
+        }
+        isErrorDialogShown = true
+    }
+
+    private fun retryFetchingData() {
+        showLoading(true)
+        fosterViewModel.detailSubmissionFoster(token, reqId!!)
     }
 
     private fun dismissProgressDialog() {

@@ -15,9 +15,8 @@ data class MedicalRecordResponse(
 )
 
 data class DataItem(
-
 	@field:SerializedName("beratPet")
-	val beratPet: Int,
+	val beratPet: Float,
 
 	@field:SerializedName("kesehatan")
 	val kesehatan: String,

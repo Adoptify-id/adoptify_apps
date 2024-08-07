@@ -1,17 +1,25 @@
 package com.example.adoptify_core.ui.adopt.list
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.FragmentListPetBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
 import com.example.adoptify_core.ui.adopt.detail.DetailAdoptActivity
@@ -19,6 +27,7 @@ import com.example.adoptify_core.ui.auth.login.LoginViewModel
 import com.example.core.data.Resource
 import com.example.core.domain.model.DataAdopt
 import com.example.core.ui.PetItemAdapter
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -31,12 +40,15 @@ class ListPetFragment : Fragment() {
     private val loginViewModel: LoginViewModel by viewModel()
 
     private var token = ""
-    private var position: Int = 0
+    private var category: String = ""
     private var dataPet: List<DataAdopt> = listOf()
     private var filteredData: List<DataAdopt> = listOf()
 
     private lateinit var startForResult: ActivityResultLauncher<Intent>
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+
+    private var isErrorDialogShown = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,33 +62,32 @@ class ListPetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
-        startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data: Intent? = result.data
-                val petId = data?.getIntExtra("PET_ID", -1) ?: return@registerForActivityResult
-                val position = filteredData.indexOfFirst { it.petId == petId }
-                if (position != -1) {
-                    listFragment.rvPet.scrollToPosition(position)
+        shimmerFrameLayout = listFragment.shimmerLayout
+        startForResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val data: Intent? = result.data
+                    val petId = data?.getIntExtra("PET_ID", -1) ?: return@registerForActivityResult
+                    val position = filteredData.indexOfFirst { it.petId == petId }
+                    if (position != -1) {
+                        listFragment.rvPet.scrollToPosition(position)
+                    }
                 }
             }
-        }
 
         initData()
         getToken()
-        setupView()
+        getListPet()
     }
 
-    private fun setupView() {
-        if (position == 1) {
-            getListPet("Kucing")
-        } else {
-            getListPet("Anjing")
-        }
+    override fun onResume() {
+        super.onResume()
+        getListPet()
     }
 
     private fun initData() {
         arguments?.let {
-            position = it.getInt(ARG_POSITION, 0)
+            category = it.getString(ARG_CATEGORY, "")
         }
         loginViewModel.getSession()
     }
@@ -109,7 +120,16 @@ class ListPetFragment : Fragment() {
 
 
     private fun showLoading(isLoading: Boolean) {
-        listFragment.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) {
+            shimmerFrameLayout.startShimmer()
+            shimmerFrameLayout.visibility = View.VISIBLE
+            showContent(false)
+            listFragment.rvPet.visibility = View.GONE
+        } else {
+            shimmerFrameLayout.stopShimmer()
+            shimmerFrameLayout.visibility = View.GONE
+            listFragment.rvPet.visibility = View.VISIBLE
+        }
     }
 
     private fun getToken() {
@@ -130,18 +150,17 @@ class ListPetFragment : Fragment() {
         }
     }
 
-    private fun getListPet(category: String) {
+    private fun getListPet() {
         adoptViewModel.data.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> showLoading(true)
                 is Resource.Success -> {
                     showLoading(false)
                     dataPet = it.data
-                    Log.d("AdoptFragment", "sebelum filter: ${it.data}")
-                    if (dataPet.isNotEmpty()) {
+
+                    filteredData = dataPet.filter { pet -> pet.kategori == category && !pet.isAdopt!! }
+                    if (filteredData.isNotEmpty()) {
                         showContent(false)
-                        filteredData = dataPet.filter { it.kategori == category && it.isAdopt == false }
-                        Log.d("AdoptFragment", "data: $filteredData")
                         showRecyclerView()
                     } else {
                         showContent(true)
@@ -151,15 +170,48 @@ class ListPetFragment : Fragment() {
                 is Resource.Error -> {
                     showLoading(false)
                     showContent(true)
+                    if (it.message.contains("Tidak ada koneksi internet.", ignoreCase = true)) {
+                        showError(it.message)
+                    }
                     Log.d("AdoptFragment", "error: ${it.message}")
                 }
             }
         }
     }
 
+    private fun showError(message: String) {
+        if (isErrorDialogShown) return
+        val dialog = Dialog(requireContext())
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.network_error_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+            val descText = dialog.findViewById<TextView>(R.id.desc)
+            val btnClose = dialog.findViewById<Button>(R.id.btnRetry)
+            descText.text = message
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+                isErrorDialogShown = false
+                retryFetchingData()
+            }
+            show()
+        }
+        isErrorDialogShown = true
+    }
+
+    private fun retryFetchingData() {
+        showLoading(true)
+        adoptViewModel.getListPet(token)
+    }
+
     private fun showContent(isShowing: Boolean) {
         listFragment.contentNull.layout.visibility = if (isShowing) View.VISIBLE else View.GONE
-        listFragment.contentNull.txtDesc.text = "Maaf, data pet Anda tidak tersedia. Coba muat ulang atau periksa kembali nanti."
+        listFragment.contentNull.txtDesc.text =
+            "Maaf, data pet Anda tidak tersedia. Coba muat ulang atau periksa kembali nanti."
 
         listFragment.contentNull.btnClose.visibility = View.GONE
     }
@@ -170,7 +222,13 @@ class ListPetFragment : Fragment() {
     }
 
     companion object {
-        const val ARG_POSITION = "arg_position"
+        const val ARG_CATEGORY = "arg_category"
+        fun newInstance(category: String): ListPetFragment {
+            val fragment = ListPetFragment()
+            val args = Bundle()
+            args.putString(ARG_CATEGORY, category)
+            fragment.arguments = args
+            return fragment
+        }
     }
-
 }

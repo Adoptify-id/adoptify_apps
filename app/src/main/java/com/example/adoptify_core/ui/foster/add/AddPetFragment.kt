@@ -1,8 +1,11 @@
 package com.example.adoptify_core.ui.foster.add
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
@@ -17,6 +20,8 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.TextView
@@ -102,15 +107,22 @@ class AddPetFragment : Fragment() {
             nameEditText.addTextChangedListener(textWatcher)
             ageEditText.addTextChangedListener(textWatcher)
             descEditText.addTextChangedListener(textWatcher)
+            txtAge.addTextChangedListener(textWatcher)
             radioCategory.setOnCheckedChangeListener { _, _ -> validateForm() }
             radioRas.setOnCheckedChangeListener { _, _ -> validateForm() }
             radioGender.setOnCheckedChangeListener { _, _ -> validateForm() }
 
             headerFoster.btnBack.visibility = View.GONE
+
+            //add drawable right txtAge
+            val drawable = resources.getDrawable(R.drawable.ic_arrow_down, null) as BitmapDrawable
+            val bitmap = Bitmap.createScaledBitmap(drawable.bitmap, 12, 9, true)
+            val resizedDrawable = BitmapDrawable(resources, bitmap)
+            resizedDrawable.setBounds(0, 0, resizedDrawable.intrinsicWidth, resizedDrawable.intrinsicHeight)
+            txtAge.setCompoundDrawablesWithIntrinsicBounds(null, null, resizedDrawable, null)
         }
     }
 
-    //text watcher for edit text
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) { validateForm() }
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -126,8 +138,9 @@ class AddPetFragment : Fragment() {
             val isRadioRasSelected = radioRas.checkedRadioButtonId != -1
             val isRadioGenderSelected = radioGender.checkedRadioButtonId != -1
             val imagePet = currentUriImage != null
+            val ageType = txtAge.text.toString() != "Tipe Umur"
 
-            val isFormValid = name.isNotEmpty() && age.isNotEmpty() && desc.isNotEmpty() && isRadioCategorySelected && isRadioGenderSelected && isRadioRasSelected && imagePet
+            val isFormValid = name.isNotEmpty() && age.isNotEmpty() && desc.isNotEmpty() && isRadioCategorySelected && isRadioGenderSelected && isRadioRasSelected && imagePet && ageType
             btnSave.isEnabled = isFormValid
             btnSave.backgroundTintList = ContextCompat.getColorStateList(requireContext(), if (isFormValid) R.color.primary_color_foster else R.color.btn_disabled)
         }
@@ -137,14 +150,8 @@ class AddPetFragment : Fragment() {
         loginViewModel.token.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> { showLoading(true) }
-
-                is Resource.Success -> {
-                    token = it.data
-                }
-
-                is Resource.Error -> {
-                    showLoading(false)
-                }
+                is Resource.Success -> { token = it.data }
+                is Resource.Error -> { showLoading(false) }
             }
         }
     }
@@ -153,14 +160,8 @@ class AddPetFragment : Fragment() {
         mainViewModel.userId.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> { showLoading(true) }
-
-                is Resource.Success -> {
-                    userId = it.data
-                }
-
-                is Resource.Error -> {
-                    showLoading(false)
-                }
+                is Resource.Success -> { userId = it.data }
+                is Resource.Error -> { showLoading(false) }
             }
         }
     }
@@ -188,6 +189,7 @@ class AddPetFragment : Fragment() {
             val age = ageEditText.text.toString()
             val desc = descEditText.text.toString()
             val image = currentUriImage?.let { uriToFile(it, requireContext()).reduceImageFile() }?.path
+            val ageType = txtAge.text.toString()
 
             val item = PetAdoptItem(
                 fotoPet = image,
@@ -198,6 +200,7 @@ class AddPetFragment : Fragment() {
                 kategori = categoryPet,
                 descPet = desc,
                 userId = userId,
+                ageType = ageType
             )
 
             fosterViewModel.insertAdopt(token, item)
@@ -207,10 +210,7 @@ class AddPetFragment : Fragment() {
     private fun addPetResult() {
         fosterViewModel.result.observe(viewLifecycleOwner) {
             when (it) {
-                is Resource.Loading -> {
-                    showLoading(true)
-                }
-
+                is Resource.Loading -> { showLoading(true) }
                 is Resource.Success -> {
                     showLoading(false)
                     popUpDialog("Yeiy!", "Penambahan data berhasil", "Selamat! Data hewan peliharaan Anda telah berhasil ditambahkan. Anda kini dapat melihat dan mengelola informasi hewan peliharaan" ,R.drawable.alert_success)
@@ -269,6 +269,29 @@ class AddPetFragment : Fragment() {
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "btn_to_submission_foster")
                 firebaseAnalytics.logEvent("navigate_to_submission_foster", bundle)
             }
+            txtAge.setOnClickListener { showDropdown() }
+        }
+    }
+
+    private fun showDropdown() {
+        val inflater = activity?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.dropdown_menu_layout, null)
+        val width = addPetFragment.txtAge.width
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true
+
+        val popupWindow = PopupWindow(view, width, height, focusable)
+        popupWindow.setBackgroundDrawable(ColorDrawable())
+        popupWindow.showAsDropDown(addPetFragment.txtAge, 0, 10)
+
+        view.findViewById<TextView>(R.id.tahun).setOnClickListener {
+            addPetFragment.txtAge.text = "Tahun"
+            popupWindow.dismiss()
+        }
+
+        view.findViewById<TextView>(R.id.bulan).setOnClickListener {
+            addPetFragment.txtAge.text = "Bulan"
+            popupWindow.dismiss()
         }
     }
 

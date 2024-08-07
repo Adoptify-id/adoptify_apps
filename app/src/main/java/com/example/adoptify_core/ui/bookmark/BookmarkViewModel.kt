@@ -27,7 +27,7 @@ class BookmarkViewModel(private val mainUseCase: MainUseCase) : ViewModel() {
     fun insertToFavorite(petsEntity: PetEntity, isFavorite: Boolean) {
         viewModelScope.launch {
             mainUseCase.insertToFavorite(petsEntity, isFavorite).collect {
-                Log.d("MainViewModel", "data: $it")
+                Log.d("BookmarkViewModel", "data: $it")
             }
         }
     }
@@ -53,5 +53,14 @@ class BookmarkViewModel(private val mainUseCase: MainUseCase) : ViewModel() {
             }
         }
         return result
+    }
+
+    fun updatePet(token: String) {
+        viewModelScope.launch {
+            mainUseCase.getListPet(token).collect {
+                Log.d("BookmarkViewModel", "data: $it")
+                getFavoritePet()
+            }
+        }
     }
 }

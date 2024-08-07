@@ -16,6 +16,7 @@ import com.example.core.data.source.remote.network.ApiService
 import com.example.core.domain.repository.IAuthRepository
 import com.example.core.domain.repository.IMainRepository
 import com.example.core.utils.AuthInterceptor
+import com.example.core.utils.NetworkInterceptor
 import com.example.core.utils.SessionManager
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -29,6 +30,7 @@ val networkModule = module {
     single {
         OkHttpClient.Builder()
             .addInterceptor(get<AuthInterceptor>())
+            .addInterceptor(get<NetworkInterceptor>())
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
@@ -76,6 +78,7 @@ val repositoryModule = module {
     single<IMainRepository> { MainRepository(get(), get()) }
     single<IAuthRepository> { AuthRepository(get(), get()) }
     single { AuthInterceptor(get()) }
+    single { NetworkInterceptor(androidContext()) }
 }
 
 

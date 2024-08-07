@@ -1,9 +1,16 @@
 package com.example.adoptify_core.ui.adopt.submission
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.adoptify_core.BaseActivity
@@ -14,6 +21,7 @@ import com.example.core.data.Resource
 import com.example.core.domain.model.SubmissionItem
 import com.example.core.ui.ListSubmissionAdapter
 import com.example.core.utils.SessionViewModel
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -28,6 +36,8 @@ class SubmissionAdoptActivity : BaseActivity() {
     private var userId: Int? = null
     private var listSubmission: List<SubmissionItem> = listOf()
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+    private var isErrorDialogShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +45,7 @@ class SubmissionAdoptActivity : BaseActivity() {
         setContentView(binding.root)
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        shimmerFrameLayout = binding.shimmerLayout
         observeData()
         listSubmissionResult()
         setupView()
@@ -79,6 +90,9 @@ class SubmissionAdoptActivity : BaseActivity() {
                 is Resource.Error -> {
                     showLoading(false)
                     showContent(true)
+                    if (it.message.contains("Tidak ada koneksi internet.", ignoreCase = true)) {
+                        showError(it.message)
+                    }
                     Log.d("ListSubmissionPet", "data: ${it.message}")
                 }
             }
@@ -114,7 +128,16 @@ class SubmissionAdoptActivity : BaseActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) {
+            shimmerFrameLayout.startShimmer()
+            shimmerFrameLayout.visibility = View.VISIBLE
+            binding.rvSubmission.visibility = View.GONE
+            showContent(false)
+        } else {
+            shimmerFrameLayout.stopShimmer()
+            shimmerFrameLayout.visibility = View.GONE
+            binding.rvSubmission.visibility = View.VISIBLE
+        }
     }
 
     private fun setupView() {
@@ -150,5 +173,34 @@ class SubmissionAdoptActivity : BaseActivity() {
         }
 
         showRecyclerView(filteredList)
+    }
+
+    private fun showError(message: String) {
+        if (isErrorDialogShown) return
+        val dialog = Dialog(this)
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.network_error_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+            val descText = dialog.findViewById<TextView>(R.id.desc)
+            val btnClose = dialog.findViewById<Button>(R.id.btnRetry)
+            descText.text = message
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+                isErrorDialogShown = false
+                retryFetchingData()
+            }
+            show()
+        }
+        isErrorDialogShown = true
+    }
+
+    private fun retryFetchingData() {
+        showLoading(true)
+        adoptViewModel.getListSubmissionPet(token!!, userId!!)
     }
 }

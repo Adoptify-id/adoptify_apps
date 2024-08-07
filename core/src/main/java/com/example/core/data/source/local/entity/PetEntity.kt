@@ -25,6 +25,15 @@ data class PetEntity(
     @ColumnInfo(name = "ras")
     val ras: String,
 
+    @ColumnInfo(name = "address")
+    val address: String? = null,
+
+    @ColumnInfo(name = "province")
+    val province: String? = null,
+
+    @ColumnInfo(name = "ageType")
+    val ageType: String? = null,
+
     @ColumnInfo(name="isAdopt")
     val isAdopt: Boolean? = null,
 

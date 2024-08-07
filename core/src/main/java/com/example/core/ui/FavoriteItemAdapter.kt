@@ -18,8 +18,9 @@ class FavoriteItemAdapter(
             binding.apply {
                 namePet.text = data.namePet.split(" ").joinToString(separator = " ") { it.capitalize() }
                 genderPet.text = data.gender
-                agePet.text = "${data.age} Bulan"
+                agePet.text =  if (data.ageType.isNullOrEmpty()) "${data.age} Bulan" else "${data.age} ${data.ageType}"
                 rasPet.text = data.ras
+                txtLocation.text = if (data.address.isNullOrEmpty() || data.province.isNullOrEmpty()) "Lokasi tidak disetel" else "${data.address}, ${data.province}"
                 Glide.with(itemView.context)
                     .load("https://storage.googleapis.com/bucket-adoptify/imagesPet/${data.fotoPet}")
                     .placeholder(R.drawable.adopt_virtual_dog)

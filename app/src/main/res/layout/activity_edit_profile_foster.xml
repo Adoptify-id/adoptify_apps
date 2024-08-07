@@ -97,7 +97,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/option_gender"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="15dp"
@@ -111,15 +110,21 @@
             android:textColorHint="@color/textColorHint"
             app:layout_constraintTop_toBottomOf="@id/nameEditTextLayout">
 
-            <AutoCompleteTextView
-                android:id="@+id/autoComplete"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/genderEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
+                android:layout_height="50dp"
+                android:ems="10"
                 android:fontFamily="@font/plus_jakarta_sans_regular"
-                android:textSize="16sp"
                 android:hint="Jenis Kelamin"
-                android:background="@drawable/background_text_field" />
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:textColor="@color/blackText"
+                android:textColorHint="@color/textColorHint"
+                android:inputType="none"
+                android:focusable="false"
+                android:padding="12dp"
+                android:textSize="16sp"
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

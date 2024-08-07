@@ -13,6 +13,7 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -47,6 +48,7 @@ class VirtualPetActivity : BaseActivity() {
     private var userId: Int? = null
     private lateinit var addVirtualPetLauncher: ActivityResultLauncher<Intent>
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private var isErrorDialogShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,6 +127,9 @@ class VirtualPetActivity : BaseActivity() {
                 is Resource.Error -> {
                     showLoading(false)
                     showContent(true)
+                    if (it.message.contains("Tidak ada koneksi internet.", ignoreCase = true)) {
+                        showError(it.message)
+                    }
                     Log.d("VirtualPetActivity", "error: ${it.message}")
                 }
             }
@@ -152,6 +157,35 @@ class VirtualPetActivity : BaseActivity() {
         binding.contentNull.layout.visibility = if (isShowing) View.VISIBLE else View.GONE
 
         binding.contentNull.btnClose.visibility = View.GONE
+    }
+
+    private fun showError(message: String) {
+        if (isErrorDialogShown) return
+        val dialog = Dialog(this)
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.network_error_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+            val descText = dialog.findViewById<TextView>(R.id.desc)
+            val btnClose = dialog.findViewById<Button>(R.id.btnRetry)
+            descText.text = message
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+                isErrorDialogShown = false
+                retryFetchingData()
+            }
+            show()
+        }
+        isErrorDialogShown = true
+    }
+
+    private fun retryFetchingData() {
+        showLoading(true)
+        virtualPetViewModel.getVirtualPet(token!!, userId!!)
     }
 
     private fun showLoading(isLoading: Boolean) {

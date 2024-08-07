@@ -58,6 +58,7 @@ class RecordActivity : BaseActivity() {
 
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         currentUriImage = it
+        validateForm()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +83,6 @@ class RecordActivity : BaseActivity() {
             addInfoEditText.addTextChangedListener(textWatcher)
             nameClinicEditText.addTextChangedListener(textWatcher)
             nameDoctorEditText.addTextChangedListener(textWatcher)
-            addInfoEditText.addTextChangedListener(textWatcher)
             addressClinicEditText.addTextChangedListener(textWatcher)
             medicalEditText.addTextChangedListener(textWatcher)
 
@@ -167,7 +167,7 @@ class RecordActivity : BaseActivity() {
             val name = namePetEditText.text.toString()
             val kesehatan = conditionPetEditText.text.toString()
             val descKesehatan = descPetEditText.text.toString()
-            val beratPet = weightPetEditText.text.toString().takeIf { it.isNotEmpty() }?.toIntOrNull() ?: 0
+            val beratPet = weightPetEditText.text.toString().takeIf { it.isNotEmpty() }?.toFloatOrNull() ?: 0f
             val info = addInfoEditText.text.toString()
             val clinicName = nameClinicEditText.text.toString()
             val doctorName = nameDoctorEditText.text.toString()
@@ -208,8 +208,8 @@ class RecordActivity : BaseActivity() {
                     Log.d("MedicalRecord", "recordResult: ${it.data}")
                     popUpDialog(
                         title = "Yeiy!",
-                        desc = "penambahan data medical record berhasil",
-                        subDesc = "Data medical record telah berhasil ditambahkan dan Anda dapat mengaksesnya kapan saja. Selamat menggunakan layanan kami!",
+                        desc = "penambahan data medical berhasil",
+                        subDesc = "Data medical record telah berhasil ditambahkan dan Anda dapat mengaksesnya kapan saja",
                         image = R.drawable.alert_success
                     ) {
                         setResult(RESULT_OK)
@@ -237,16 +237,16 @@ class RecordActivity : BaseActivity() {
             val name = namePetEditText.text.toString()
             val kesehatan = conditionPetEditText.text.toString()
             val descKesehatan = descPetEditText.text.toString()
-            val beratPet = weightPetEditText.text.toString().takeIf { it.isNotEmpty() }?.toIntOrNull() ?: 0
+            val beratPet = weightPetEditText.text.toString()
             val info = addInfoEditText.text.toString()
             val clinicName = nameClinicEditText.text.toString()
             val doctorName = nameDoctorEditText.text.toString()
             val alamat = addressClinicEditText.text.toString()
-            val tanggal = valueDate
+            val tanggal = valueDate.isNotEmpty()
             val xRay = currentUriImage != null
             val notes = medicalEditText.text.toString()
 
-            val isFormValid = name.isNotEmpty() && kesehatan.isNotEmpty() && descKesehatan.isNotEmpty() && info.isNotEmpty() && clinicName.isNotEmpty() && doctorName.isNotEmpty() && alamat.isNotEmpty() && tanggal.isNotEmpty() && xRay && notes.isNotEmpty() && isRadioGroupCategorySelected && beratPet > 0
+            val isFormValid = name.isNotEmpty() && kesehatan.isNotEmpty() && descKesehatan.isNotEmpty() && info.isNotEmpty() && clinicName.isNotEmpty() && doctorName.isNotEmpty() && alamat.isNotEmpty() && tanggal && xRay && notes.isNotEmpty() && isRadioGroupCategorySelected && beratPet.isNotEmpty()
             btnSave.isEnabled = isFormValid
             btnSave.backgroundTintList = ContextCompat.getColorStateList(
                 this@RecordActivity,
@@ -282,6 +282,7 @@ class RecordActivity : BaseActivity() {
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 val formattedDate = dateFormat.format(selectedDate.time)
                 valueDate = formattedDate
+                validateForm()
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),

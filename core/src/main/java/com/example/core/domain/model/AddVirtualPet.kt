@@ -26,7 +26,7 @@ data class AddVirtualPetItem(
     val fotoPet: String?,
 
     @field:SerializedName("beratPet")
-    val beratPet: Int,
+    val beratPet: Float,
 
     @field:SerializedName("userId")
     val user_id: Int? = null

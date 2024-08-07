@@ -2,7 +2,10 @@ package com.example.adoptify_core.ui.foster.dashboard
 
 import android.animation.LayoutTransition
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
@@ -10,7 +13,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityOptionsCompat
@@ -33,6 +39,7 @@ import com.example.core.domain.model.DataAdopt
 import com.example.core.domain.model.ListPetItem
 import com.example.core.ui.FosterItemAdapter
 import com.example.core.utils.SessionManager
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.ext.android.inject
@@ -76,6 +83,8 @@ class DashboardFragment : Fragment() {
     private lateinit var startForResult: ActivityResultLauncher<Intent>
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+    private var isErrorDialogShown = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,6 +109,7 @@ class DashboardFragment : Fragment() {
         }
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        shimmerFrameLayout = dashboardFragment.shimmerLayout
         setupView()
         initData()
         getToken()
@@ -262,6 +272,9 @@ class DashboardFragment : Fragment() {
                 is Resource.Error -> {
                     showContent(true)
                     showLoading(false)
+                    if (it.message.contains("Tidak ada koneksi internet.", ignoreCase = true)) {
+                        showError(it.message)
+                    }
                     Log.d("Home", "error: ${it.message}")
                 }
             }
@@ -378,9 +391,15 @@ class DashboardFragment : Fragment() {
         }
     }
 
-
     private fun showLoading(isLoading: Boolean) {
-        dashboardFragment.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) {
+            shimmerFrameLayout.startShimmer()
+            shimmerFrameLayout.visibility = View.VISIBLE
+            showContent(false)
+        } else {
+            shimmerFrameLayout.stopShimmer()
+            shimmerFrameLayout.visibility = View.GONE
+        }
     }
 
     private fun expand() {
@@ -401,6 +420,35 @@ class DashboardFragment : Fragment() {
                 "Maaf, data pet Anda tidak tersedia. Coba muat ulang atau periksa kembali nanti."
 
         }
+    }
+
+    private fun showError(message: String) {
+        if (isErrorDialogShown) return
+        val dialog = Dialog(requireContext())
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.network_error_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+            val descText = dialog.findViewById<TextView>(R.id.desc)
+            val btnClose = dialog.findViewById<Button>(R.id.btnRetry)
+            descText.text = message
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+                isErrorDialogShown = false
+                retryFetchingData()
+            }
+            show()
+        }
+        isErrorDialogShown = true
+    }
+
+    private fun retryFetchingData() {
+        showLoading(true)
+        adoptViewModel.getPetByUser(token, userId)
     }
 
     override fun onDestroyView() {

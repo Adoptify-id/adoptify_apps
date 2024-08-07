@@ -1,6 +1,5 @@
 package com.example.adoptify_core.ui.adopt
 
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,12 +20,8 @@ class AdoptFragment : Fragment() {
 
     private val adoptFragment get() = _adoptFragment!!
 
-    private val tabTitles = listOf(
-        "Kucing",
-        "Anjing"
-    )
+    private val tabTitles = listOf("Kucing", "Anjing")
 
-    private var logoutDialog: Dialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +42,6 @@ class AdoptFragment : Fragment() {
                 tab.text = tabTitles[position]
             }.attach()
         }
-
         setupView()
     }
 

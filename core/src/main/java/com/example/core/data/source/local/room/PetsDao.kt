@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.core.data.source.local.entity.PetEntity
 
 @Dao
@@ -18,4 +19,7 @@ interface PetsDao {
 
     @Delete
     suspend fun deletePet(pet: PetEntity)
+
+    @Update
+    suspend fun updatePet(pet: PetEntity)
 }

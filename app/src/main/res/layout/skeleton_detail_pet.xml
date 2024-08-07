@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundScreen">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_pet"
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ic_foster"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="35dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/skeleton_background"
+        app:shapeAppearanceOverlay="@style/AddedImageVirtualPet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_pet" />
+
+    <ImageView
+        android:id="@+id/ic_verif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_verif"
+        app:layout_constraintBottom_toBottomOf="@id/ic_foster"
+        app:layout_constraintEnd_toEndOf="@id/ic_foster"
+        app:layout_constraintStart_toStartOf="@id/ic_foster"
+        app:layout_constraintTop_toBottomOf="@id/ic_foster" />
+
+    <TextView
+        android:id="@+id/txtFoster"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toEndOf="@id/ic_foster"
+        app:layout_constraintTop_toTopOf="@id/ic_foster" />
+
+    <TextView
+        android:id="@+id/txtFosterName"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@id/txtFoster"
+        app:layout_constraintTop_toBottomOf="@id/txtFoster" />
+
+    <TextView
+        android:id="@+id/txtId"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toEndOf="@id/txtFosterName"
+        app:layout_constraintTop_toTopOf="@id/ic_foster" />
+
+    <TextView
+        android:id="@+id/txtIdPet"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@id/txtId"
+        app:layout_constraintTop_toBottomOf="@id/txtId" />
+
+    <TextView
+        android:id="@+id/name_pet"
+        android:layout_width="320dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@id/ic_foster"
+        app:layout_constraintTop_toBottomOf="@id/ic_foster"/>
+
+    <ImageView
+        android:id="@+id/ic_location"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@+id/name_pet"
+        app:layout_constraintTop_toBottomOf="@+id/name_pet" />
+
+    <TextView
+        android:id="@+id/txtLocation"
+        android:layout_width="250dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintBottom_toBottomOf="@id/ic_location"
+        app:layout_constraintStart_toEndOf="@id/ic_location"
+        app:layout_constraintTop_toTopOf="@id/ic_location" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="28dp"
+        android:background="#F2F2F2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_location" />
+
+    <TextView
+        android:id="@+id/detail_pet"
+        android:layout_width="125dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@id/ic_foster"
+        app:layout_constraintTop_toBottomOf="@id/line"/>
+
+    <ImageView
+        android:id="@+id/ic_gender"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/skeleton_background"
+        android:padding="5dp"
+        app:layout_constraintStart_toStartOf="@id/detail_pet"
+        app:layout_constraintTop_toBottomOf="@id/detail_pet" />
+
+    <TextView
+        android:id="@+id/gender"
+        android:layout_width="40dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toEndOf="@id/ic_gender"
+        app:layout_constraintTop_toTopOf="@id/ic_gender" />
+
+    <TextView
+        android:id="@+id/genderPet"
+        android:layout_width="40dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@id/gender"
+        app:layout_constraintTop_toBottomOf="@id/gender" />
+
+    <ImageView
+        android:id="@+id/ic_age"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="35dp"
+        android:background="@drawable/skeleton_background"
+        android:padding="5dp"
+        app:layout_constraintStart_toEndOf="@+id/genderPet"
+        app:layout_constraintTop_toBottomOf="@id/detail_pet" />
+
+    <TextView
+        android:id="@+id/age"
+        android:layout_width="40dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toEndOf="@id/ic_age"
+        app:layout_constraintTop_toTopOf="@id/ic_age" />
+
+    <TextView
+        android:id="@+id/agePet"
+        android:layout_width="40dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@id/age"
+        app:layout_constraintTop_toBottomOf="@id/age" />
+
+    <ImageView
+        android:id="@+id/ic_ras"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/skeleton_background"
+        android:padding="5dp"
+        app:layout_constraintStart_toEndOf="@+id/agePet"
+        app:layout_constraintTop_toBottomOf="@id/detail_pet" />
+
+    <TextView
+        android:id="@+id/ras"
+        android:layout_width="40dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toEndOf="@id/ic_ras"
+        app:layout_constraintTop_toTopOf="@id/ic_ras" />
+
+    <TextView
+        android:id="@+id/rasPet"
+        android:layout_width="40dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@id/ras"
+        app:layout_constraintTop_toBottomOf="@id/ras" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="25dp"
+        android:background="#F2F2F2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_gender" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@id/ic_foster"
+        app:layout_constraintTop_toBottomOf="@id/line2"/>
+
+    <TextView
+        android:id="@+id/txtDescPet"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@id/description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description"/>
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="15dp"
+        android:background="#F2F2F2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtDescPet" />
+
+    <TextView
+        android:id="@+id/fee"
+        android:layout_width="90dp"
+        android:layout_height="20dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@id/line3"
+        app:layout_constraintTop_toTopOf="@id/btnAdopt"/>
+
+    <TextView
+        android:id="@+id/only"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toStartOf="@id/fee"
+        app:layout_constraintTop_toTopOf="@id/price_pet"
+        app:layout_constraintBottom_toBottomOf="@id/price_pet"/>
+
+    <TextView
+        android:id="@+id/price_pet"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toEndOf="@id/only"
+        app:layout_constraintTop_toBottomOf="@id/fee"/>
+
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/skeleton_background"
+        app:layout_constraintStart_toEndOf="@id/price_pet"
+        app:layout_constraintTop_toTopOf="@id/price_pet"/>
+
+    <Button
+        android:id="@+id/btnAdopt"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/background_selected_tab"
+        android:layout_marginStart="35dp"
+        app:layout_constraintStart_toEndOf="@+id/fee"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        app:backgroundTint="#C2C2C2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line3"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

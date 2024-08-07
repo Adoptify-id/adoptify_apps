@@ -32,12 +32,13 @@
 
     <TextView
         android:id="@+id/txtDescPet"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/plus_jakarta_sans_medium"
         android:text="Kondisi sehat dan siap diadopsikan"
         android:textColor="#B3B3B3"
+        android:maxLines="1"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@id/txtNamePet"
         app:layout_constraintTop_toBottomOf="@id/txtNamePet" />

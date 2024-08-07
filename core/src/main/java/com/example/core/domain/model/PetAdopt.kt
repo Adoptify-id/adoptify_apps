@@ -24,4 +24,5 @@ data class DataAdopt(
     val alamat: String? = null,
     val provinsi: String? = null,
     val foto: String? = null,
+    val ageType: String? = null,
 )

@@ -56,4 +56,14 @@ class LocalDataSource(private val userPreferences: UserPreferences, private val 
             emit(Resource.Error(e.message.toString()))
         }
     }
+
+    suspend fun updatePet(pet: PetEntity) : Flow<Resource<PetEntity>> = flow {
+        try {
+            petsDao.updatePet(pet)
+            emit(Resource.Success(pet))
+        }catch (e: Exception) {
+            Log.d("LocalDataSource", "error : $pet")
+            emit(Resource.Error(e.message.toString()))
+        }
+    }
 }

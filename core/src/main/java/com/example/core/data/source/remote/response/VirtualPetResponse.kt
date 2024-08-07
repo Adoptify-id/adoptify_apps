@@ -1,7 +1,6 @@
 package com.example.core.data.source.remote.response
 
 import com.google.gson.annotations.SerializedName
-import java.io.File
 
 data class VirtualPetResponse(
     @field:SerializedName("data")
@@ -31,7 +30,7 @@ data class VirtualPetItem(
     val photo_pet: String,
 
     @field:SerializedName("beratPet")
-    val beratPet: Int,
+    val beratPet: Float,
 
     @field:SerializedName("userId")
     val user_id: Int? = null

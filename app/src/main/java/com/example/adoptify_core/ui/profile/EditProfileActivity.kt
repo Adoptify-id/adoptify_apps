@@ -2,6 +2,7 @@ package com.example.adoptify_core.ui.profile
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
@@ -11,12 +12,14 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -85,12 +88,8 @@ class EditProfileActivity : BaseActivity() {
     }
 
     private fun initData() {
-        val gender = arrayListOf("Laki-Laki", "Perempuan")
-        val adapter = ArrayAdapter(this, R.layout.dropdown_item, gender)
-        binding.autoComplete.setAdapter(adapter)
         mainViewModel.getUserId()
         loginViewModel.getSession()
-
     }
 
     private fun setupView() {
@@ -98,7 +97,7 @@ class EditProfileActivity : BaseActivity() {
             telpEditText.isEnabled = false
             emailEditText.isEnabled = false
             nameEditText.addTextChangedListener(textWatcher)
-            autoComplete.addTextChangedListener(textWatcher)
+            genderEditText.addTextChangedListener(textWatcher)
             dateEditText.addTextChangedListener(textWatcher)
             addressEditText.addTextChangedListener(textWatcher)
             provinceEditText.addTextChangedListener(textWatcher)
@@ -155,7 +154,7 @@ class EditProfileActivity : BaseActivity() {
                         binding.apply {
                             val imageUrl = "https://storage.googleapis.com/bucket-adoptify/imagesUser/${it?.foto}"
                             nameEditText.setText(it?.fullName)
-                            autoComplete.setText(it?.gender)
+                            genderEditText.setText(it?.gender)
                             dateEditText.setText(it?.tglLahir)
                             telpEditText.setText(it?.noTelp)
                             emailEditText.setText(it?.email)
@@ -197,13 +196,36 @@ class EditProfileActivity : BaseActivity() {
             dateEditText.setOnClickListener { showCalendar() }
             btnSave.setOnClickListener { updateHandler() }
             icEditProfile.setOnClickListener { galleryLauncher.launch("image/*") }
+            genderEditText.setOnClickListener { showDropdownGender() }
+        }
+    }
+
+    private fun showDropdownGender() {
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.dropdown_option_gender, null)
+        val width = binding.optionGender.width
+        val height = LinearLayout.LayoutParams.WRAP_CONTENT
+        val focusable = true
+
+        val popupWindow = PopupWindow(view, width, height, focusable)
+        popupWindow.setBackgroundDrawable(ColorDrawable())
+        popupWindow.showAsDropDown(binding.genderEditText, 0, 10)
+
+        view.findViewById<TextView>(R.id.male).setOnClickListener {
+            binding.genderEditText.setText("Laki-laki")
+            popupWindow.dismiss()
+        }
+
+        view.findViewById<TextView>(R.id.female).setOnClickListener {
+            binding.genderEditText.setText("Perempuan")
+            popupWindow.dismiss()
         }
     }
 
     private fun updateHandler() {
         binding.apply {
             val name = nameEditText.text.toString()
-            val gender = autoComplete.text.toString()
+            val gender = genderEditText.text.toString()
             val address = addressEditText.text.toString()
             val province = provinceEditText.text.toString()
             val date = dateEditText.text.toString()
@@ -237,11 +259,13 @@ class EditProfileActivity : BaseActivity() {
     private fun validateForm() {
         binding.apply {
             val name = nameEditText.text.toString()
-            val gender = autoComplete.text.toString()
+            val gender = genderEditText.text.toString()
             val date = dateEditText.text.toString()
             val address = addressEditText.text.toString()
             val province = provinceEditText.text.toString()
             val code = codeEditText.text.toString()
+
+            val isAllFieldsFilled = name.isNotEmpty() && gender.isNotEmpty() && date.isNotEmpty() && address.isNotEmpty() && province.isNotEmpty() && code.isNotEmpty()
 
             val isNameChanged = name != lastUpdatedData.fullName && name.isNotEmpty()
             val isGenderChanged = gender != lastUpdatedData.gender && gender.isNotEmpty()
@@ -251,7 +275,7 @@ class EditProfileActivity : BaseActivity() {
             val isCodeChanged = code != lastUpdatedData.kodePos && code.isNotEmpty()
             val isImageChanged = currentUriImage != null
 
-            val isFormValid = isImageChanged || isNameChanged || isGenderChanged || isDateChanged || isAddressChanged || isProvinceChanged || isCodeChanged
+            val isFormValid = isAllFieldsFilled && (isImageChanged || isNameChanged || isGenderChanged || isDateChanged || isAddressChanged || isProvinceChanged || isCodeChanged)
             btnSave.isEnabled = isFormValid
             btnSave.backgroundTintList = ContextCompat.getColorStateList(this@EditProfileActivity, if (isFormValid) R.color.primaryColor else R.color.btn_disabled)
         }

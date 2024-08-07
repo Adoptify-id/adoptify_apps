@@ -25,6 +25,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.example.adoptify_core.BaseActivity
 import com.example.adoptify_core.R
 import com.example.adoptify_core.databinding.ActivityStatusAdoptBinding
@@ -132,6 +133,7 @@ class StatusAdoptActivity : BaseActivity() {
                     txtStatus.text = "Disetujui"
                     card.setCardBackgroundColor(ContextCompat.getColor(this@StatusAdoptActivity, R.color.card_status_accepted))
                 }
+
             } else if (data.statusReqId == 2 && data.statusPaymentId == 2 && data.statusPickupId == 2) {
                 binding.indicatorAdopt.apply {
                     bgCard.setImageResource(R.drawable.bg_card_done)
@@ -180,6 +182,10 @@ class StatusAdoptActivity : BaseActivity() {
                 dateRequest.text = parseDateToLong(data.reqDate)
                 txtNamePet.text = data.namePet
                 requestId.text = data.kodePengajuan
+                Glide.with(this@StatusAdoptActivity)
+                    .load("https://storage.googleapis.com/bucket-adoptify/imagesPet/${data.fotoPet}")
+                    .placeholder(R.drawable.adopt_virtual_dog)
+                    .into(imgPet)
                 cardIndicator.apply {
                     if (data.statusReqId == 2 && data.statusPaymentId == 1 && data.statusPickupId == 1) {
                         icIndicator.setImageResource(R.drawable.status_accepted)
@@ -190,13 +196,11 @@ class StatusAdoptActivity : BaseActivity() {
                         icIndicator.setImageResource(R.drawable.status_done)
                         txtIndicator.text = "Selesai"
                         cardUpload.card.setOnClickListener {
-                            val url =
-                                "https://storage.googleapis.com/bucket-adoptify/imagesReqPet/${data.suratKomitmen}"
+                            val url = "https://storage.googleapis.com/bucket-adoptify/imagesReqPet/${data.suratKomitmen}"
                             downloadingImage("Surat Komitmen", url, "Surat Komitmen ${data.name}.jpg")
                         }
                         cardUploadTransfer.card.setOnClickListener {
-                            val url =
-                                "https://storage.googleapis.com/bucket-adoptify/imagesReqPet/${data.transfer}"
+                            val url = "https://storage.googleapis.com/bucket-adoptify/imagesReqPet/${data.transfer}"
                             downloadingImage("Bukti Transfer", url, "Bukti Transfer ${data.name}.jpg")
                         }
                         txtIndicator.setTextColor(ContextCompat.getColor(this@StatusAdoptActivity, R.color.primary_color_foster))

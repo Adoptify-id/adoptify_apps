@@ -24,267 +24,258 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-            android:id="@+id/txtRequest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="35dp"
-            android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:textSize="16sp"
-            android:text="Permintaan Hewan"
-            android:textColor="@color/blackText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header"/>
+           <TextView
+               android:id="@+id/txtRequest"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="30dp"
+               android:layout_marginTop="35dp"
+               android:fontFamily="@font/plus_jakarta_sans_medium"
+               android:textSize="16sp"
+               android:text="Permintaan Hewan"
+               android:textColor="@color/blackText"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/header"/>
 
-        <include
-            android:id="@+id/card_submission"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="30dp"
-            layout="@layout/card_detail_submission"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtRequest"/>
+           <include
+               android:id="@+id/card_submission"
+               android:layout_width="match_parent"
+               android:layout_height="170dp"
+               android:layout_marginHorizontal="30dp"
+               android:layout_marginTop="30dp"
+               layout="@layout/card_detail_submission"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toBottomOf="@+id/txtRequest"/>
 
-        <ImageView
-            android:id="@+id/side_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:src="@drawable/side_detail_foster"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_submission"/>
+           <ImageView
+               android:id="@+id/side_detail"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="25dp"
+               android:src="@drawable/side_detail_foster"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/card_submission"/>
 
-        <TextView
-            android:id="@+id/txtKode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:textSize="11sp"
-            android:textColor="@color/blackText"
-            android:layout_marginStart="25dp"
-            android:text="Kode Pengajuan"
-            app:layout_constraintTop_toTopOf="@id/side_detail"
-            app:layout_constraintBottom_toBottomOf="@id/side_detail"
-            app:layout_constraintStart_toEndOf="@id/side_detail"/>
+           <TextView
+               android:id="@+id/txtKode"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:fontFamily="@font/plus_jakarta_sans_medium"
+               android:textSize="11sp"
+               android:textColor="@color/blackText"
+               android:layout_marginStart="25dp"
+               android:text="Kode Pengajuan"
+               app:layout_constraintTop_toTopOf="@id/side_detail"
+               app:layout_constraintBottom_toBottomOf="@id/side_detail"
+               app:layout_constraintStart_toEndOf="@id/side_detail"/>
 
-        <TextView
-            android:id="@+id/request_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PERMIN/JHAKSJA/2024"
-            android:textColor="#A5A5A5"
-            android:textSize="12sp"
-            app:layout_constraintTop_toTopOf="@id/txtKode"
-            app:layout_constraintBottom_toBottomOf="@id/txtKode"
-            android:fontFamily="@font/plus_jakarta_sans_regular"
-            app:layout_constraintEnd_toEndOf="@id/card_submission" />
+           <TextView
+               android:id="@+id/request_id"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="PERMIN/JHAKSJA/2024"
+               android:textColor="#A5A5A5"
+               android:textSize="12sp"
+               android:maxLength="20"
+               android:maxLines="1"
+               app:layout_constraintTop_toTopOf="@id/txtKode"
+               app:layout_constraintBottom_toBottomOf="@id/txtKode"
+               android:fontFamily="@font/plus_jakarta_sans_regular"
+               app:layout_constraintEnd_toEndOf="@id/card_submission" />
 
-        <TextView
-            android:id="@+id/txtDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/plus_jakarta_sans_medium"
-            android:textSize="11sp"
-            android:textColor="@color/blackText"
-            android:text="Tanggal Pengajuan"
-            android:layout_marginTop="25dp"
-            app:layout_constraintStart_toStartOf="@id/txtKode"
-            app:layout_constraintTop_toBottomOf="@+id/txtKode"/>
+           <TextView
+               android:id="@+id/txtDate"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:fontFamily="@font/plus_jakarta_sans_medium"
+               android:textSize="11sp"
+               android:textColor="@color/blackText"
+               android:text="Tanggal Pengajuan"
+               android:layout_marginTop="25dp"
+               app:layout_constraintStart_toStartOf="@id/txtKode"
+               app:layout_constraintTop_toBottomOf="@+id/txtKode"/>
 
-        <TextView
-            android:id="@+id/date_adopt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Senin, 15 April 2024"
-            android:textColor="#A5A5A5"
-            app:layout_constraintTop_toTopOf="@id/txtDate"
-            app:layout_constraintBottom_toBottomOf="@id/txtDate"
-            android:fontFamily="@font/plus_jakarta_sans_regular"
-            app:layout_constraintEnd_toEndOf="@id/card_submission" />
+           <TextView
+               android:id="@+id/date_adopt"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Senin, 15 April 2024"
+               android:textColor="#A5A5A5"
+               app:layout_constraintTop_toTopOf="@id/txtDate"
+               app:layout_constraintBottom_toBottomOf="@id/txtDate"
+               android:fontFamily="@font/plus_jakarta_sans_regular"
+               app:layout_constraintEnd_toEndOf="@id/card_submission" />
 
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D9D9D9"
-            android:layout_marginTop="30dp"
-            android:layout_marginHorizontal="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtDate"/>
+           <View
+               android:id="@+id/line"
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:background="#D9D9D9"
+               android:layout_marginTop="30dp"
+               android:layout_marginHorizontal="30dp"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/txtDate"/>
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ic_foster"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
-            android:scaleType="fitXY"
-            app:shapeAppearanceOverlay="@style/AddedImageVirtualPet"
-            android:background="@drawable/background_image_foster"
-            android:src="@drawable/ic_foster"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/line" />
+           <com.google.android.material.imageview.ShapeableImageView
+               android:id="@+id/ic_foster"
+               android:layout_width="65dp"
+               android:layout_height="65dp"
+               android:layout_marginStart="30dp"
+               android:layout_marginTop="30dp"
+               android:scaleType="fitXY"
+               app:shapeAppearanceOverlay="@style/AddedImageVirtualPet"
+               android:background="@drawable/background_image_foster"
+               android:src="@drawable/ic_foster"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/line" />
 
-        <TextView
-            android:id="@+id/adopter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/plus_jakarta_sans_semibold"
-            android:layout_marginStart="30dp"
-            android:textSize="8sp"
-            android:textColor="@color/greyText"
-            android:text="Calon Adopter"
-            app:layout_constraintTop_toTopOf="@id/ic_foster"
-            app:layout_constraintStart_toEndOf="@+id/ic_foster"/>
+           <TextView
+               android:id="@+id/adopter"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:fontFamily="@font/plus_jakarta_sans_semibold"
+               android:layout_marginStart="30dp"
+               android:textSize="8sp"
+               android:textColor="@color/greyText"
+               android:text="Calon Adopter"
+               app:layout_constraintTop_toTopOf="@id/ic_foster"
+               app:layout_constraintStart_toEndOf="@+id/ic_foster"/>
 
 
-        <TextView
-            android:id="@+id/adopterName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/plus_jakarta_sans_bold"
-            android:textSize="18sp"
-            android:textColor="@color/blackText"
-            android:text="Reza Liana"
-            app:layout_constraintTop_toBottomOf="@id/adopter"
-            app:layout_constraintStart_toStartOf="@+id/adopter"/>
+           <TextView
+               android:id="@+id/adopterName"
+               android:layout_width="200dp"
+               android:layout_height="wrap_content"
+               android:fontFamily="@font/plus_jakarta_sans_bold"
+               android:textSize="18sp"
+               android:textColor="@color/blackText"
+               android:text="Reza Liana"
+               android:maxLines="1"
+               app:layout_constraintTop_toBottomOf="@id/adopter"
+               app:layout_constraintStart_toStartOf="@+id/adopter"/>
 
-        <TextView
-            android:id="@+id/address_adopter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/plus_jakarta_sans_regular"
-            android:textColor="#A5A5A5"
-            android:text="Kota Administrasi, Jakarta Pusat"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@id/adopterName"
-            app:layout_constraintStart_toStartOf="@+id/adopterName"/>
+           <TextView
+               android:id="@+id/address_adopter"
+               android:layout_width="220dp"
+               android:layout_height="wrap_content"
+               android:fontFamily="@font/plus_jakarta_sans_regular"
+               android:textColor="#A5A5A5"
+               android:maxLines="1"
+               android:text="Kota Administrasi, Jakarta Pusat"
+               android:layout_marginTop="5dp"
+               app:layout_constraintTop_toBottomOf="@id/adopterName"
+               app:layout_constraintStart_toStartOf="@+id/adopterName"/>
 
-        <include
-            android:id="@+id/card_detail_adopter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginHorizontal="30dp"
-            layout="@layout/card_submission_user"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/address_adopter"/>
+           <include
+               android:id="@+id/card_detail_adopter"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="30dp"
+               android:layout_marginHorizontal="30dp"
+               layout="@layout/card_submission_user"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/address_adopter"/>
 
-        <include
-            android:id="@+id/card_upload"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/list_card_detail_submission"
-            android:layout_marginTop="30dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_detail_adopter"/>
+           <include
+               android:id="@+id/card_upload"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               layout="@layout/list_card_detail_submission"
+               android:layout_marginTop="30dp"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/card_detail_adopter"/>
 
-        <LinearLayout
-            android:id="@+id/layout_warning"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp"
-            android:paddingVertical="20dp"
-            android:paddingStart="20dp"
-            android:background="@drawable/backgrounnd_warning_foster"
-            app:layout_constraintTop_toBottomOf="@id/card_upload"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+           <LinearLayout
+               android:id="@+id/layout_warning"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_marginHorizontal="40dp"
+               android:orientation="horizontal"
+               android:layout_marginTop="30dp"
+               android:paddingVertical="20dp"
+               android:paddingStart="20dp"
+               android:background="@drawable/backgrounnd_warning_foster"
+               app:layout_constraintTop_toBottomOf="@id/card_upload"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/warning"
-                android:layout_marginEnd="12dp"/>
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/warning"
+                   android:layout_marginEnd="12dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#797979"
-                android:layout_marginEnd="22dp"
-                android:fontFamily="@font/plus_jakarta_sans_medium"
-                android:textSize="12sp"
-                android:lineSpacingExtra="4dp"
-                android:text="Harap periksa dan teliti lagi data yang telahdimasukkan agar tidak terjadi kesalahan ataupunkekeliruan saat melakukan persetujuan."/>
-        </LinearLayout>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textColor="#797979"
+                   android:layout_marginEnd="22dp"
+                   android:fontFamily="@font/plus_jakarta_sans_medium"
+                   android:textSize="12sp"
+                   android:lineSpacingExtra="4dp"
+                   android:text="Harap periksa dan teliti lagi data yang telahdimasukkan agar tidak terjadi kesalahan ataupunkekeliruan saat melakukan persetujuan."/>
+           </LinearLayout>
 
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:text="Tolak"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="30dp"
-            app:backgroundTint="#E2E2E2"
-            android:textColor="#979797"
-            android:fontFamily="@font/plus_jakarta_sans_bold"
-            android:background="@drawable/background_back_button_adopt"
-            app:layout_constraintEnd_toStartOf="@id/btnNext"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_warning"
-            app:layout_constraintBottom_toBottomOf="parent" />
+           <Button
+               android:id="@+id/btnBack"
+               android:layout_width="0dp"
+               android:layout_height="50dp"
+               android:text="Tolak"
+               android:layout_marginTop="30dp"
+               android:layout_marginStart="30dp"
+               android:layout_marginEnd="10dp"
+               android:layout_marginBottom="30dp"
+               app:backgroundTint="#E2E2E2"
+               android:textColor="#979797"
+               android:fontFamily="@font/plus_jakarta_sans_bold"
+               android:background="@drawable/background_back_button_adopt"
+               app:layout_constraintEnd_toStartOf="@id/btnNext"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/layout_warning"
+               app:layout_constraintBottom_toBottomOf="parent" />
 
-        <Button
-            android:id="@+id/btnNext"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:text="Setujui"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="30dp"
-            app:backgroundTint="@color/primary_color_foster"
-            android:layout_marginBottom="30dp"
-            android:textSize="13sp"
-            android:textColor="@color/white"
-            android:background="@drawable/background_next_button_adopt"
-            android:fontFamily="@font/plus_jakarta_sans_bold"
-            app:layout_constraintStart_toEndOf="@id/btnBack"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_warning"
-            app:layout_constraintBottom_toBottomOf="parent" />
+           <Button
+               android:id="@+id/btnNext"
+               android:layout_width="0dp"
+               android:layout_height="50dp"
+               android:text="Setujui"
+               android:layout_marginStart="10dp"
+               android:layout_marginTop="30dp"
+               android:layout_marginEnd="30dp"
+               app:backgroundTint="@color/primary_color_foster"
+               android:layout_marginBottom="30dp"
+               android:textSize="13sp"
+               android:textColor="@color/white"
+               android:background="@drawable/background_next_button_adopt"
+               android:fontFamily="@font/plus_jakarta_sans_bold"
+               app:layout_constraintStart_toEndOf="@id/btnBack"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/layout_warning"
+               app:layout_constraintBottom_toBottomOf="parent" />
 
-        <Button
-            android:id="@+id/btnClose"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:text="Tutup"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="30dp"
-            app:backgroundTint="@color/primary_color_foster"
-            android:layout_marginBottom="30dp"
-            android:textSize="13sp"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            android:background="@drawable/background_next_button_adopt"
-            android:fontFamily="@font/plus_jakarta_sans_bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_warning"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/primary_color_foster"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+           <Button
+               android:id="@+id/btnClose"
+               android:layout_width="0dp"
+               android:layout_height="50dp"
+               android:text="Tutup"
+               android:layout_marginStart="30dp"
+               android:layout_marginTop="30dp"
+               android:layout_marginEnd="30dp"
+               app:backgroundTint="@color/primary_color_foster"
+               android:layout_marginBottom="30dp"
+               android:textSize="13sp"
+               android:textColor="@color/white"
+               android:visibility="gone"
+               android:background="@drawable/background_next_button_adopt"
+               android:fontFamily="@font/plus_jakarta_sans_bold"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/layout_warning"
+               app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

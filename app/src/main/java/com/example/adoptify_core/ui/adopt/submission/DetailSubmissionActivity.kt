@@ -17,7 +17,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -27,11 +26,10 @@ import com.example.adoptify_core.databinding.ActivityDetailSubmissionBinding
 import com.example.adoptify_core.ui.adopt.AdoptViewModel
 import com.example.adoptify_core.ui.adopt.review.ReviewFormUserActivity
 import com.example.adoptify_core.ui.adopt.status.StatusAdoptActivity
-import com.example.adoptify_core.ui.auth.login.LoginActivity
 import com.example.core.data.Resource
 import com.example.core.domain.model.DetailSubmissionData
-import com.example.core.utils.ForceLogout
 import com.example.core.utils.SessionViewModel
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -45,6 +43,8 @@ class DetailSubmissionActivity : BaseActivity() {
     private val adoptViewModel: AdoptViewModel by viewModel()
     private val sessionViewModel: SessionViewModel by viewModel()
     private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+    private var isErrorDialogShown = false
 
     private var token: String = ""
     private var reqId: Int? = null
@@ -55,6 +55,7 @@ class DetailSubmissionActivity : BaseActivity() {
         setContentView(binding.root)
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        shimmerFrameLayout = binding.shimmerLayout
         observeData()
         showDetailData()
         cancelAdoptResult()
@@ -165,6 +166,9 @@ class DetailSubmissionActivity : BaseActivity() {
                 }
                 is Resource.Error -> {
                     showLoading(false)
+                    if (it.message.contains("Tidak ada koneksi internet.", ignoreCase = true)) {
+                        showError(it.message)
+                    }
                     Log.d("DetailSubmissionPet", "error: ${it.message}")
                 }
             }
@@ -244,6 +248,43 @@ class DetailSubmissionActivity : BaseActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) {
+            shimmerFrameLayout.startShimmer()
+            shimmerFrameLayout.visibility = View.VISIBLE
+            binding.contentSubmission.visibility = View.GONE
+        } else {
+            shimmerFrameLayout.stopShimmer()
+            shimmerFrameLayout.visibility = View.GONE
+            binding.contentSubmission.visibility = View.VISIBLE
+        }
+    }
+
+    private fun showError(message: String) {
+        if (isErrorDialogShown) return
+        val dialog = Dialog(this)
+        dialog.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(R.layout.network_error_dialog)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+            val height = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.setLayout(width, height)
+            val descText = dialog.findViewById<TextView>(R.id.desc)
+            val btnClose = dialog.findViewById<Button>(R.id.btnRetry)
+            descText.text = message
+            btnClose.setOnClickListener {
+                dialog.dismiss()
+                isErrorDialogShown = false
+                retryFetchingData()
+            }
+            show()
+        }
+        isErrorDialogShown = true
+    }
+
+    private fun retryFetchingData() {
+        showLoading(true)
+        adoptViewModel.getDetailSubmissionPet(token, reqId!!)
     }
 }

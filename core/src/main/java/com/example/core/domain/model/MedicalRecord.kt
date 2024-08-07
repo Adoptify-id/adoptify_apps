@@ -7,7 +7,7 @@ data class MedicalRecord(
 )
 
 data class MedicalItem(
-	val beratPet: Int? = null,
+	val beratPet: Float? = null,
 	val kesehatan: String? = null,
 	val xRay: String? = null,
 	val catatan: String? = null,

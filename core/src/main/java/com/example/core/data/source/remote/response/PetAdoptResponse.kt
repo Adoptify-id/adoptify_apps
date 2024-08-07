@@ -65,4 +65,7 @@ data class PetAdoptItem(
 
 	@field:SerializedName("foto")
 	val foto: String? = null,
+
+	@field:SerializedName("ageType")
+	val ageType: String? = null,
 )
